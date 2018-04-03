@@ -16,8 +16,8 @@ public class ViewPrincipal extends JFrame {
     private JMenu applicationMenu;
     private JMenuItem exit;
 
-    private JMenu studentMenu;
-    private JMenuItem studentInscription;
+    private JMenu clientMenu;
+    private JMenuItem clientEnrolment;
 
     private JMenu infosMenu;
     private JMenuItem brewery;
@@ -51,13 +51,13 @@ public class ViewPrincipal extends JFrame {
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         applicationMenu.add(exit);
 
-        //STUDENT
-        studentMenu = new JMenu("Client");
-        studentMenu.setMnemonic('s');
-        menuBar.add(studentMenu);
+        //CLIENT
+        clientMenu = new JMenu("Client");
+        clientMenu.setMnemonic('s');
+        menuBar.add(clientMenu);
 
-        studentInscription = new JMenuItem("Enrolment");
-        studentMenu.add(studentInscription);
+        clientEnrolment = new JMenuItem("Enrolment");
+        clientMenu.add(clientEnrolment);
 
         //INFORMATIONS
         infosMenu = new JMenu("Information");
@@ -75,15 +75,7 @@ public class ViewPrincipal extends JFrame {
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
-        //listingClients.addActionListener(controlerEvent);
-
-        /*
-        exit.addActionListener(controlerEvent);
-        iesn.addActionListener(controlerEvent);
-        help.addActionListener(controlerEvent);
-        studentInscription.addActionListener(controlerEvent);
-        */
-
+        
     }
 
     public void setUpMainWindow() {
