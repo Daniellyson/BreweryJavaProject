@@ -71,7 +71,7 @@ public class ViewPrincipal extends JFrame {
         infosMenu.add(help);
 
         listing = new JMenu("Listing");
-        listing.setMnemonic('d');
+        listing.setMnemonic('l');
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
