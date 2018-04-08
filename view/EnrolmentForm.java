@@ -56,9 +56,6 @@ public class EnrolmentForm  extends JPanel {
 
     //private ActionCheckBox actionCheckBox;
 
-    private JLabel originLabel;
-    private JComboBox origin;
-
     private JButton returnButton;
     private JButton validationButton;
     private JButton resetButton;
