@@ -1,9 +1,10 @@
 package view;
-import javafx.scene.layout.Background;
 import listeners.WindowListener;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
@@ -39,6 +40,8 @@ public class ViewPrincipal extends JFrame {
 
     public void setUpMenu() {
 
+        ControlerListener controlerEvent = new ControlerListener();
+
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
@@ -53,10 +56,10 @@ public class ViewPrincipal extends JFrame {
 
         //CLIENT
         clientMenu = new JMenu("Client");
-        clientMenu.setMnemonic('c');
+        clientMenu.setMnemonic('s');
         menuBar.add(clientMenu);
 
-        clientEnrolment = new JMenuItem("Enrolment");
+        clientEnrolment = new JMenuItem("Enrolment Data");
         clientMenu.add(clientEnrolment);
 
         //INFORMATIONS
@@ -71,15 +74,23 @@ public class ViewPrincipal extends JFrame {
         infosMenu.add(help);
 
         listing = new JMenu("Listing");
-        listing.setMnemonic('l');
+        listing.setMnemonic('d');
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
-        
+        //listingClients.addActionListener(controlerEvent);
+
+
+        clientEnrolment.addActionListener(controlerEvent);
+        /*
+        exit.addActionListener(controlerEvent);
+        help.addActionListener(controlerEvent);
+        */
+
     }
 
     public void setUpMainWindow() {
-        setBounds(100, 50, 600, 550);
+        setBounds(100, 50, 600, 600);
 
         WelcomePanel welcomePanel = new WelcomePanel();
         Images imageLogo = new Images();
@@ -91,5 +102,21 @@ public class ViewPrincipal extends JFrame {
         container.setBackground(Color.WHITE);
         container.add(imageLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
+        container.add(imageLogo.getGif(), BorderLayout.SOUTH);
+    }
+
+    private class ControlerListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent event) {
+            if(event.getSource() == exit) {
+                System.exit(0);
+            }
+
+            if(event.getSource() == clientEnrolment){
+                container.removeAll();
+                container.add(new EnrolmentForm(container));
+                container.revalidate();
+            }
+        }
     }
 }
