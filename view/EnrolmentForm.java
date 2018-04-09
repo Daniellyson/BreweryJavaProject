@@ -57,13 +57,16 @@ public class EnrolmentForm  extends JPanel {
     private JButton returnButton;
     private JButton validationButton;
     private JButton resetButton;
+    private JButton addFirstNameButton;
 
     private Container container;
 
     public EnrolmentForm(Container container){
         this.container = container;
 
-        choisePanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        setLayout(new BorderLayout());
+
+        choisePanel = new JPanel(new GridLayout(2, 2, 10, 8));
         add(choisePanel, BorderLayout.NORTH);
 
         formPanel = new JPanel(new GridLayout(12, 2, 10, 10));
@@ -221,7 +224,7 @@ public class EnrolmentForm  extends JPanel {
         //Buttons South
         returnButton = new JButton("Return");
         buttonPanel.add(returnButton);
-        //returnButton.addActionListener(new ButtonsActionListener());
+        returnButton.addActionListener(new ButtonsActionListener());
 
         validationButton = new JButton("Validation");
         buttonPanel.add(validationButton);
@@ -229,7 +232,8 @@ public class EnrolmentForm  extends JPanel {
 
         resetButton = new JButton("Reset");
         buttonPanel.add(resetButton);
-        //resetButton.addActionListener(new ButtonsActionListener());
+        resetButton.addActionListener(new ButtonsActionListener());
+
     }
 
     private class ActionCheckBox implements ItemListener {
@@ -247,48 +251,10 @@ public class EnrolmentForm  extends JPanel {
             }
             if(event.getSource() == newClient) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
-                    registrationNumberLabel.setEnabled(true);
-                    registrationNumber.setEnabled(true);
-                    firstNameLabel.setEnabled(true);
-                    firstName.setEnabled(true);
-                    lastNameLabel.setEnabled(true);
-                    lastName.setEnabled(true);
-                    dateOfBirthLabel.setEnabled(true);
-                    dateOfBirth.setEnabled(true);
-                    accountNumberLabel.setEnabled(true);
-                    accountNumber.setEnabled(true);
-                    streetLabel.setEnabled(true);
-                    street.setEnabled(true);
-                    houseNumberLabel.setEnabled(true);
-                    houseNumber.setEnabled(true);
-                    cityLabel.setEnabled(true);
-                    city.setEnabled(true);
-                    mobilePhoneLabel.setEnabled(true);
-                    mobilePhone.setEnabled(true);
-                    landlinePhoneLabel.setEnabled(true);
-                    landlinePhone.setEnabled(true);
+                    setFieldsEnable(true);
                 }
                 else {
-                    registrationNumberLabel.setEnabled(false);
-                    registrationNumber.setEnabled(false);
-                    firstNameLabel.setEnabled(false);
-                    firstName.setEnabled(false);
-                    lastNameLabel.setEnabled(false);
-                    lastName.setEnabled(false);
-                    dateOfBirthLabel.setEnabled(false);
-                    dateOfBirth.setEnabled(false);
-                    accountNumberLabel.setEnabled(false);
-                    accountNumber.setEnabled(false);
-                    streetLabel.setEnabled(false);
-                    street.setEnabled(false);
-                    houseNumberLabel.setEnabled(false);
-                    houseNumber.setEnabled(false);
-                    cityLabel.setEnabled(false);
-                    city.setEnabled(false);
-                    mobilePhoneLabel.setEnabled(false);
-                    mobilePhone.setEnabled(false);
-                    landlinePhoneLabel.setEnabled(false);
-                    landlinePhone.setEnabled(false);
+                    setFieldsEnable(false);
                 }
             }
         }
@@ -298,33 +264,87 @@ public class EnrolmentForm  extends JPanel {
 
         public void actionPerformed(ActionEvent event) {
 
-            //Test listener ID NUMBER
             if(event.getSource() == clientNumber) {
+                //Test listener ID NUMBER Replace by Data Base Key Client
                 if(clientNumber.getText().equals("123")) {
-                    registrationNumberLabel.setEnabled(true);
-                    registrationNumber.setEnabled(true);
-                    firstNameLabel.setEnabled(true);
-                    firstName.setEnabled(true);
-                    lastNameLabel.setEnabled(true);
-                    lastName.setEnabled(true);
-                    dateOfBirthLabel.setEnabled(true);
-                    dateOfBirth.setEnabled(true);
-                    accountNumberLabel.setEnabled(true);
-                    accountNumber.setEnabled(true);
-                    streetLabel.setEnabled(true);
-                    street.setEnabled(true);
-                    houseNumberLabel.setEnabled(true);
-                    houseNumber.setEnabled(true);
-                    cityLabel.setEnabled(true);
-                    city.setEnabled(true);
-                    mobilePhoneLabel.setEnabled(true);
-                    mobilePhone.setEnabled(true);
-                    landlinePhoneLabel.setEnabled(true);
-                    landlinePhone.setEnabled(true);
+                   setFieldsEnable(true);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Try again", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        }
+    }
+
+    public void setFieldsEnable(boolean enabled) {
+        registrationNumberLabel.setEnabled(enabled);
+        registrationNumber.setEnabled(enabled);
+        firstNameLabel.setEnabled(enabled);
+        firstName.setEnabled(enabled);
+        lastNameLabel.setEnabled(enabled);
+        lastName.setEnabled(enabled);
+        dateOfBirthLabel.setEnabled(enabled);
+        dateOfBirth.setEnabled(enabled);
+        accountNumberLabel.setEnabled(enabled);
+        accountNumber.setEnabled(enabled);
+        streetLabel.setEnabled(enabled);
+        street.setEnabled(enabled);
+        houseNumberLabel.setEnabled(enabled);
+        houseNumber.setEnabled(enabled);
+        cityLabel.setEnabled(enabled);
+        city.setEnabled(enabled);
+        postCodeLabel.setEnabled(enabled);
+        postCode.setEnabled(enabled);
+        mobilePhoneLabel.setEnabled(enabled);
+        mobilePhone.setEnabled(enabled);
+        landlinePhoneLabel.setEnabled(enabled);
+        landlinePhone.setEnabled(enabled);
+    }
+
+    private class ButtonsActionListener implements ActionListener {
+
+        private boolean erase;
+
+        public void actionPerformed(ActionEvent event) {
+            if(event.getSource() == returnButton) {
+                container.removeAll();
+
+                WelcomePanel welcomePanel = new WelcomePanel();
+                Images image = new Images();
+
+                container.add(image.getImageLogo(), BorderLayout.NORTH);
+                container.add(welcomePanel, BorderLayout.CENTER);
+                container.add(image.getGif(), BorderLayout.SOUTH);
+                container.setVisible(true);
+                welcomePanel.revalidate();
+            }
+            /*if(event.getSource() == validationButton) {
+
+                Student student;
+                student = new Student(registrationNumber.getText(), firstName.getText(), lastName.getText(),
+                        birthday.getText(), section.getText(), scholarshipHolder.isSelected(), foreign.isSelected(),
+                        (String)origin.getSelectedItem());
+
+                //FileStudent
+                new FileStudent(student);
+
+                JOptionPane.showMessageDialog(null, student, "Student Enroled", JOptionPane.INFORMATION_MESSAGE,
+                        images.getImageIconEnroled());
+
+                erase = true;
+            } */
+            if(event.getSource() == resetButton || erase) {
+                registrationNumber.setText(null);
+                firstName.setText(null);
+                lastName.setText(null);
+                dateOfBirth.setText(null);
+                accountNumber.setText(null);
+                street.setText(null);
+                houseNumber.setText(null);
+                city.setText(null);
+                postCode.setText(null);
+                mobilePhone.setText(null);
+                landlinePhone.setText(null);
             }
         }
     }
