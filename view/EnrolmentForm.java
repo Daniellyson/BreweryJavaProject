@@ -318,21 +318,9 @@ public class EnrolmentForm  extends JPanel {
                 container.setVisible(true);
                 welcomePanel.revalidate();
             }
-            /*if(event.getSource() == validationButton) {
-
-                Student student;
-                student = new Student(registrationNumber.getText(), firstName.getText(), lastName.getText(),
-                        birthday.getText(), section.getText(), scholarshipHolder.isSelected(), foreign.isSelected(),
-                        (String)origin.getSelectedItem());
-
-                //FileStudent
-                new FileStudent(student);
-
-                JOptionPane.showMessageDialog(null, student, "Student Enroled", JOptionPane.INFORMATION_MESSAGE,
-                        images.getImageIconEnroled());
-
-                erase = true;
-            } */
+            
+			//if validationButton
+			
             if(event.getSource() == resetButton || erase) {
                 registrationNumber.setText(null);
                 firstName.setText(null);
