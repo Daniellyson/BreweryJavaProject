@@ -19,6 +19,7 @@ public class ViewPrincipal extends JFrame {
 
     private JMenu clientMenu;
     private JMenuItem clientEnrolment;
+    private JMenuItem deleteClient;
 
     private JMenu infosMenu;
     private JMenuItem brewery;
@@ -62,6 +63,10 @@ public class ViewPrincipal extends JFrame {
         clientEnrolment = new JMenuItem("Enrolment Data");
         clientMenu.add(clientEnrolment);
 
+        deleteClient = new JMenuItem("Delete Client");
+        clientMenu.add(deleteClient);
+
+
         //INFORMATIONS
         infosMenu = new JMenu("Information");
         infosMenu.setMnemonic('i');
@@ -78,14 +83,9 @@ public class ViewPrincipal extends JFrame {
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
-        //listingClients.addActionListener(controlerEvent);
-
 
         clientEnrolment.addActionListener(controlerEvent);
-        /*
-        exit.addActionListener(controlerEvent);
-        help.addActionListener(controlerEvent);
-        */
+        deleteClient.addActionListener(controlerEvent);
 
     }
 
@@ -117,6 +117,55 @@ public class ViewPrincipal extends JFrame {
                 container.add(new EnrolmentForm(container));
                 container.revalidate();
             }
+            if(event.getSource() == deleteClient) {
+                int yes;
+                yes = JOptionPane.showConfirmDialog(null, "Would you like to delete a client ?", "Attention",
+                        JOptionPane.OK_OPTION);
+
+                if(yes == JOptionPane.OK_OPTION) {
+                    deleteClient();
+                }
+            }
         }
+    }
+
+    private void deleteClient() {
+        String clientKey;
+        int okOption = 0;
+        boolean deleted = false;
+
+        do {
+            clientKey = JOptionPane.showInputDialog("Indicate Client ID");
+            if(clientKey != null) {
+                //TEST change for the DATA BASE client key
+                if (clientKey.equals("123")) {
+                    okOption = JOptionPane.showConfirmDialog(null, "If you click yes, ALL the client data will be deleted" +
+                                    " from the data base. NO reversion. \n\n Delete ?",
+                            "Information", JOptionPane.OK_OPTION);
+                    if (okOption == JOptionPane.OK_OPTION) {
+                        deleteFromDataBase(clientKey);
+                        okOption = 1;
+                        deleted = true;
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Wrong Client ID", "Attention", JOptionPane.ERROR_MESSAGE);
+                    okOption = JOptionPane.showConfirmDialog(null, "Continue ?", "Pop-up",
+                            JOptionPane.OK_OPTION);
+                }
+            }
+            else {
+                okOption = 1;
+            }
+        } while(okOption == JOptionPane.OK_OPTION);
+
+        if(deleted) {
+            JOptionPane.showMessageDialog(null, "Client " + clientKey + " was deleted from the data base",
+                    "Information", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void deleteFromDataBase(String clientKey) {
+
     }
 }
