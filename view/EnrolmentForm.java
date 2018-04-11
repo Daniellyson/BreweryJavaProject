@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +9,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 public class EnrolmentForm  extends JPanel {
-    private JPanel choisePanel;
+    private JPanel choicePanel;
     private JPanel formPanel;
     private JPanel buttonPanel;
 
@@ -70,8 +71,8 @@ public class EnrolmentForm  extends JPanel {
 
         setLayout(new BorderLayout());
 
-        choisePanel = new JPanel(new GridLayout(2, 2, 10, 8));
-        add(choisePanel, BorderLayout.NORTH);
+        choicePanel = new JPanel(new GridLayout(2, 2, 10, 8));
+        add(choicePanel, BorderLayout.NORTH);
 
         formPanel = new JPanel(new GridLayout(14, 2, 10, 10));
         add(formPanel, BorderLayout.CENTER);
@@ -84,11 +85,11 @@ public class EnrolmentForm  extends JPanel {
         ActionRadioBox actionRadioBox = new ActionRadioBox();
 
         newClient = new JRadioButton("New client");
-        choisePanel.add(newClient);
+        choicePanel.add(newClient);
         newClient.addItemListener(actionRadioBox);
 
         editClient = new JRadioButton("Edit client");
-        choisePanel.add(editClient);
+        choicePanel.add(editClient);
         editClient.addItemListener(actionRadioBox);
 
         //Only one radio button at once
@@ -101,9 +102,9 @@ public class EnrolmentForm  extends JPanel {
 
         clientNumberLabel = new JLabel("Client Id Number");
         clientNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-        choisePanel.add(clientNumberLabel);
+        choicePanel.add(clientNumberLabel);
         clientNumber = new JTextField();
-        choisePanel.add(clientNumber);
+        choicePanel.add(clientNumber);
         clientNumberLabel.setEnabled(false);
         clientNumber.setEnabled(false);
         clientNumber.addActionListener(actionClientIdNumber);
@@ -250,18 +251,39 @@ public class EnrolmentForm  extends JPanel {
 
 
         //Buttons South
+        ButtonsActionListener buttonsActionListener = new ButtonsActionListener();
+
         returnButton = new JButton("Return");
         buttonPanel.add(returnButton);
-        returnButton.addActionListener(new ButtonsActionListener());
+        returnButton.addActionListener(buttonsActionListener);
 
         validationButton = new JButton("Validation");
         buttonPanel.add(validationButton);
-        //validationButton.addActionListener(new ButtonsActionListener());
+        validationButton.addActionListener(buttonsActionListener);
 
         resetButton = new JButton("Reset");
         buttonPanel.add(resetButton);
-        resetButton.addActionListener(new ButtonsActionListener());
+        resetButton.addActionListener(buttonsActionListener);
 
+    }
+
+    public void resetFields() {
+        registrationNumber.setText(null);
+        firstName.setText(null);
+        lastName.setText(null);
+        dateOfBirth.setText(null);
+        accountNumber.setText(null);
+        street.setText(null);
+        houseNumber.setText(null);
+        city.setText(null);
+        postCode.setText(null);
+        mobilePhone.setText(null);
+        landlinePhone.setText(null);
+
+        aSecondFirstName.setSelected(false);
+        aThirdFirstName.setSelected(false);
+        firstName_2.setText(null);
+        firstName_3.setText(null);
     }
 
     private class ActionCheckBox implements  ItemListener {
@@ -270,13 +292,21 @@ public class EnrolmentForm  extends JPanel {
             if(event.getSource() == aSecondFirstName) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
                     firstName_2.setEnabled(true);
+                    if (aThirdFirstName.isSelected()) {
+                        firstName_3.setEnabled(true);
+                    }
                 }
                 else {
                     firstName_2.setEnabled(false);
+                    firstName_2.setText(null);
+                    if (aThirdFirstName.isSelected()) {
+                        firstName_3.setEnabled(false);
+                        firstName_3.setText(null);
+                    }
                 }
             }
             if(event.getSource() == aThirdFirstName) {
-                if(event.getStateChange() == ItemEvent.SELECTED) {
+                if(event.getStateChange() == ItemEvent.SELECTED && firstName_2.isEnabled()) {
                     firstName_3.setEnabled(true);
                 }
                 else {
@@ -373,24 +403,32 @@ public class EnrolmentForm  extends JPanel {
             }
             
 			//VALIDATION here
+            if(event.getSource() == validationButton) {
+                if (newClient.isSelected()) {
+                    String registerNumber = registrationNumber.getText();
+                    String[] firstNames = new String[3];
+                    String lastNameCustomer = lastName.getText();
+                    String birthDate = dateOfBirth.getText();
+                    String accountNumberCustomer = accountNumber.getText();
+                    String streetName = street.getText();
+                    String houseNumberCustomer = houseNumber.getText();
+                    String cityName = city.getText();
+                    String postalCode = postCode.getText();
+                    String mobilePhoneCustomer = mobilePhone.getText();
+                    String landlinePhoneCustomer = landlinePhone.getText();
+
+                    firstNames[0] = firstName.getText();
+                    firstNames[1] = firstName_2.getText();
+                    firstNames[2] = firstName_3.getText();
+                    if (registerNumber.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "the field registration number can't be blank");
+                    }
+                    //TODO
+                }
+            }
 			
             if(event.getSource() == resetButton || erase) {
-                registrationNumber.setText(null);
-                firstName.setText(null);
-                lastName.setText(null);
-                dateOfBirth.setText(null);
-                accountNumber.setText(null);
-                street.setText(null);
-                houseNumber.setText(null);
-                city.setText(null);
-                postCode.setText(null);
-                mobilePhone.setText(null);
-                landlinePhone.setText(null);
-
-                aSecondFirstName.setSelected(false);
-                aThirdFirstName.setSelected(false);
-                firstName_2.setText(null);
-                firstName_3.setText(null);
+                resetFields();
             }
         }
     }

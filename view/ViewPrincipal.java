@@ -53,6 +53,7 @@ public class ViewPrincipal extends JFrame {
 
         exit = new JMenuItem("Exit");
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        exit.addActionListener(controlerEvent);
         applicationMenu.add(exit);
 
         //CLIENT
