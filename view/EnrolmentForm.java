@@ -21,7 +21,6 @@ public class EnrolmentForm  extends JPanel {
     private JLabel clientNumberLabel;
     private JTextField clientNumber;
 
-    private ActionCheckBox actionCheckBox;
 
     private JLabel registrationNumberLabel;
     private JLabel firstNameLabel;
@@ -36,6 +35,12 @@ public class EnrolmentForm  extends JPanel {
 
     private JLabel mobilePhoneLabel;
     private JLabel landlinePhoneLabel;
+
+    //MORE THAN ONE FIRST NAME (not obligatory)
+    private JCheckBox aSecondFirstName;
+    private JTextField firstName_2;
+    private JCheckBox aThirdFirstName;
+    private JTextField firstName_3;
 
 
     private JTextField registrationNumber;
@@ -57,7 +62,6 @@ public class EnrolmentForm  extends JPanel {
     private JButton returnButton;
     private JButton validationButton;
     private JButton resetButton;
-    private JButton addFirstNameButton;
 
     private Container container;
 
@@ -69,7 +73,7 @@ public class EnrolmentForm  extends JPanel {
         choisePanel = new JPanel(new GridLayout(2, 2, 10, 8));
         add(choisePanel, BorderLayout.NORTH);
 
-        formPanel = new JPanel(new GridLayout(12, 2, 10, 10));
+        formPanel = new JPanel(new GridLayout(14, 2, 10, 10));
         add(formPanel, BorderLayout.CENTER);
 
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
@@ -77,21 +81,23 @@ public class EnrolmentForm  extends JPanel {
 
         //CHOISE PANEL
 
-        actionCheckBox = new ActionCheckBox();
+        ActionRadioBox actionRadioBox = new ActionRadioBox();
 
         newClient = new JRadioButton("New client");
         choisePanel.add(newClient);
-        newClient.addItemListener(actionCheckBox);
+        newClient.addItemListener(actionRadioBox);
 
         editClient = new JRadioButton("Edit client");
         choisePanel.add(editClient);
-        editClient.addItemListener(actionCheckBox);
+        editClient.addItemListener(actionRadioBox);
 
         //Only one radio button at once
         enrolomentButtonGroup = new ButtonGroup();
         enrolomentButtonGroup.add(newClient);
         enrolomentButtonGroup.add(editClient);
 
+
+        ActionClientIdNumber actionClientIdNumber = new ActionClientIdNumber();
 
         clientNumberLabel = new JLabel("Client Id Number");
         clientNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -100,7 +106,7 @@ public class EnrolmentForm  extends JPanel {
         choisePanel.add(clientNumber);
         clientNumberLabel.setEnabled(false);
         clientNumber.setEnabled(false);
-        clientNumber.addActionListener(new ActionClientIdNumber());
+        clientNumber.addActionListener(actionClientIdNumber);
 
         //FORM PANEL
 
@@ -122,6 +128,28 @@ public class EnrolmentForm  extends JPanel {
 
         firstNameLabel.setEnabled(false);
         firstName.setEnabled(false);
+
+        //MORE THAN ONE FIRST NAME (not obligatory)
+        ActionCheckBox actionCheckBox = new ActionCheckBox();
+
+        aSecondFirstName = new JCheckBox("Seconde first name:");
+        aSecondFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
+        formPanel.add(aSecondFirstName);
+        aSecondFirstName.setEnabled(false);
+        aSecondFirstName.addItemListener(actionCheckBox);
+        firstName_2 = new JTextField();
+        formPanel.add(firstName_2);
+        firstName_2.setEnabled(false);
+
+        aThirdFirstName = new JCheckBox("Third first name:");
+        aThirdFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
+        formPanel.add(aThirdFirstName);
+        aThirdFirstName.setEnabled(false);
+        aThirdFirstName.addItemListener(actionCheckBox);
+        firstName_3 = new JTextField();
+        formPanel.add(firstName_3);
+        firstName_3.setEnabled(false);
+        //END more than one first name
 
 
         lastNameLabel = new JLabel("Last name:");
@@ -152,9 +180,9 @@ public class EnrolmentForm  extends JPanel {
         accountNumberLabel.setEnabled(false);
         accountNumber.setEnabled(false);
 
-        //actionCheckBox = new ActionCheckBox();
 
         isVIP = new JCheckBox("VIP");
+        isVIP.setHorizontalAlignment(JCheckBox.RIGHT);
         formPanel.add(isVIP);
         isVIP.setEnabled(false);
         formPanel.add(new JLabel(""));
@@ -236,7 +264,29 @@ public class EnrolmentForm  extends JPanel {
 
     }
 
-    private class ActionCheckBox implements ItemListener {
+    private class ActionCheckBox implements  ItemListener {
+
+        public void itemStateChanged(ItemEvent event) {
+            if(event.getSource() == aSecondFirstName) {
+                if(event.getStateChange() == ItemEvent.SELECTED) {
+                    firstName_2.setEnabled(true);
+                }
+                else {
+                    firstName_2.setEnabled(false);
+                }
+            }
+            if(event.getSource() == aThirdFirstName) {
+                if(event.getStateChange() == ItemEvent.SELECTED) {
+                    firstName_3.setEnabled(true);
+                }
+                else {
+                    firstName_3.setEnabled(false);
+                }
+            }
+        }
+    }
+
+    private class ActionRadioBox implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
             if(event.getSource() == editClient) {
@@ -299,6 +349,9 @@ public class EnrolmentForm  extends JPanel {
         mobilePhone.setEnabled(enabled);
         landlinePhoneLabel.setEnabled(enabled);
         landlinePhone.setEnabled(enabled);
+
+        aSecondFirstName.setEnabled(enabled);
+        aThirdFirstName.setEnabled(enabled);
     }
 
     private class ButtonsActionListener implements ActionListener {
@@ -318,9 +371,21 @@ public class EnrolmentForm  extends JPanel {
                 container.setVisible(true);
                 welcomePanel.revalidate();
             }
-            
-			//if validationButton
-			
+            /*if(event.getSource() == validationButton) {
+
+                Student student;
+                student = new Student(registrationNumber.getText(), firstName.getText(), lastName.getText(),
+                        birthday.getText(), section.getText(), scholarshipHolder.isSelected(), foreign.isSelected(),
+                        (String)origin.getSelectedItem());
+
+                //FileStudent
+                new FileStudent(student);
+
+                JOptionPane.showMessageDialog(null, student, "Student Enroled", JOptionPane.INFORMATION_MESSAGE,
+                        images.getImageIconEnroled());
+
+                erase = true;
+            } */
             if(event.getSource() == resetButton || erase) {
                 registrationNumber.setText(null);
                 firstName.setText(null);
@@ -333,6 +398,11 @@ public class EnrolmentForm  extends JPanel {
                 postCode.setText(null);
                 mobilePhone.setText(null);
                 landlinePhone.setText(null);
+
+                aSecondFirstName.setSelected(false);
+                aThirdFirstName.setSelected(false);
+                firstName_2.setText(null);
+                firstName_3.setText(null);
             }
         }
     }
