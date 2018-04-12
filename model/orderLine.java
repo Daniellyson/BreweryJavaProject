@@ -1,6 +1,6 @@
 package model;
 
-public class orderLine {
+public class OrderLine {
     private String lineCode;
     private Integer lineNumber;
     private Integer price;
