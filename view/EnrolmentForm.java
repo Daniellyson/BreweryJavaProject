@@ -38,9 +38,9 @@ public class EnrolmentForm  extends JPanel {
     private JLabel landlinePhoneLabel;
 
     //MORE THAN ONE FIRST NAME (not obligatory)
-    private JCheckBox aSecondFirstName;
+    private JCheckBox hasSecondFirstName;
     private JTextField firstName_2;
-    private JCheckBox aThirdFirstName;
+    private JCheckBox hasThirdFirstName;
     private JTextField firstName_3;
 
 
@@ -133,20 +133,20 @@ public class EnrolmentForm  extends JPanel {
         //MORE THAN ONE FIRST NAME (not obligatory)
         ActionCheckBox actionCheckBox = new ActionCheckBox();
 
-        aSecondFirstName = new JCheckBox("Seconde first name:");
-        aSecondFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
-        formPanel.add(aSecondFirstName);
-        aSecondFirstName.setEnabled(false);
-        aSecondFirstName.addItemListener(actionCheckBox);
+        hasSecondFirstName = new JCheckBox("Seconde first name:");
+        hasSecondFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
+        formPanel.add(hasSecondFirstName);
+        hasSecondFirstName.setEnabled(false);
+        hasSecondFirstName.addItemListener(actionCheckBox);
         firstName_2 = new JTextField();
         formPanel.add(firstName_2);
         firstName_2.setEnabled(false);
 
-        aThirdFirstName = new JCheckBox("Third first name:");
-        aThirdFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
-        formPanel.add(aThirdFirstName);
-        aThirdFirstName.setEnabled(false);
-        aThirdFirstName.addItemListener(actionCheckBox);
+        hasThirdFirstName = new JCheckBox("Third first name:");
+        hasThirdFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
+        formPanel.add(hasThirdFirstName);
+        hasThirdFirstName.setEnabled(false);
+        hasThirdFirstName.addItemListener(actionCheckBox);
         firstName_3 = new JTextField();
         formPanel.add(firstName_3);
         firstName_3.setEnabled(false);
@@ -280,8 +280,8 @@ public class EnrolmentForm  extends JPanel {
         mobilePhone.setText(null);
         landlinePhone.setText(null);
 
-        aSecondFirstName.setSelected(false);
-        aThirdFirstName.setSelected(false);
+        hasSecondFirstName.setSelected(false);
+        hasThirdFirstName.setSelected(false);
         firstName_2.setText(null);
         firstName_3.setText(null);
     }
@@ -289,23 +289,23 @@ public class EnrolmentForm  extends JPanel {
     private class ActionCheckBox implements  ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
-            if(event.getSource() == aSecondFirstName) {
+            if(event.getSource() == hasSecondFirstName) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
                     firstName_2.setEnabled(true);
-                    if (aThirdFirstName.isSelected()) {
+                    if (hasThirdFirstName.isSelected()) {
                         firstName_3.setEnabled(true);
                     }
                 }
                 else {
                     firstName_2.setEnabled(false);
                     firstName_2.setText(null);
-                    if (aThirdFirstName.isSelected()) {
+                    if (hasThirdFirstName.isSelected()) {
                         firstName_3.setEnabled(false);
                         firstName_3.setText(null);
                     }
                 }
             }
-            if(event.getSource() == aThirdFirstName) {
+            if(event.getSource() == hasThirdFirstName) {
                 if(event.getStateChange() == ItemEvent.SELECTED && firstName_2.isEnabled()) {
                     firstName_3.setEnabled(true);
                 }
@@ -380,8 +380,8 @@ public class EnrolmentForm  extends JPanel {
         landlinePhoneLabel.setEnabled(enabled);
         landlinePhone.setEnabled(enabled);
 
-        aSecondFirstName.setEnabled(enabled);
-        aThirdFirstName.setEnabled(enabled);
+        hasSecondFirstName.setEnabled(enabled);
+        hasThirdFirstName.setEnabled(enabled);
     }
 
     private class ButtonsActionListener implements ActionListener {
