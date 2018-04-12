@@ -402,7 +402,6 @@ public class EnrolmentForm  extends JPanel {
                 welcomePanel.revalidate();
             }
             
-			//VALIDATION here
             if(event.getSource() == validationButton) {
                 if (newClient.isSelected()) {
                     String registerNumber = registrationNumber.getText();
@@ -423,7 +422,8 @@ public class EnrolmentForm  extends JPanel {
                     if (registerNumber.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "the field registration number can't be blank");
                     }
-                    //TODO
+                    //TODO 
+					//TODO² if validation ok, put erase = true to resetFields
                 }
             }
 			
