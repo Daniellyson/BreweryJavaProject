@@ -58,7 +58,7 @@ public class ViewPrincipal extends JFrame {
 
         //CLIENT
         clientMenu = new JMenu("Client");
-        clientMenu.setMnemonic('s');
+        clientMenu.setMnemonic('c');
         menuBar.add(clientMenu);
 
         clientEnrolment = new JMenuItem("Enrolment Data");
@@ -80,7 +80,7 @@ public class ViewPrincipal extends JFrame {
         infosMenu.add(help);
 
         listing = new JMenu("Listing");
-        listing.setMnemonic('d');
+        listing.setMnemonic('l');
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
