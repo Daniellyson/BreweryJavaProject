@@ -1,10 +1,8 @@
 package view;
 
 import javax.swing.*;
-import java.awt.*;
 
-
-public class Images extends JPanel {
+public class Images {
 
     private ImageIcon imageLogo;
     private ImageIcon beerGif;
@@ -21,7 +19,6 @@ public class Images extends JPanel {
         JLabel labelLogo = new JLabel();
         labelLogo.setIcon(imageLogo);
         labelLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(labelLogo, BorderLayout.CENTER);
         return labelLogo;
     }
 
@@ -29,7 +26,6 @@ public class Images extends JPanel {
         JLabel gif = new JLabel();
         gif.setIcon(beerGif);
         gif.setHorizontalAlignment(SwingConstants.CENTER);
-        this.add(gif, BorderLayout.CENTER);
         return gif;
     }
 }
