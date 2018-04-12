@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -268,6 +267,8 @@ public class EnrolmentForm  extends JPanel {
     }
 
     public void resetFields() {
+        clientNumber.setText(null);
+
         registrationNumber.setText(null);
         firstName.setText(null);
         lastName.setText(null);
@@ -292,6 +293,7 @@ public class EnrolmentForm  extends JPanel {
             if(event.getSource() == hasSecondFirstName) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
                     firstName_2.setEnabled(true);
+                    hasThirdFirstName.setEnabled(true);
                     if (hasThirdFirstName.isSelected()) {
                         firstName_3.setEnabled(true);
                     }
@@ -302,6 +304,8 @@ public class EnrolmentForm  extends JPanel {
                     if (hasThirdFirstName.isSelected()) {
                         firstName_3.setEnabled(false);
                         firstName_3.setText(null);
+                        hasThirdFirstName.setSelected(false);
+                        hasThirdFirstName.setEnabled(false);
                     }
                 }
             }
@@ -311,6 +315,7 @@ public class EnrolmentForm  extends JPanel {
                 }
                 else {
                     firstName_3.setEnabled(false);
+                    firstName_3.setText(null);
                 }
             }
         }
@@ -337,6 +342,7 @@ public class EnrolmentForm  extends JPanel {
                     setFieldsEnable(false);
                 }
             }
+            resetFields();
         }
     }
 
@@ -347,7 +353,7 @@ public class EnrolmentForm  extends JPanel {
             if(event.getSource() == clientNumber) {
                 //Test listener ID NUMBER Replace by Data Base Key Client
                 if(clientNumber.getText().equals("123")) {
-                   setFieldsEnable(true);
+                    setFieldsEnable(true);
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Try again", "Error", JOptionPane.ERROR_MESSAGE);
@@ -381,7 +387,6 @@ public class EnrolmentForm  extends JPanel {
         landlinePhone.setEnabled(enabled);
 
         hasSecondFirstName.setEnabled(enabled);
-        hasThirdFirstName.setEnabled(enabled);
     }
 
     private class ButtonsActionListener implements ActionListener {
@@ -401,7 +406,7 @@ public class EnrolmentForm  extends JPanel {
                 container.setVisible(true);
                 welcomePanel.revalidate();
             }
-            
+
             if(event.getSource() == validationButton) {
                 if (newClient.isSelected()) {
                     String registerNumber = registrationNumber.getText();
@@ -419,14 +424,16 @@ public class EnrolmentForm  extends JPanel {
                     firstNames[0] = firstName.getText();
                     firstNames[1] = firstName_2.getText();
                     firstNames[2] = firstName_3.getText();
+
                     if (registerNumber.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "the field registration number can't be blank");
                     }
-                    //TODO 
-					//TODO² if validation ok, put erase = true to resetFields
+                    //TODO
+
+                    //TODO² if validation ok, put erase = true to resetFields
                 }
             }
-			
+
             if(event.getSource() == resetButton || erase) {
                 resetFields();
             }
