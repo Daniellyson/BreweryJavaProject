@@ -12,7 +12,6 @@ public class EnrolmentForm  extends JPanel {
     private JPanel formPanel;
     private JPanel buttonPanel;
 
-
     private ButtonGroup enrolomentButtonGroup;
     private JRadioButton newClient;
     private JRadioButton editClient;
@@ -391,8 +390,6 @@ public class EnrolmentForm  extends JPanel {
 
     private class ButtonsActionListener implements ActionListener {
 
-        private boolean erase;
-
         public void actionPerformed(ActionEvent event) {
             if(event.getSource() == returnButton) {
                 container.removeAll();
@@ -428,13 +425,13 @@ public class EnrolmentForm  extends JPanel {
                     if (registerNumber.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "the field registration number can't be blank");
                     }
-                    //TODO
 
-                    //TODO² if validation ok, put erase = true to resetFields
+                    //TODO
+                    //TODO² if everything ok resetFields
                 }
             }
 
-            if(event.getSource() == resetButton || erase) {
+            if(event.getSource() == resetButton) {
                 resetFields();
             }
         }
