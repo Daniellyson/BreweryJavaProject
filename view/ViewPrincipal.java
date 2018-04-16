@@ -1,5 +1,5 @@
 package view;
-import listeners.WindowListener;
+import listener.WindowListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ public class ViewPrincipal extends JFrame {
 
     private JMenu applicationMenu;
     private JMenuItem exit;
+    private JMenuItem back;
 
     private JMenu clientMenu;
     private JMenuItem clientEnrolment;
@@ -28,6 +29,10 @@ public class ViewPrincipal extends JFrame {
     private JMenu listing;
     private JMenuItem listingClients;
 
+    private JMenu search;
+    private JMenuItem listingArticlesOrdered;
+    private JMenuItem orderDestination;
+    private JMenuItem customersWhoBoughtProduct;
 
     public ViewPrincipal() {
 
@@ -56,12 +61,16 @@ public class ViewPrincipal extends JFrame {
         exit.addActionListener(controlerEvent);
         applicationMenu.add(exit);
 
+        back = new JMenuItem("Return");
+        back.addActionListener(controlerEvent);
+        applicationMenu.add(back);
+
         //CLIENT
         clientMenu = new JMenu("Client");
         clientMenu.setMnemonic('c');
         menuBar.add(clientMenu);
 
-        clientEnrolment = new JMenuItem("Enrolment Data");
+        clientEnrolment = new JMenuItem("Enrolment Data (New / Edit)");
         clientMenu.add(clientEnrolment);
 
         deleteClient = new JMenuItem("Delete Client");
@@ -79,11 +88,27 @@ public class ViewPrincipal extends JFrame {
         help = new JMenuItem("Help");
         infosMenu.add(help);
 
+
+        //LISTING
         listing = new JMenu("Listing");
         listing.setMnemonic('l');
         menuBar.add(listing);
         listingClients = new JMenuItem("Clients");
         listing.add(listingClients);
+
+
+        //SEARCH
+        search = new JMenu("Search");
+        search.setMnemonic('s');
+        menuBar.add(search);
+        listingArticlesOrdered = new JMenuItem("Listing des articles ordered");
+        search.add(listingArticlesOrdered);
+        orderDestination = new JMenuItem("Order destination");
+        search.add(orderDestination);
+        customersWhoBoughtProduct = new JMenuItem("Customers who bought a product");
+        search.add(customersWhoBoughtProduct);
+
+
 
         clientEnrolment.addActionListener(controlerEvent);
         deleteClient.addActionListener(controlerEvent);
@@ -111,6 +136,19 @@ public class ViewPrincipal extends JFrame {
         public void actionPerformed(ActionEvent event) {
             if(event.getSource() == exit) {
                 System.exit(0);
+            }
+
+            if(event.getSource() == back) {
+                container.removeAll();
+
+                WelcomePanel welcomePanel = new WelcomePanel();
+                Images image = new Images();
+
+                container.add(image.getImageLogo(), BorderLayout.NORTH);
+                container.add(welcomePanel, BorderLayout.CENTER);
+                container.add(image.getGif(), BorderLayout.SOUTH);
+                container.setVisible(true);
+                welcomePanel.revalidate();
             }
 
             if(event.getSource() == clientEnrolment){
