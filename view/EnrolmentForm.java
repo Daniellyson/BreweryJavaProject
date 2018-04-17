@@ -1,11 +1,16 @@
 package view;
 
+import model.City;
+import model.Customer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.Customizer;
+import java.util.ArrayList;
 
 public class EnrolmentForm  extends JPanel {
     private JPanel choicePanel;
@@ -56,6 +61,9 @@ public class EnrolmentForm  extends JPanel {
     private JTextField mobilePhone;
     private JTextField landlinePhone;
 
+    private ArrayList<JTextField> fields = new ArrayList<>();
+    private ArrayList<JTextField> fieldsNotNull = new ArrayList<>();
+
     private JCheckBox isVIP;
 
     private JButton returnButton;
@@ -78,7 +86,7 @@ public class EnrolmentForm  extends JPanel {
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
         add(buttonPanel, BorderLayout.SOUTH);
 
-        //CHOISE PANEL
+        //CHOICE PANEL
 
         ActionRadioBox actionRadioBox = new ActionRadioBox();
 
@@ -114,6 +122,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(registrationNumberLabel);
         registrationNumber = new JTextField();
         formPanel.add(registrationNumber);
+        fields.add(registrationNumber);
+        fieldsNotNull.add(registrationNumber);
 
         registrationNumberLabel.setEnabled(false);
         registrationNumber.setEnabled(false);
@@ -124,6 +134,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(firstNameLabel);
         firstName = new JTextField();
         formPanel.add(firstName);
+        fields.add(firstName);
+        fieldsNotNull.add(firstName);
 
         firstNameLabel.setEnabled(false);
         firstName.setEnabled(false);
@@ -139,6 +151,7 @@ public class EnrolmentForm  extends JPanel {
         firstName_2 = new JTextField();
         formPanel.add(firstName_2);
         firstName_2.setEnabled(false);
+        fields.add(firstName_2);
 
         hasThirdFirstName = new JCheckBox("Third first name:");
         hasThirdFirstName.setHorizontalAlignment(JCheckBox.RIGHT);
@@ -148,6 +161,7 @@ public class EnrolmentForm  extends JPanel {
         firstName_3 = new JTextField();
         formPanel.add(firstName_3);
         firstName_3.setEnabled(false);
+        fields.add(firstName_3);
         //END more than one first name
 
 
@@ -156,6 +170,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(lastNameLabel);
         lastName = new JTextField();
         formPanel.add(lastName);
+        fields.add(lastName);
+        fieldsNotNull.add(lastName);
 
         lastNameLabel.setEnabled(false);
         lastName.setEnabled(false);
@@ -166,6 +182,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(dateOfBirthLabel);
         dateOfBirth = new JTextField();
         formPanel.add(dateOfBirth);
+        fields.add(dateOfBirth);
+        fieldsNotNull.add(dateOfBirth);
 
         dateOfBirthLabel.setEnabled(false);
         dateOfBirth.setEnabled(false);
@@ -175,6 +193,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(accountNumberLabel);
         accountNumber = new JTextField();
         formPanel.add(accountNumber);
+        fields.add(accountNumber);
+        fieldsNotNull.add(accountNumber);
 
         accountNumberLabel.setEnabled(false);
         accountNumber.setEnabled(false);
@@ -193,6 +213,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(streetLabel);
         street = new JTextField();
         formPanel.add(street);
+        fields.add(street);
+        fieldsNotNull.add(street);
 
         streetLabel.setEnabled(false);
         street.setEnabled(false);
@@ -203,6 +225,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(houseNumberLabel);
         houseNumber = new JTextField();
         formPanel.add(houseNumber);
+        fields.add(houseNumber);
+        fieldsNotNull.add(houseNumber);
 
         houseNumberLabel.setEnabled(false);
         houseNumber.setEnabled(false);
@@ -213,6 +237,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(cityLabel);
         city = new JTextField();
         formPanel.add(city);
+        fields.add(city);
+        fieldsNotNull.add(city);
 
         cityLabel.setEnabled(false);
         city.setEnabled(false);
@@ -223,6 +249,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(postCodeLabel);
         postCode = new JTextField();
         formPanel.add(postCode);
+        fields.add(postCode);
+        fieldsNotNull.add(postCode);
 
         postCodeLabel.setEnabled(false);
         postCode.setEnabled(false);
@@ -234,6 +262,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(mobilePhoneLabel);
         mobilePhone = new JTextField();
         formPanel.add(mobilePhone);
+        fields.add(mobilePhone);
 
         mobilePhoneLabel.setEnabled(false);
         mobilePhone.setEnabled(false);
@@ -243,6 +272,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(landlinePhoneLabel);
         landlinePhone = new JTextField();
         formPanel.add(landlinePhone);
+        fields.add(landlinePhone);
 
         landlinePhoneLabel.setEnabled(false);
         landlinePhone.setEnabled(false);
@@ -266,24 +296,14 @@ public class EnrolmentForm  extends JPanel {
     }
 
     public void resetFields() {
-        clientNumber.setText(null);
-
-        registrationNumber.setText(null);
-        firstName.setText(null);
-        lastName.setText(null);
-        dateOfBirth.setText(null);
-        accountNumber.setText(null);
-        street.setText(null);
-        houseNumber.setText(null);
-        city.setText(null);
-        postCode.setText(null);
-        mobilePhone.setText(null);
-        landlinePhone.setText(null);
+        for (JTextField field : fields) {
+            field.setText(null);
+            field.setBackground(Color.WHITE);
+        }
 
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
-        firstName_2.setText(null);
-        firstName_3.setText(null);
+
     }
 
     private class ActionCheckBox implements  ItemListener {
@@ -406,6 +426,11 @@ public class EnrolmentForm  extends JPanel {
 
             if(event.getSource() == validationButton) {
                 if (newClient.isSelected()) {
+                    Customer customer;
+                    City cityCustomer;
+                    int postalCodeNumber;
+                    int birthDateNumber;
+                    boolean blank = false;
                     String registerNumber = registrationNumber.getText();
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
@@ -422,12 +447,37 @@ public class EnrolmentForm  extends JPanel {
                     firstNames[1] = firstName_2.getText();
                     firstNames[2] = firstName_3.getText();
 
-                    if (registerNumber.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "the field registration number can't be blank");
+                    for (JTextField field : fieldsNotNull) {
+                        if (field.getText().isEmpty()) {
+                            field.setBackground(Color.RED);
+                            blank = true;
+                        }
                     }
-
-                    //TODO
-                    //TODO² if everything ok resetFields
+                    if (blank) {
+                        JOptionPane.showMessageDialog(null, "field in red can't be blank");
+                    } else {
+                        try {
+                            postalCodeNumber = Integer.parseInt(postalCode);
+                            birthDateNumber = Integer.parseInt(birthDate);
+                            customer = new Customer(registerNumber,
+                                    lastNameCustomer,
+                                    firstNames,
+                                    accountNumberCustomer,
+                                    streetName,
+                                    houseNumberCustomer,
+                                    landlinePhoneCustomer,
+                                    mobilePhoneCustomer,
+                                    birthDateNumber/10000,
+                                    birthDateNumber/100%100,
+                                    birthDateNumber%100,
+                                    new City(cityName,
+                                            postalCodeNumber));
+                            //TODO addCustomer()
+                            resetFields();
+                        } catch (NumberFormatException exception) {
+                            JOptionPane.showMessageDialog(null, "some fields must be number");
+                        }
+                    }
                 }
             }
 

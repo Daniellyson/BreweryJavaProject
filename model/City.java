@@ -5,6 +5,11 @@ public class City {
     private String name;
     private Integer codePostal;
 
+    public City(String name, Integer codePostal) {
+        setName(name);
+        setCodePostal(codePostal);
+    }
+
     public void setCode(Integer code) {
         this.code = code;
     }
