@@ -303,7 +303,7 @@ public class EnrolmentForm  extends JPanel {
 
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
-
+		hasThirdFirstName.setEnabled(false);
     }
 
     private class ActionCheckBox implements  ItemListener {
