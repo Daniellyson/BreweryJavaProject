@@ -61,6 +61,7 @@ public class EnrolmentForm  extends JPanel {
     private JTextField mobilePhone;
     private JTextField landlinePhone;
 
+    private ArrayList<JLabel> labels = new ArrayList<>();
     private ArrayList<JTextField> fields = new ArrayList<>();
     private ArrayList<JTextField> fieldsNotNull = new ArrayList<>();
 
@@ -111,6 +112,7 @@ public class EnrolmentForm  extends JPanel {
         choicePanel.add(clientNumberLabel);
         clientNumber = new JTextField();
         choicePanel.add(clientNumber);
+
         clientNumberLabel.setEnabled(false);
         clientNumber.setEnabled(false);
         clientNumber.addActionListener(actionClientIdNumber);
@@ -122,6 +124,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(registrationNumberLabel);
         registrationNumber = new JTextField();
         formPanel.add(registrationNumber);
+
+        labels.add(registrationNumberLabel);
         fields.add(registrationNumber);
         fieldsNotNull.add(registrationNumber);
 
@@ -134,6 +138,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(firstNameLabel);
         firstName = new JTextField();
         formPanel.add(firstName);
+
+        labels.add(firstNameLabel);
         fields.add(firstName);
         fieldsNotNull.add(firstName);
 
@@ -151,6 +157,7 @@ public class EnrolmentForm  extends JPanel {
         firstName_2 = new JTextField();
         formPanel.add(firstName_2);
         firstName_2.setEnabled(false);
+
         fields.add(firstName_2);
 
         hasThirdFirstName = new JCheckBox("Third first name:");
@@ -161,6 +168,7 @@ public class EnrolmentForm  extends JPanel {
         firstName_3 = new JTextField();
         formPanel.add(firstName_3);
         firstName_3.setEnabled(false);
+
         fields.add(firstName_3);
         //END more than one first name
 
@@ -170,6 +178,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(lastNameLabel);
         lastName = new JTextField();
         formPanel.add(lastName);
+
+        labels.add(lastNameLabel);
         fields.add(lastName);
         fieldsNotNull.add(lastName);
 
@@ -182,6 +192,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(dateOfBirthLabel);
         dateOfBirth = new JTextField();
         formPanel.add(dateOfBirth);
+
+        labels.add(dateOfBirthLabel);
         fields.add(dateOfBirth);
         fieldsNotNull.add(dateOfBirth);
 
@@ -193,6 +205,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(accountNumberLabel);
         accountNumber = new JTextField();
         formPanel.add(accountNumber);
+
+        labels.add(accountNumberLabel);
         fields.add(accountNumber);
         fieldsNotNull.add(accountNumber);
 
@@ -213,6 +227,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(streetLabel);
         street = new JTextField();
         formPanel.add(street);
+
+        labels.add(streetLabel);
         fields.add(street);
         fieldsNotNull.add(street);
 
@@ -225,6 +241,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(houseNumberLabel);
         houseNumber = new JTextField();
         formPanel.add(houseNumber);
+
+        labels.add(houseNumberLabel);
         fields.add(houseNumber);
         fieldsNotNull.add(houseNumber);
 
@@ -237,6 +255,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(cityLabel);
         city = new JTextField();
         formPanel.add(city);
+
+        labels.add(cityLabel);
         fields.add(city);
         fieldsNotNull.add(city);
 
@@ -249,6 +269,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(postCodeLabel);
         postCode = new JTextField();
         formPanel.add(postCode);
+
+        labels.add(postCodeLabel);
         fields.add(postCode);
         fieldsNotNull.add(postCode);
 
@@ -262,6 +284,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(mobilePhoneLabel);
         mobilePhone = new JTextField();
         formPanel.add(mobilePhone);
+
+        labels.add(mobilePhoneLabel);
         fields.add(mobilePhone);
 
         mobilePhoneLabel.setEnabled(false);
@@ -272,6 +296,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(landlinePhoneLabel);
         landlinePhone = new JTextField();
         formPanel.add(landlinePhone);
+
+        labels.add(landlinePhoneLabel);
         fields.add(landlinePhone);
 
         landlinePhoneLabel.setEnabled(false);
@@ -300,10 +326,21 @@ public class EnrolmentForm  extends JPanel {
             field.setText(null);
             field.setBackground(Color.WHITE);
         }
-
+        clientNumber.setText(null);
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
-		hasThirdFirstName.setEnabled(false);
+        hasThirdFirstName.setEnabled(false);
+    }
+
+    public void setFieldsEnable(boolean enabled) {
+
+        for(JTextField field : fields) {
+            field.setEnabled(enabled);
+        }
+        for(JLabel label : labels) {
+            label.setEnabled(enabled);
+        }
+        hasSecondFirstName.setEnabled(enabled);
     }
 
     private class ActionCheckBox implements  ItemListener {
@@ -379,33 +416,6 @@ public class EnrolmentForm  extends JPanel {
                 }
             }
         }
-    }
-
-    public void setFieldsEnable(boolean enabled) {
-        registrationNumberLabel.setEnabled(enabled);
-        registrationNumber.setEnabled(enabled);
-        firstNameLabel.setEnabled(enabled);
-        firstName.setEnabled(enabled);
-        lastNameLabel.setEnabled(enabled);
-        lastName.setEnabled(enabled);
-        dateOfBirthLabel.setEnabled(enabled);
-        dateOfBirth.setEnabled(enabled);
-        accountNumberLabel.setEnabled(enabled);
-        accountNumber.setEnabled(enabled);
-        streetLabel.setEnabled(enabled);
-        street.setEnabled(enabled);
-        houseNumberLabel.setEnabled(enabled);
-        houseNumber.setEnabled(enabled);
-        cityLabel.setEnabled(enabled);
-        city.setEnabled(enabled);
-        postCodeLabel.setEnabled(enabled);
-        postCode.setEnabled(enabled);
-        mobilePhoneLabel.setEnabled(enabled);
-        mobilePhone.setEnabled(enabled);
-        landlinePhoneLabel.setEnabled(enabled);
-        landlinePhone.setEnabled(enabled);
-
-        hasSecondFirstName.setEnabled(enabled);
     }
 
     private class ButtonsActionListener implements ActionListener {
