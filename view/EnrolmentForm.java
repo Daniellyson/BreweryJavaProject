@@ -1,5 +1,6 @@
 package view;
 
+import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
 
@@ -71,10 +72,7 @@ public class EnrolmentForm  extends JPanel {
     private JButton validationButton;
     private JButton resetButton;
 
-    private Container container;
-
-    public EnrolmentForm(Container container){
-        this.container = container;
+    public EnrolmentForm(ActionReturnButton actionReturnButton) {
 
         setLayout(new BorderLayout());
 
@@ -309,7 +307,7 @@ public class EnrolmentForm  extends JPanel {
 
         returnButton = new JButton("Return");
         buttonPanel.add(returnButton);
-        returnButton.addActionListener(buttonsActionListener);
+        returnButton.addActionListener(actionReturnButton);
 
         validationButton = new JButton("Validation");
         buttonPanel.add(validationButton);
@@ -336,27 +334,26 @@ public class EnrolmentForm  extends JPanel {
 
     public void setFieldsEnable(boolean enabled) {
 
-        for(JTextField field : fields) {
+        for (JTextField field : fields) {
             field.setEnabled(enabled);
         }
-        for(JLabel label : labels) {
+        for (JLabel label : labels) {
             label.setEnabled(enabled);
         }
         hasSecondFirstName.setEnabled(enabled);
     }
 
-    private class ActionCheckBox implements  ItemListener {
+    private class ActionCheckBox implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
-            if(event.getSource() == hasSecondFirstName) {
-                if(event.getStateChange() == ItemEvent.SELECTED) {
+            if (event.getSource() == hasSecondFirstName) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
                     firstName_2.setEnabled(true);
                     hasThirdFirstName.setEnabled(true);
                     if (hasThirdFirstName.isSelected()) {
                         firstName_3.setEnabled(true);
                     }
-                }
-                else {
+                } else {
                     firstName_2.setEnabled(false);
                     firstName_2.setText(null);
                     if (hasThirdFirstName.isSelected()) {
@@ -367,11 +364,10 @@ public class EnrolmentForm  extends JPanel {
                     }
                 }
             }
-            if(event.getSource() == hasThirdFirstName) {
-                if(event.getStateChange() == ItemEvent.SELECTED && firstName_2.isEnabled()) {
+            if (event.getSource() == hasThirdFirstName) {
+                if (event.getStateChange() == ItemEvent.SELECTED && firstName_2.isEnabled()) {
                     firstName_3.setEnabled(true);
-                }
-                else {
+                } else {
                     firstName_3.setEnabled(false);
                     firstName_3.setText(null);
                 }
@@ -382,21 +378,19 @@ public class EnrolmentForm  extends JPanel {
     private class ActionRadioBox implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
-            if(event.getSource() == editCustomer) {
-                if(event.getStateChange() == ItemEvent.SELECTED) {
+            if (event.getSource() == editCustomer) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
                     customerNumberLabel.setEnabled(true);
                     customerNumber.setEnabled(true);
-                }
-                else {
+                } else {
                     customerNumberLabel.setEnabled(false);
                     customerNumber.setEnabled(false);
                 }
             }
-            if(event.getSource() == newCustomer) {
-                if(event.getStateChange() == ItemEvent.SELECTED) {
+            if (event.getSource() == newCustomer) {
+                if (event.getStateChange() == ItemEvent.SELECTED) {
                     setFieldsEnable(true);
-                }
-                else {
+                } else {
                     setFieldsEnable(false);
                 }
             }
@@ -408,12 +402,11 @@ public class EnrolmentForm  extends JPanel {
 
         public void actionPerformed(ActionEvent event) {
 
-            if(event.getSource() == customerNumber) {
+            if (event.getSource() == customerNumber) {
                 //Test listener ID NUMBER Replace by Data Base Key Customer
-                if(customerNumber.getText().equals("123")) {
+                if (customerNumber.getText().equals("123")) {
                     setFieldsEnable(true);
-                }
-                else {
+                } else {
                     JOptionPane.showMessageDialog(null, "Try again", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -423,23 +416,10 @@ public class EnrolmentForm  extends JPanel {
     private class ButtonsActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
-            if(event.getSource() == returnButton) {
-                container.removeAll();
 
-                WelcomePanel welcomePanel = new WelcomePanel();
-                Images image = new Images();
-
-                container.add(image.getImageLogo(), BorderLayout.NORTH);
-                container.add(welcomePanel, BorderLayout.CENTER);
-                container.add(image.getGif(), BorderLayout.SOUTH);
-                container.setVisible(true);
-                welcomePanel.revalidate();
-            }
-
-            if(event.getSource() == validationButton) {
+            if (event.getSource() == validationButton) {
                 if (newCustomer.isSelected()) {
                     Customer customer;
-                    City cityCustomer;
                     int postalCodeNumber;
                     int birthDateNumber;
                     boolean blank = false;
@@ -463,8 +443,7 @@ public class EnrolmentForm  extends JPanel {
                         if (field.getText().isEmpty()) {
                             field.setBackground(Color.RED);
                             blank = true;
-                        }
-                        else {
+                        } else {
                             field.setBackground(Color.WHITE);
                         }
                     }
@@ -473,31 +452,37 @@ public class EnrolmentForm  extends JPanel {
                     } else {
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
-                            birthDateNumber = Integer.parseInt(birthDate);
-                            customer = new Customer(registerNumber,
-                                    lastNameCustomer,
-                                    firstNames,
-                                    accountNumberCustomer,
-                                    streetName,
-                                    houseNumberCustomer,
-                                    landlinePhoneCustomer,
-                                    mobilePhoneCustomer,
-                                    birthDateNumber/10000,
-                                    birthDateNumber/100%100,
-                                    birthDateNumber%100,
-                                    new City(cityName,
-                                            postalCodeNumber));
-                            //TODO addCustomer()
-                            resetFields();
+                            try {
+                                birthDateNumber = Integer.parseInt(birthDate);
+                                customer = new Customer(registerNumber,
+                                        lastNameCustomer,
+                                        firstNames,
+                                        accountNumberCustomer,
+                                        streetName,
+                                        houseNumberCustomer,
+                                        landlinePhoneCustomer,
+                                        mobilePhoneCustomer,
+                                        birthDateNumber / 10000,
+                                        birthDateNumber / 100 % 100,
+                                        birthDateNumber % 100,
+                                        new City(cityName,
+                                                postalCodeNumber));
+                                //TODO addCustomer()
+                                resetFields();
+                            } catch (NumberFormatException exception) {
+                                JOptionPane.showMessageDialog(null, "field date of birth must be a number");
+                            }
                         } catch (NumberFormatException exception) {
-                            JOptionPane.showMessageDialog(null, "some fields must be number");
+                            JOptionPane.showMessageDialog(null, "field post code must be a number");
+                        } catch (Exception exception) {
+                            JOptionPane.showMessageDialog(null, exception.getMessage());
                         }
                     }
                 }
-            }
 
-            if(event.getSource() == resetButton) {
-                resetFields();
+                if (event.getSource() == resetButton) {
+                    resetFields();
+                }
             }
         }
     }

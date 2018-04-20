@@ -1,4 +1,5 @@
 package view;
+import listener.ActionReturnButton;
 import listener.WindowListener;
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 
 public class ViewPrincipal extends JFrame {
+
+    private ActionReturnButton actionReturnButton;
 
     private Container container;
 
@@ -38,8 +41,8 @@ public class ViewPrincipal extends JFrame {
 
         super("DJ Brewery");
 
-        setUpMenu();
         setUpMainWindow();
+        setUpMenu();
 
         setVisible(true);
     }
@@ -61,8 +64,10 @@ public class ViewPrincipal extends JFrame {
         exit.addActionListener(controlerEvent);
         applicationMenu.add(exit);
 
+        actionReturnButton = new ActionReturnButton(container);
+
         back = new JMenuItem("Return");
-        back.addActionListener(controlerEvent);
+        back.addActionListener(actionReturnButton);
         applicationMenu.add(back);
 
         //CLIENT
@@ -138,22 +143,9 @@ public class ViewPrincipal extends JFrame {
                 System.exit(0);
             }
 
-            if(event.getSource() == back) {
-                container.removeAll();
-
-                WelcomePanel welcomePanel = new WelcomePanel();
-                Images image = new Images();
-
-                container.add(image.getImageLogo(), BorderLayout.NORTH);
-                container.add(welcomePanel, BorderLayout.CENTER);
-                container.add(image.getGif(), BorderLayout.SOUTH);
-                container.setVisible(true);
-                welcomePanel.revalidate();
-            }
-
             if(event.getSource() == customerEnrolment){
                 container.removeAll();
-                container.add(new EnrolmentForm(container));
+                container.add(new EnrolmentForm(actionReturnButton));
                 container.revalidate();
             }
             if(event.getSource() == deleteCustomer) {
