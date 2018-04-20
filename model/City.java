@@ -3,11 +3,11 @@ package model;
 public class City {
     private Integer code;
     private String name;
-    private Integer codePostal;
+    private Integer postCode;
 
-    public City(String name, Integer codePostal) {
+    public City(String name, Integer postCode) {
         setName(name);
-        setCodePostal(codePostal);
+        setCodePostal(postCode);
     }
 
     public void setCode(Integer code) {
@@ -18,7 +18,7 @@ public class City {
         this.name = name;
     }
 
-    public void setCodePostal(Integer codePostal) {
-        this.codePostal = codePostal;
+    public void setCodePostal(Integer postCode) {
+        this.postCode = postCode;
     }
 }

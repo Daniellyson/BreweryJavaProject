@@ -5,7 +5,7 @@ public class Product {
     private String name;
     private Integer price;
     private Integer reductionPercentage;
-    private Integer amount;
+    private Integer amountInventory;
 
     public void setCode(String code) {
         this.code = code;
@@ -23,7 +23,7 @@ public class Product {
         this.reductionPercentage = reductionPercentage;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setAmountInventory(Integer amountInventory) {
+        this.amountInventory = amountInventory;
     }
 }
