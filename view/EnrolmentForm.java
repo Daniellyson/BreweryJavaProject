@@ -330,6 +330,8 @@ public class EnrolmentForm  extends JPanel {
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
+        firstName_2.setEnabled(false);
+        firstName_3.setEnabled(false);
     }
 
     public void setFieldsEnable(boolean enabled) {
@@ -461,6 +463,9 @@ public class EnrolmentForm  extends JPanel {
                         if (field.getText().isEmpty()) {
                             field.setBackground(Color.RED);
                             blank = true;
+                        }
+                        else {
+                            field.setBackground(Color.WHITE);
                         }
                     }
                     if (blank) {
