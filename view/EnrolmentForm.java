@@ -18,15 +18,15 @@ public class EnrolmentForm  extends JPanel {
     private JPanel buttonPanel;
 
     private ButtonGroup enrolomentButtonGroup;
-    private JRadioButton newClient;
-    private JRadioButton editClient;
+    private JRadioButton newCustomer;
+    private JRadioButton editCustomer;
 
 
-    private JLabel clientNumberLabel;
-    private JTextField clientNumber;
+    private JLabel customerNumberLabel;
+    private JTextField customerNumber;
 
 
-    private JLabel registrationNumberLabel;
+    private JLabel nationalRegistrationNumberLabel;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
     private JLabel dateOfBirthLabel;
@@ -47,7 +47,7 @@ public class EnrolmentForm  extends JPanel {
     private JTextField firstName_3;
 
 
-    private JTextField registrationNumber;
+    private JTextField nationalRegistrationNumber;
     private JTextField firstName;
     private JTextField lastName;
     private JTextField dateOfBirth;
@@ -91,46 +91,46 @@ public class EnrolmentForm  extends JPanel {
 
         ActionRadioBox actionRadioBox = new ActionRadioBox();
 
-        newClient = new JRadioButton("New client");
-        choicePanel.add(newClient);
-        newClient.addItemListener(actionRadioBox);
+        newCustomer = new JRadioButton("New customer");
+        choicePanel.add(newCustomer);
+        newCustomer.addItemListener(actionRadioBox);
 
-        editClient = new JRadioButton("Edit client");
-        choicePanel.add(editClient);
-        editClient.addItemListener(actionRadioBox);
+        editCustomer = new JRadioButton("Edit customer");
+        choicePanel.add(editCustomer);
+        editCustomer.addItemListener(actionRadioBox);
 
         //Only one radio button at once
         enrolomentButtonGroup = new ButtonGroup();
-        enrolomentButtonGroup.add(newClient);
-        enrolomentButtonGroup.add(editClient);
+        enrolomentButtonGroup.add(newCustomer);
+        enrolomentButtonGroup.add(editCustomer);
 
 
-        ActionClientIdNumber actionClientIdNumber = new ActionClientIdNumber();
+        ActionCustomerIdNumber actionCustomerIdNumber = new ActionCustomerIdNumber();
 
-        clientNumberLabel = new JLabel("Client Id Number");
-        clientNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-        choicePanel.add(clientNumberLabel);
-        clientNumber = new JTextField();
-        choicePanel.add(clientNumber);
+        customerNumberLabel = new JLabel("Customer Id Number");
+        customerNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
+        choicePanel.add(customerNumberLabel);
+        customerNumber = new JTextField();
+        choicePanel.add(customerNumber);
 
-        clientNumberLabel.setEnabled(false);
-        clientNumber.setEnabled(false);
-        clientNumber.addActionListener(actionClientIdNumber);
+        customerNumberLabel.setEnabled(false);
+        customerNumber.setEnabled(false);
+        customerNumber.addActionListener(actionCustomerIdNumber);
 
         //FORM PANEL
 
-        registrationNumberLabel = new JLabel("Registration Number: ");
-        registrationNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-        formPanel.add(registrationNumberLabel);
-        registrationNumber = new JTextField();
-        formPanel.add(registrationNumber);
+        nationalRegistrationNumberLabel = new JLabel("Registration Number: ");
+        nationalRegistrationNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
+        formPanel.add(nationalRegistrationNumberLabel);
+        nationalRegistrationNumber = new JTextField();
+        formPanel.add(nationalRegistrationNumber);
 
-        labels.add(registrationNumberLabel);
-        fields.add(registrationNumber);
-        fieldsNotNull.add(registrationNumber);
+        labels.add(nationalRegistrationNumberLabel);
+        fields.add(nationalRegistrationNumber);
+        fieldsNotNull.add(nationalRegistrationNumber);
 
-        registrationNumberLabel.setEnabled(false);
-        registrationNumber.setEnabled(false);
+        nationalRegistrationNumberLabel.setEnabled(false);
+        nationalRegistrationNumber.setEnabled(false);
 
 
         firstNameLabel = new JLabel("First name:");
@@ -326,7 +326,7 @@ public class EnrolmentForm  extends JPanel {
             field.setText(null);
             field.setBackground(Color.WHITE);
         }
-        clientNumber.setText(null);
+        customerNumber.setText(null);
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
@@ -382,17 +382,17 @@ public class EnrolmentForm  extends JPanel {
     private class ActionRadioBox implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
-            if(event.getSource() == editClient) {
+            if(event.getSource() == editCustomer) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
-                    clientNumberLabel.setEnabled(true);
-                    clientNumber.setEnabled(true);
+                    customerNumberLabel.setEnabled(true);
+                    customerNumber.setEnabled(true);
                 }
                 else {
-                    clientNumberLabel.setEnabled(false);
-                    clientNumber.setEnabled(false);
+                    customerNumberLabel.setEnabled(false);
+                    customerNumber.setEnabled(false);
                 }
             }
-            if(event.getSource() == newClient) {
+            if(event.getSource() == newCustomer) {
                 if(event.getStateChange() == ItemEvent.SELECTED) {
                     setFieldsEnable(true);
                 }
@@ -404,13 +404,13 @@ public class EnrolmentForm  extends JPanel {
         }
     }
 
-    private class ActionClientIdNumber implements ActionListener {
+    private class ActionCustomerIdNumber implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
 
-            if(event.getSource() == clientNumber) {
-                //Test listener ID NUMBER Replace by Data Base Key Client
-                if(clientNumber.getText().equals("123")) {
+            if(event.getSource() == customerNumber) {
+                //Test listener ID NUMBER Replace by Data Base Key Customer
+                if(customerNumber.getText().equals("123")) {
                     setFieldsEnable(true);
                 }
                 else {
@@ -437,13 +437,13 @@ public class EnrolmentForm  extends JPanel {
             }
 
             if(event.getSource() == validationButton) {
-                if (newClient.isSelected()) {
+                if (newCustomer.isSelected()) {
                     Customer customer;
                     City cityCustomer;
                     int postalCodeNumber;
                     int birthDateNumber;
                     boolean blank = false;
-                    String registerNumber = registrationNumber.getText();
+                    String registerNumber = nationalRegistrationNumber.getText();
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
                     String birthDate = dateOfBirth.getText();

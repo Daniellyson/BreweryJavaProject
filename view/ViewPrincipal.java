@@ -18,16 +18,16 @@ public class ViewPrincipal extends JFrame {
     private JMenuItem exit;
     private JMenuItem back;
 
-    private JMenu clientMenu;
-    private JMenuItem clientEnrolment;
-    private JMenuItem deleteClient;
+    private JMenu customerMenu;
+    private JMenuItem customerEnrolment;
+    private JMenuItem deleteCustomer;
 
     private JMenu infosMenu;
     private JMenuItem brewery;
     private JMenuItem help;
 
     private JMenu listing;
-    private JMenuItem listingClients;
+    private JMenuItem listingCustomers;
 
     private JMenu search;
     private JMenuItem listingArticlesOrdered;
@@ -66,15 +66,15 @@ public class ViewPrincipal extends JFrame {
         applicationMenu.add(back);
 
         //CLIENT
-        clientMenu = new JMenu("Client");
-        clientMenu.setMnemonic('c');
-        menuBar.add(clientMenu);
+        customerMenu = new JMenu("Customer");
+        customerMenu.setMnemonic('c');
+        menuBar.add(customerMenu);
 
-        clientEnrolment = new JMenuItem("Enrolment Data (New / Edit)");
-        clientMenu.add(clientEnrolment);
+        customerEnrolment = new JMenuItem("Enrolment Data (New / Edit)");
+        customerMenu.add(customerEnrolment);
 
-        deleteClient = new JMenuItem("Delete Client");
-        clientMenu.add(deleteClient);
+        deleteCustomer = new JMenuItem("Delete Customer");
+        customerMenu.add(deleteCustomer);
 
 
         //INFORMATIONS
@@ -93,8 +93,8 @@ public class ViewPrincipal extends JFrame {
         listing = new JMenu("Listing");
         listing.setMnemonic('l');
         menuBar.add(listing);
-        listingClients = new JMenuItem("Clients");
-        listing.add(listingClients);
+        listingCustomers = new JMenuItem("Customers");
+        listing.add(listingCustomers);
 
 
         //SEARCH
@@ -110,8 +110,8 @@ public class ViewPrincipal extends JFrame {
 
 
 
-        clientEnrolment.addActionListener(controlerEvent);
-        deleteClient.addActionListener(controlerEvent);
+        customerEnrolment.addActionListener(controlerEvent);
+        deleteCustomer.addActionListener(controlerEvent);
 
     }
 
@@ -151,44 +151,44 @@ public class ViewPrincipal extends JFrame {
                 welcomePanel.revalidate();
             }
 
-            if(event.getSource() == clientEnrolment){
+            if(event.getSource() == customerEnrolment){
                 container.removeAll();
                 container.add(new EnrolmentForm(container));
                 container.revalidate();
             }
-            if(event.getSource() == deleteClient) {
+            if(event.getSource() == deleteCustomer) {
                 int yes;
-                yes = JOptionPane.showConfirmDialog(null, "Would you like to delete a client ?", "Attention",
+                yes = JOptionPane.showConfirmDialog(null, "Would you like to delete a customer ?", "Attention",
                         JOptionPane.OK_OPTION);
 
                 if(yes == JOptionPane.OK_OPTION) {
-                    deleteClient();
+                    deleteCustomer();
                 }
             }
         }
     }
 
-    private void deleteClient() {
-        String clientKey;
+    private void deleteCustomer() {
+        String customerKey;
         int okOption = 0;
         boolean deleted = false;
 
         do {
-            clientKey = JOptionPane.showInputDialog("Indicate Client ID");
-            if(clientKey != null) {
-                //TEST change for the DATA BASE client key
-                if (clientKey.equals("123")) {
-                    okOption = JOptionPane.showConfirmDialog(null, "If you click yes, ALL the client data will be deleted" +
+            customerKey = JOptionPane.showInputDialog("Indicate Customer ID");
+            if(customerKey != null) {
+                //TEST change for the DATA BASE customer key
+                if (customerKey.equals("123")) {
+                    okOption = JOptionPane.showConfirmDialog(null, "If you click yes, ALL the customer data will be deleted" +
                                     " from the data base. NO reversion. \n\n Delete ?",
                             "Information", JOptionPane.OK_OPTION);
                     if (okOption == JOptionPane.OK_OPTION) {
-                        deleteFromDataBase(clientKey);
+                        deleteFromDataBase(customerKey);
                         okOption = 1;
                         deleted = true;
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Wrong Client ID", "Attention", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Wrong Customer ID", "Attention", JOptionPane.ERROR_MESSAGE);
                     okOption = JOptionPane.showConfirmDialog(null, "Continue ?", "Pop-up",
                             JOptionPane.OK_OPTION);
                 }
@@ -199,12 +199,12 @@ public class ViewPrincipal extends JFrame {
         } while(okOption == JOptionPane.OK_OPTION);
 
         if(deleted) {
-            JOptionPane.showMessageDialog(null, "Client " + clientKey + " was deleted from the data base",
+            JOptionPane.showMessageDialog(null, "Customer " + customerKey + " was deleted from the data base",
                     "Information", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
-    private void deleteFromDataBase(String clientKey) {
+    private void deleteFromDataBase(String customerKey) {
 
     }
 }
