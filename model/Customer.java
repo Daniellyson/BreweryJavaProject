@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Customer {
     private String customerNumber;
-    private String registerNumber;
+    private String nationalRegistrationNumber;
     private String lastName;
     private String[] firstNames = new String[3];
     private Boolean vip;
@@ -22,7 +22,7 @@ public class Customer {
     private City city;
 
     public Customer(String customerNumber,
-                    String registerNumber,
+                    String nationalRegistrationNumber,
                     String lastName,
                     String[] firstNames,
                     String accountNumber,
@@ -35,7 +35,7 @@ public class Customer {
                     Integer day,
                     City city) throws NullException, InvalidFormatException {
         setCustomerNumber(customerNumber);
-        setRegisterNumber(registerNumber);
+        setNationalRegistrationNumber(nationalRegistrationNumber);
         setLastName(lastName);
         setFirstNames(firstNames);
         setAccountNumber(accountNumber);
@@ -48,7 +48,7 @@ public class Customer {
         setBirthDate(year, month, day);
     }
 
-    public Customer(String registerNumber,
+    public Customer(String nationalRegistrationNumber,
                     String lastName,
                     String[] firstNames,
                     String accountNumber,
@@ -60,17 +60,17 @@ public class Customer {
                     Integer month,
                     Integer day,
                     City city) throws NullException, InvalidFormatException {
-        this(null, registerNumber, lastName, firstNames, accountNumber, streetName, houseNumber, landlinePhone, mobilePhone, year, month, day, city);
+        this(null, nationalRegistrationNumber, lastName, firstNames, accountNumber, streetName, houseNumber, landlinePhone, mobilePhone, year, month, day, city);
     }
 
     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
     }
 
-    public void setRegisterNumber(String registerNumber) throws NullException {
-        if (registerNumber.isEmpty())
+    public void setNationalRegistrationNumber(String nationalRegistrationNumber) throws NullException {
+        if (nationalRegistrationNumber.isEmpty())
             throw new NullException("register number");
-        this.registerNumber = registerNumber;
+        this.nationalRegistrationNumber = nationalRegistrationNumber;
     }
 
     public void setLastName(String lastName) throws NullException, InvalidFormatException {
