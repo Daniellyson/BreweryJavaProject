@@ -4,6 +4,7 @@ import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.beans.Customizer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class EnrolmentForm  extends JPanel {
     private JPanel choicePanel;
@@ -51,10 +55,16 @@ public class EnrolmentForm  extends JPanel {
     private JTextField nationalRegistrationNumber;
     private JTextField firstName;
     private JTextField lastName;
-    private JTextField dateOfBirth;
+    //private JTextField dateOfBirth;
     private JTextField accountNumber;
     private JTextField street;
     private JTextField houseNumber;
+
+    //TODO doing FSpinner
+    private JSpinner spinnerDateOfBirth;
+    private Date valueDate;
+    private String dateString;
+
 
     private JTextField city;
     private JTextField postCode;
@@ -185,18 +195,27 @@ public class EnrolmentForm  extends JPanel {
         lastName.setEnabled(false);
 
 
+        //TODO doing FSpinner
+        spinnerDateOfBirth = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor dateEdit = new JSpinner.DateEditor(spinnerDateOfBirth,"dd/MMM/yyyy");
+        spinnerDateOfBirth.setEditor(dateEdit);
+
+
         dateOfBirthLabel = new JLabel("Date of birth:");
         dateOfBirthLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(dateOfBirthLabel);
-        dateOfBirth = new JTextField();
-        formPanel.add(dateOfBirth);
+
+        formPanel.add(spinnerDateOfBirth);
+        spinnerDateOfBirth.setEnabled(false);
+        //spinnerDate
+
 
         labels.add(dateOfBirthLabel);
-        fields.add(dateOfBirth);
-        fieldsNotNull.add(dateOfBirth);
+        //fields.add(dateOfBirth);
+        //fieldsNotNull.add(dateOfBirth);
 
         dateOfBirthLabel.setEnabled(false);
-        dateOfBirth.setEnabled(false);
+        //dateOfBirth.setEnabled(false);
 
         accountNumberLabel = new JLabel("Account Number:");
         accountNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -330,6 +349,9 @@ public class EnrolmentForm  extends JPanel {
         hasThirdFirstName.setEnabled(false);
         firstName_2.setEnabled(false);
         firstName_3.setEnabled(false);
+
+        //TODO doing FSpinner
+        //spinnerDate
     }
 
     public void setFieldsEnable(boolean enabled) {
@@ -341,6 +363,9 @@ public class EnrolmentForm  extends JPanel {
             label.setEnabled(enabled);
         }
         hasSecondFirstName.setEnabled(enabled);
+
+        //TODO doing FSpinner
+        spinnerDateOfBirth.setEnabled(enabled);
     }
 
     private class ActionCheckBox implements ItemListener {
@@ -426,7 +451,19 @@ public class EnrolmentForm  extends JPanel {
                     String registerNumber = nationalRegistrationNumber.getText();
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
-                    String birthDate = dateOfBirth.getText();
+
+                    //TODO doing FSpinner
+                    int birthDate;
+                    valueDate = (Date)spinnerDateOfBirth.getValue();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
+                    dateString = simpleDateFormat.format(valueDate);
+                    birthDate = Integer.parseInt(dateString);
+                    int year = birthDate % 10000;
+                    int month = (birthDate / 10000) % 100;
+                    int day = birthDate / 1000000;
+
+
+
                     String accountNumberCustomer = accountNumber.getText();
                     String streetName = street.getText();
                     String houseNumberCustomer = houseNumber.getText();
@@ -449,11 +486,13 @@ public class EnrolmentForm  extends JPanel {
                     }
                     if (blank) {
                         JOptionPane.showMessageDialog(null, "field in red can't be blank");
+                        //TODO doing FSpinner TEST get
+                        JOptionPane.showMessageDialog(null, day);
                     } else {
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
                             try {
-                                birthDateNumber = Integer.parseInt(birthDate);
+                                birthDateNumber = Integer.parseInt(dateString);
                                 customer = new Customer(registerNumber,
                                         lastNameCustomer,
                                         firstNames,
