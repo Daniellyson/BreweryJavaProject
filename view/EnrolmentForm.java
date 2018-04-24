@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.Customizer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +28,8 @@ public class EnrolmentForm  extends JPanel {
 
     private JLabel customerNumberLabel;
     private JTextField customerNumber;
+    //TODO doing JComboBox
+    private JComboBox customersBox;
 
 
     private JLabel nationalRegistrationNumberLabel;
@@ -55,7 +56,6 @@ public class EnrolmentForm  extends JPanel {
     private JTextField nationalRegistrationNumber;
     private JTextField firstName;
     private JTextField lastName;
-    //private JTextField dateOfBirth;
     private JTextField accountNumber;
     private JTextField street;
     private JTextField houseNumber;
@@ -115,15 +115,22 @@ public class EnrolmentForm  extends JPanel {
 
         ActionCustomerIdNumber actionCustomerIdNumber = new ActionCustomerIdNumber();
 
-        customerNumberLabel = new JLabel("Customer Id Number");
+        customerNumberLabel = new JLabel("Customers");
         customerNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
         choicePanel.add(customerNumberLabel);
-        customerNumber = new JTextField();
-        choicePanel.add(customerNumber);
+
+        //TODO JComboBox  maybe ?
+
+        String [] customers = {"Jordan", "Daniellyson", "Marie"};
+        customersBox = new JComboBox(customers);
+        choicePanel.add(customersBox);
+
 
         customerNumberLabel.setEnabled(false);
-        customerNumber.setEnabled(false);
-        customerNumber.addActionListener(actionCustomerIdNumber);
+        /*customerNumber.setEnabled(false);
+        customerNumber.addActionListener(actionCustomerIdNumber);*/
+
+
 
         //FORM PANEL
 
@@ -197,9 +204,8 @@ public class EnrolmentForm  extends JPanel {
 
         //TODO doing FSpinner
         spinnerDateOfBirth = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor dateEdit = new JSpinner.DateEditor(spinnerDateOfBirth,"dd/MMM/yyyy");
+        JSpinner.DateEditor dateEdit = new JSpinner.DateEditor(spinnerDateOfBirth,"dd/MM/yyyy");
         spinnerDateOfBirth.setEditor(dateEdit);
-
 
         dateOfBirthLabel = new JLabel("Date of birth:");
         dateOfBirthLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -207,15 +213,10 @@ public class EnrolmentForm  extends JPanel {
 
         formPanel.add(spinnerDateOfBirth);
         spinnerDateOfBirth.setEnabled(false);
-        //spinnerDate
-
 
         labels.add(dateOfBirthLabel);
-        //fields.add(dateOfBirth);
-        //fieldsNotNull.add(dateOfBirth);
-
         dateOfBirthLabel.setEnabled(false);
-        //dateOfBirth.setEnabled(false);
+
 
         accountNumberLabel = new JLabel("Account Number:");
         accountNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -453,15 +454,9 @@ public class EnrolmentForm  extends JPanel {
                     String lastNameCustomer = lastName.getText();
 
                     //TODO doing FSpinner
-                    int birthDate;
-                    valueDate = (Date)spinnerDateOfBirth.getValue();
+                    valueDate = (Date) spinnerDateOfBirth.getValue();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                     dateString = simpleDateFormat.format(valueDate);
-                    birthDate = Integer.parseInt(dateString);
-                    int year = birthDate % 10000;
-                    int month = (birthDate / 10000) % 100;
-                    int day = birthDate / 1000000;
-
 
 
                     String accountNumberCustomer = accountNumber.getText();
@@ -471,6 +466,7 @@ public class EnrolmentForm  extends JPanel {
                     String postalCode = postCode.getText();
                     String mobilePhoneCustomer = mobilePhone.getText();
                     String landlinePhoneCustomer = landlinePhone.getText();
+
 
                     firstNames[0] = firstName.getText();
                     firstNames[1] = firstName_2.getText();
@@ -486,9 +482,8 @@ public class EnrolmentForm  extends JPanel {
                     }
                     if (blank) {
                         JOptionPane.showMessageDialog(null, "field in red can't be blank");
-                        //TODO doing FSpinner TEST get
-                        JOptionPane.showMessageDialog(null, day);
                     } else {
+
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
                             try {
@@ -501,9 +496,9 @@ public class EnrolmentForm  extends JPanel {
                                         houseNumberCustomer,
                                         landlinePhoneCustomer,
                                         mobilePhoneCustomer,
-                                        birthDateNumber / 10000,
-                                        birthDateNumber / 100 % 100,
-                                        birthDateNumber % 100,
+                                        birthDateNumber % 10000,
+                                        (birthDateNumber / 10000) % 100,
+                                        birthDateNumber / 1000000,
                                         new City(cityName,
                                                 postalCodeNumber));
                                 //TODO addCustomer()
@@ -518,10 +513,10 @@ public class EnrolmentForm  extends JPanel {
                         }
                     }
                 }
+            }
 
-                if (event.getSource() == resetButton) {
-                    resetFields();
-                }
+            if (event.getSource() == resetButton) {
+                resetFields();
             }
         }
     }
