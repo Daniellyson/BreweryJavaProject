@@ -63,7 +63,7 @@ public class Customer {
         this(null, nationalRegistrationNumber, lastName, firstNames, accountNumber, streetName, houseNumber, landlinePhone, mobilePhone, year, month, day, city);
     }
 
-    public void setCustomerNumber(String customerNumber) {
+     public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
     }
 
@@ -76,16 +76,12 @@ public class Customer {
     public void setLastName(String lastName) throws NullException, InvalidFormatException {
         if (lastName.isEmpty())
             throw new NullException("last name");
-        Pattern pattern = Pattern.compile("\\d?");
-        Matcher matcher = pattern.matcher(lastName);
-        if (matcher.find())
+        if (RegularExpression.test(lastName, "\\d?"))
             throw new InvalidFormatException("last name", lastName);
         this.lastName = lastName;
     }
 
     public void setFirstNames(String[] firstNames) throws NullException, InvalidFormatException {
-        Pattern pattern = Pattern.compile("\\d?");
-        Matcher matcher;
 
         for (int i = 0; i < firstNames.length; i++) {
             if (firstNames[i].isEmpty()) {
@@ -93,8 +89,7 @@ public class Customer {
                     throw new NullException("first name");
                 }
             } else {
-                matcher = pattern.matcher(firstNames[i]);
-                if (matcher.find()) {
+                if (RegularExpression.test(firstNames[i],"\\d?")) {
                     throw new InvalidFormatException("first name", firstNames[i]);
                 }
             }
@@ -115,10 +110,6 @@ public class Customer {
     public void setStreetName(String streetNumber) throws NullException, InvalidFormatException {
         if (streetNumber.isEmpty())
             throw new NullException("street name");
-        Pattern pattern = Pattern.compile("\\d?");
-        Matcher matcher = pattern.matcher(streetName);
-        if (matcher.find())
-            throw new InvalidFormatException("street name", streetName);
         this.streetName = streetNumber;
     }
 

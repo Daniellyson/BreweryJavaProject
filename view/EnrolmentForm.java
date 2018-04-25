@@ -3,6 +3,7 @@ package view;
 import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
+import model.RegularExpression;
 
 
 import javax.swing.*;
@@ -14,7 +15,6 @@ import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class EnrolmentForm  extends JPanel {
     private JPanel choicePanel;
@@ -344,7 +344,7 @@ public class EnrolmentForm  extends JPanel {
             field.setText(null);
             field.setBackground(Color.WHITE);
         }
-        customerNumber.setText(null);
+        //customerNumber.setText(null);
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
@@ -407,10 +407,10 @@ public class EnrolmentForm  extends JPanel {
             if (event.getSource() == editCustomer) {
                 if (event.getStateChange() == ItemEvent.SELECTED) {
                     customerNumberLabel.setEnabled(true);
-                    customerNumber.setEnabled(true);
+                    //customerNumber.setEnabled(true);
                 } else {
                     customerNumberLabel.setEnabled(false);
-                    customerNumber.setEnabled(false);
+                    //customerNumber.setEnabled(false);
                 }
             }
             if (event.getSource() == newCustomer) {
@@ -484,6 +484,21 @@ public class EnrolmentForm  extends JPanel {
                         JOptionPane.showMessageDialog(null, "field in red can't be blank");
                     } else {
 
+                        if (RegularExpression.test(lastNameCustomer, "\\d?")) {
+                            JOptionPane.showMessageDialog(null, "");
+                        }
+
+                        if (RegularExpression.test(firstNames[0], "\\d?")) {
+                            JOptionPane.showMessageDialog(null, "");
+                        }
+
+                        for (int i = 1; i < firstNames.length; i++) {
+                            if (!firstNames[i].isEmpty()) {
+                                if (RegularExpression.test(firstNames[i], "\\d?"))
+                                    JOptionPane.showMessageDialog(null,"");
+                            }
+                        } //manque des messages et faut et des else
+                        
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
                             try {
