@@ -1,6 +1,8 @@
 package view;
 import listener.ActionReturnButton;
 import listener.WindowListener;
+import thread.ThreadAnimation;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +10,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ViewPrincipal extends JFrame {
+
+    private List<ImageIcon> images;
+
+    private ThreadAnimation threadAnimation;
 
     private ActionReturnButton actionReturnButton;
 
@@ -65,7 +74,7 @@ public class ViewPrincipal extends JFrame {
         applicationMenu.add(exit);
 
         actionReturnButton = new ActionReturnButton(container);
-
+        //TODO doing thread - problem button Return(back)
         back = new JMenuItem("Return");
         back.addActionListener(actionReturnButton);
         applicationMenu.add(back);
@@ -114,7 +123,6 @@ public class ViewPrincipal extends JFrame {
         search.add(customersWhoBoughtProduct);
 
 
-
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
 
@@ -124,16 +132,26 @@ public class ViewPrincipal extends JFrame {
         setBounds(100, 50, 600, 600);
 
         WelcomePanel welcomePanel = new WelcomePanel();
-        Images imageLogo = new Images();
+        Images imagesLogo = new Images();
+
+        ArrayList<ImageIcon> image = new ArrayList<>();
+        images = Collections.synchronizedList(image);
 
         addWindowListener(new WindowListener());
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         container = this.getContentPane();
         container.setBackground(Color.WHITE);
-        container.add(imageLogo.getImageLogo(), BorderLayout.NORTH);
+        container.add(imagesLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
-        container.add(imageLogo.getGif(), BorderLayout.SOUTH);
+        //container.add(imagesLogo.getGif(), BorderLayout.SOUTH);
+        threadAnimation = new ThreadAnimation(container);
+        threadAnimation.start();
+
+    }
+
+    public List<ImageIcon> getImages() {
+        return images;
     }
 
     private class ControlerListener implements ActionListener {
@@ -144,6 +162,8 @@ public class ViewPrincipal extends JFrame {
             }
 
             if(event.getSource() == customerEnrolment){
+                //TODO doing thread - stop the thread
+                new ThreadAnimation(false);
                 container.removeAll();
                 container.add(new EnrolmentForm(actionReturnButton));
                 container.revalidate();
