@@ -28,7 +28,6 @@ public class ViewPrincipal extends JFrame {
 
     private JMenu applicationMenu;
     private JMenuItem exit;
-    private JMenuItem back;
 
     private JMenu customerMenu;
     private JMenuItem customerEnrolment;
@@ -46,6 +45,8 @@ public class ViewPrincipal extends JFrame {
     private JMenuItem orderDestination;
     private JMenuItem customersWhoBoughtProduct;
 
+    private JLabel frame;
+
     public ViewPrincipal() {
 
         super("DJ Brewery");
@@ -59,6 +60,7 @@ public class ViewPrincipal extends JFrame {
     public void setUpMenu() {
 
         ControlerListener controlerEvent = new ControlerListener();
+        actionReturnButton = new ActionReturnButton(container, this);
 
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -73,11 +75,11 @@ public class ViewPrincipal extends JFrame {
         exit.addActionListener(controlerEvent);
         applicationMenu.add(exit);
 
-        actionReturnButton = new ActionReturnButton(container);
+
         //TODO doing thread - problem button Return(back)
-        back = new JMenuItem("Return");
+        /*back = new JMenuItem("Return");
         back.addActionListener(actionReturnButton);
-        applicationMenu.add(back);
+        applicationMenu.add(back);*/
 
         //CLIENT
         customerMenu = new JMenu("Customer");
@@ -126,6 +128,7 @@ public class ViewPrincipal extends JFrame {
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
 
+        frame = new JLabel();
     }
 
     public void setUpMainWindow() {
@@ -144,10 +147,22 @@ public class ViewPrincipal extends JFrame {
         container.setBackground(Color.WHITE);
         container.add(imagesLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
-        //container.add(imagesLogo.getGif(), BorderLayout.SOUTH);
-        threadAnimation = new ThreadAnimation(container);
+
+        threadAnimation = new ThreadAnimation(this);
         threadAnimation.start();
 
+    }
+
+    public void changeFrameView(ImageIcon imageIcon) {
+        frame.setIcon(imageIcon);
+        container.remove(frame);
+        frame.setHorizontalAlignment(SwingConstants.CENTER);
+        container.add(frame, BorderLayout.SOUTH);
+        container.revalidate();
+
+        if(imageIcon == null) {
+            container.remove(frame);
+        }
     }
 
     public List<ImageIcon> getImages() {
@@ -169,51 +184,13 @@ public class ViewPrincipal extends JFrame {
                 container.revalidate();
             }
             if(event.getSource() == deleteCustomer) {
-                int yes;
-                yes = JOptionPane.showConfirmDialog(null, "Would you like to delete a customer ?", "Attention",
-                        JOptionPane.OK_OPTION);
 
-                if(yes == JOptionPane.OK_OPTION) {
-                    deleteCustomer();
-                }
             }
         }
     }
 
     private void deleteCustomer() {
-        String customerKey;
-        int okOption = 0;
-        boolean deleted = false;
 
-        do {
-            customerKey = JOptionPane.showInputDialog("Indicate Customer ID");
-            if(customerKey != null) {
-                //TEST change for the DATA BASE customer key
-                if (customerKey.equals("123")) {
-                    okOption = JOptionPane.showConfirmDialog(null, "If you click yes, ALL the customer data will be deleted" +
-                                    " from the data base. NO reversion. \n\n Delete ?",
-                            "Information", JOptionPane.OK_OPTION);
-                    if (okOption == JOptionPane.OK_OPTION) {
-                        deleteFromDataBase(customerKey);
-                        okOption = 1;
-                        deleted = true;
-                    }
-                }
-                else {
-                    JOptionPane.showMessageDialog(null, "Wrong Customer ID", "Attention", JOptionPane.ERROR_MESSAGE);
-                    okOption = JOptionPane.showConfirmDialog(null, "Continue ?", "Pop-up",
-                            JOptionPane.OK_OPTION);
-                }
-            }
-            else {
-                okOption = 1;
-            }
-        } while(okOption == JOptionPane.OK_OPTION);
-
-        if(deleted) {
-            JOptionPane.showMessageDialog(null, "Customer " + customerKey + " was deleted from the data base",
-                    "Information", JOptionPane.INFORMATION_MESSAGE);
-        }
     }
 
     private void deleteFromDataBase(String customerKey) {
