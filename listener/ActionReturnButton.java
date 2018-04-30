@@ -2,6 +2,7 @@ package listener;
 
 import thread.ThreadAnimation;
 import view.Images;
+import view.ViewPrincipal;
 import view.WelcomePanel;
 
 import java.awt.*;
@@ -10,9 +11,12 @@ import java.awt.event.ActionListener;
 
 public class ActionReturnButton implements ActionListener {
     private Container container;
+    private ViewPrincipal viewPrincipal;
     private ThreadAnimation threadAnimation;
 
-    public ActionReturnButton(Container container) {
+
+    public ActionReturnButton(Container container, ViewPrincipal viewPrincipal) {
+        this.viewPrincipal = viewPrincipal;
         setContainer(container);
     }
 
@@ -22,6 +26,7 @@ public class ActionReturnButton implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         container.removeAll();
 
         WelcomePanel welcomePanel = new WelcomePanel();
@@ -29,8 +34,10 @@ public class ActionReturnButton implements ActionListener {
 
         container.add(images.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
-        threadAnimation = new ThreadAnimation(container);
+
+        threadAnimation = new ThreadAnimation(viewPrincipal);
         threadAnimation.start();
+
         container.setVisible(true);
         welcomePanel.revalidate();
     }
