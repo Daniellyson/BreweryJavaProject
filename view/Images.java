@@ -29,14 +29,8 @@ public class Images {
         return labelLogo;
     }
 
-    /*public JLabel getGif() {
-        JLabel gif = new JLabel();
-        gif.setIcon(beerGif);
-        gif.setHorizontalAlignment(SwingConstants.CENTER);
-        return gif;
-    }*/
 
-    public ImageIcon changeFrame() {
+    public ImageIcon getFrame() {
         imageFrame = frames[iFrame];
         iFrame = (iFrame + 1) % frames.length;
         return imageFrame;
