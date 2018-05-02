@@ -10,7 +10,7 @@ public class ThreadAnimation extends Thread {
     private ViewPrincipal viewPrincipal;
     private static boolean keepGoing;
 
-    public ThreadAnimation( ViewPrincipal viewPrincipal) {
+    public ThreadAnimation(ViewPrincipal viewPrincipal) {
         this.viewPrincipal = viewPrincipal;
         keepGoing = true;
     }
