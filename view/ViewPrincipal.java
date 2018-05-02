@@ -10,13 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ViewPrincipal extends JFrame {
-
-    private List<ImageIcon> images;
 
     private ThreadAnimation threadAnimation;
 
@@ -50,6 +45,9 @@ public class ViewPrincipal extends JFrame {
     public ViewPrincipal() {
 
         super("DJ Brewery");
+
+        threadAnimation = new ThreadAnimation(this);
+        threadAnimation.start();
 
         setUpMainWindow();
         setUpMenu();
@@ -137,9 +135,6 @@ public class ViewPrincipal extends JFrame {
         WelcomePanel welcomePanel = new WelcomePanel();
         Images imagesLogo = new Images();
 
-        ArrayList<ImageIcon> image = new ArrayList<>();
-        images = Collections.synchronizedList(image);
-
         addWindowListener(new WindowListener());
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -148,8 +143,7 @@ public class ViewPrincipal extends JFrame {
         container.add(imagesLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
 
-        threadAnimation = new ThreadAnimation(this);
-        threadAnimation.start();
+
 
     }
 
@@ -165,10 +159,6 @@ public class ViewPrincipal extends JFrame {
         }
     }
 
-    public List<ImageIcon> getImages() {
-        return images;
-    }
-
     private class ControlerListener implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -177,14 +167,16 @@ public class ViewPrincipal extends JFrame {
             }
 
             if(event.getSource() == customerEnrolment){
-                //TODO doing thread - stop the thread
                 new ThreadAnimation(false);
                 container.removeAll();
                 container.add(new EnrolmentForm(actionReturnButton));
                 container.revalidate();
             }
             if(event.getSource() == deleteCustomer) {
-
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.add(new DeleteCustomer(actionReturnButton));
+                container.revalidate();
             }
         }
     }
