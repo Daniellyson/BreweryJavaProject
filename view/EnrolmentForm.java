@@ -25,7 +25,7 @@ public class EnrolmentForm  extends JPanel {
     private JRadioButton newCustomer;
     private JRadioButton editCustomer;
 
-
+    private JLabel requiredField;
     private JLabel customerNumberLabel;
     private JTextField customerNumber;
     //TODO doing JComboBox
@@ -113,10 +113,13 @@ public class EnrolmentForm  extends JPanel {
         enrolomentButtonGroup.add(editCustomer);
 
 
-        ActionCustomerIdNumber actionCustomerIdNumber = new ActionCustomerIdNumber();
+        //ActionCustomerIdNumber actionCustomerIdNumber = new ActionCustomerIdNumber();
 
-        customerNumberLabel = new JLabel("Customers");
-        customerNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
+        requiredField = new JLabel("(*) Required Field");
+        requiredField.setHorizontalAlignment(JLabel.RIGHT);
+        choicePanel.add(requiredField);
+        choicePanel.add(new JLabel(""));
+        /*customerNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
         choicePanel.add(customerNumberLabel);
 
         //TODO JComboBox  maybe ?
@@ -134,7 +137,7 @@ public class EnrolmentForm  extends JPanel {
 
         //FORM PANEL
 
-        nationalRegistrationNumberLabel = new JLabel("Registration Number: ");
+        nationalRegistrationNumberLabel = new JLabel("*National Registration Number: ");
         nationalRegistrationNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(nationalRegistrationNumberLabel);
         nationalRegistrationNumber = new JTextField();
@@ -148,7 +151,7 @@ public class EnrolmentForm  extends JPanel {
         nationalRegistrationNumber.setEnabled(false);
 
 
-        firstNameLabel = new JLabel("First name:");
+        firstNameLabel = new JLabel("*First name:");
         firstNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(firstNameLabel);
         firstName = new JTextField();
@@ -188,7 +191,7 @@ public class EnrolmentForm  extends JPanel {
         //END more than one first name
 
 
-        lastNameLabel = new JLabel("Last name:");
+        lastNameLabel = new JLabel("*Last name:");
         lastNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(lastNameLabel);
         lastName = new JTextField();
@@ -207,7 +210,7 @@ public class EnrolmentForm  extends JPanel {
         JSpinner.DateEditor dateEdit = new JSpinner.DateEditor(spinnerDateOfBirth,"dd/MM/yyyy");
         spinnerDateOfBirth.setEditor(dateEdit);
 
-        dateOfBirthLabel = new JLabel("Date of birth:");
+        dateOfBirthLabel = new JLabel("*Date of birth:");
         dateOfBirthLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(dateOfBirthLabel);
 
@@ -218,7 +221,7 @@ public class EnrolmentForm  extends JPanel {
         dateOfBirthLabel.setEnabled(false);
 
 
-        accountNumberLabel = new JLabel("Account Number:");
+        accountNumberLabel = new JLabel("*Account Number:");
         accountNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(accountNumberLabel);
         accountNumber = new JTextField();
@@ -240,7 +243,7 @@ public class EnrolmentForm  extends JPanel {
 
 
         //ADRESSE
-        streetLabel = new JLabel("Street:");
+        streetLabel = new JLabel("*Street:");
         streetLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(streetLabel);
         street = new JTextField();
@@ -254,7 +257,7 @@ public class EnrolmentForm  extends JPanel {
         street.setEnabled(false);
 
 
-        houseNumberLabel = new JLabel("House number:");
+        houseNumberLabel = new JLabel("*House number:");
         houseNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(houseNumberLabel);
         houseNumber = new JTextField();
@@ -268,7 +271,7 @@ public class EnrolmentForm  extends JPanel {
         houseNumber.setEnabled(false);
 
 
-        cityLabel = new JLabel("City:");
+        cityLabel = new JLabel("*City:");
         cityLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(cityLabel);
         city = new JTextField();
@@ -282,7 +285,7 @@ public class EnrolmentForm  extends JPanel {
         city.setEnabled(false);
 
 
-        postCodeLabel = new JLabel("Post Code:");
+        postCodeLabel = new JLabel("*PostCode:");
         postCodeLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(postCodeLabel);
         postCode = new JTextField();
@@ -297,7 +300,7 @@ public class EnrolmentForm  extends JPanel {
 
 
         //PHONES
-        mobilePhoneLabel = new JLabel("Mobile phone:");
+        mobilePhoneLabel = new JLabel("*Mobile phone:");
         mobilePhoneLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(mobilePhoneLabel);
         mobilePhone = new JTextField();
@@ -406,10 +409,10 @@ public class EnrolmentForm  extends JPanel {
         public void itemStateChanged(ItemEvent event) {
             if (event.getSource() == editCustomer) {
                 if (event.getStateChange() == ItemEvent.SELECTED) {
-                    customerNumberLabel.setEnabled(true);
+                    //customerNumberLabel.setEnabled(true);
                     //customerNumber.setEnabled(true);
                 } else {
-                    customerNumberLabel.setEnabled(false);
+                    //customerNumberLabel.setEnabled(false);
                     //customerNumber.setEnabled(false);
                 }
             }
@@ -424,7 +427,7 @@ public class EnrolmentForm  extends JPanel {
         }
     }
 
-    private class ActionCustomerIdNumber implements ActionListener {
+    /*private class ActionCustomerIdNumber implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
 
@@ -437,7 +440,7 @@ public class EnrolmentForm  extends JPanel {
                 }
             }
         }
-    }
+    }*/
 
     private class ButtonsActionListener implements ActionListener {
 
