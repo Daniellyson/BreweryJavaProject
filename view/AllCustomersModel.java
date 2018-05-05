@@ -65,17 +65,17 @@ public class AllCustomersModel extends AbstractTableModel {
             case 5 :
                 return customer.getNationalRegistrationNumber();
             case 6 :
-                customer.getAccountNumber();
+                return customer.getAccountNumber();
             case 7 :
-                customer.getCity().getName();
+                return customer.getCity().getName();
             case 8 :
-                customer.getCity().getPostCode();
+                return customer.getCity().getPostCode();
             case 9 :
-                customer.getStreetName();
+                return customer.getStreetName();
             case 10 :
-                customer.getHouseNumber();
+                return customer.getHouseNumber();
             case 11 :
-                customer.getMobilePhone();
+                return customer.getMobilePhone();
             case 12 :
                 if(customer.getVip() != null) {
                     return customer.getLandlinePhone();
@@ -83,8 +83,11 @@ public class AllCustomersModel extends AbstractTableModel {
                     return null;
                 }
             case 13 :
-                customer.getBirthDate();
+                return customer.getBirthDate();
+            default :
+                return null;
         }
-        return null;
     }
+
+    
 }
