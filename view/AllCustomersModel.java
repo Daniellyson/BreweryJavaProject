@@ -3,8 +3,10 @@ package view;
 import model.Customer;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class AllCustomersModel extends AbstractTableModel {
+
     private ArrayList<String> colummNames;
     private ArrayList<Customer> contents;
 
@@ -77,7 +79,7 @@ public class AllCustomersModel extends AbstractTableModel {
             case 11 :
                 return customer.getMobilePhone();
             case 12 :
-                if(customer.getVip() != null) {
+                if(customer.getLandlinePhone() != null) {
                     return customer.getLandlinePhone();
                 } else {
                     return null;
@@ -89,5 +91,19 @@ public class AllCustomersModel extends AbstractTableModel {
         }
     }
 
-    
+    public Class getColumnClass(int column) {
+        Class classCostumer = null;
+        switch (column) {
+            case 4 :
+                classCostumer = Boolean.class;
+                break;
+            case 13 :
+                classCostumer = GregorianCalendar.class;
+                break;
+            default :
+                 classCostumer = String.class;
+        }
+
+        return classCostumer;
+    }
 }
