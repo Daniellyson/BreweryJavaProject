@@ -142,4 +142,53 @@ public class Customer {
             throw new NullException("city");
         this.city = city;
     }
+
+    //TODO doing gets to AllCustomersModel
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public String getNationalRegistrationNumber() {
+        return nationalRegistrationNumber;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String [] getFirstNames() {
+        return firstNames;
+    }
+
+    public Boolean getVip() {
+        return vip;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public String getLandlinePhone() {
+        return landlinePhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public GregorianCalendar getBirthDate() {
+        return birthDate;
+    }
+
+    public City getCity() {
+        return city;
+    }
 }
