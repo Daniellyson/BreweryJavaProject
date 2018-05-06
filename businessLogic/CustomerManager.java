@@ -1,8 +1,8 @@
 package businessLogic;
 
 import dataAccess.CustomerDataBaseAccess;
-import exception.AddCostumerException;
-import exception.GetCostumerException;
+import exception.AddCustomerException;
+import exception.GetCustomerException;
 import model.Customer;
 
 import java.util.ArrayList;
@@ -14,11 +14,11 @@ public class CustomerManager {
         customerDataBaseAccess = new CustomerDataBaseAccess();
     }
 
-    public ArrayList<Customer> getAllCustomers() throws GetCostumerException {
+    public ArrayList<Customer> getAllCustomers() throws GetCustomerException {
         return customerDataBaseAccess.getAllCustomers();
     }
 
-    public void addCustomer(Customer customer) throws AddCostumerException {
+    public void addCustomer(Customer customer) throws AddCustomerException {
         customerDataBaseAccess.addCustomer(customer);
     }
 }
