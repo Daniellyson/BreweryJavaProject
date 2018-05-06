@@ -1,7 +1,7 @@
 package view;
 
 import controller.ApplicationController;
-import exception.GetCostumerException;
+import exception.GetCustomerException;
 import listener.ActionReturnButton;
 
 import javax.swing.*;
@@ -45,7 +45,7 @@ public class ListingCustomer extends JPanel {
                 //	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
                 //	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
                 //	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
-                //exception.GetCostumerException: Error during query of customer data
+                //exception.GetCustomerException: Error during query of customer data
                 // (No suitable driver found for jdbc:mysql://localhost:3306/database_brewery?useSSL=false).
                 AllCustomersModel allCustomersModel = new AllCustomersModel(controller.getAllCustomers());
 
@@ -70,7 +70,7 @@ public class ListingCustomer extends JPanel {
                 listingPanel.add(customerListing, BorderLayout.CENTER);
                 listingPanel.setVisible(true);
 
-            } catch (GetCostumerException e) {
+            } catch (GetCustomerException e) {
                 e.printStackTrace();
             }
         }
