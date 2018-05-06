@@ -14,7 +14,7 @@ public class ApplicationController {
         customerManager = new CustomerManager();
     }
 
-    public ArrayList<String> getAllCustomers() throws GetCostumerException {
+    public ArrayList<Customer> getAllCustomers() throws GetCostumerException {
         return customerManager.getAllCustomers();
     }
 

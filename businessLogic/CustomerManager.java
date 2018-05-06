@@ -14,7 +14,7 @@ public class CustomerManager {
         customerDataBaseAccess = new CustomerDataBaseAccess();
     }
 
-    public ArrayList<String> getAllCustomers() throws GetCostumerException {
+    public ArrayList<Customer> getAllCustomers() throws GetCostumerException {
         return customerDataBaseAccess.getAllCustomers();
     }
 
