@@ -1,7 +1,7 @@
 package dataAccess;
 
-import exception.AddCostumerException;
-import exception.GetCostumerException;
+import exception.AddCustomerException;
+import exception.GetCustomerException;
 import model.Customer;
 
 import javax.naming.NamingException;
@@ -11,16 +11,16 @@ import java.util.ArrayList;
 public class CustomerDataBaseAccess {
 
 
-    public ArrayList<Customer> getAllCustomers() throws GetCostumerException {
+    public ArrayList<Customer> getAllCustomers() throws GetCustomerException {
         try{
             //TODO
-            //exception.GetCostumerException: Error during query of customer data
+            //exception.GetCustomerException: Error during query of customer data
             // (No suitable driver found for jdbc:mysql://localhost:3306/database_brewery?useSSL=false).
             Connection connection = SingletonConnection.getInstance();
 
             ArrayList<Customer> customers = new ArrayList<>();
             Customer customer;
-            String requestSQL = "select * from Costumer";
+            String requestSQL = "select * from Customer";
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()){
@@ -33,34 +33,34 @@ public class CustomerDataBaseAccess {
             return customers;
         }
         catch(NamingException | SQLException exception){
-            throw new GetCostumerException(exception);
+            throw new GetCustomerException(exception);
         }
     }
 
-    public void addCustomer(Customer costumer) throws AddCostumerException {
+    public void addCustomer(Customer customer) throws AddCustomerException {
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "insert into Costumer () values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlInstruction = "insert into Customer () values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-            preparedStatement.setString(1, costumer.getNationalRegistrationNumber());
-            preparedStatement.setString(2, costumer.getLastName());
-            preparedStatement.setString(3, costumer.getFirstNames()[0]);
-            preparedStatement.setString(4, costumer.getFirstNames()[1]);
-            preparedStatement.setString(5, costumer.getFirstNames()[2]);
-            preparedStatement.setString(6, costumer.getAccountNumber());
-            preparedStatement.setString(7, costumer.getStreetName());
-            preparedStatement.setString(8, costumer.getHouseNumber());
-            preparedStatement.setInt(9, costumer.getCity().getPostCode());
-            preparedStatement.setString(10, costumer.getCity().getName());
-            preparedStatement.setString(11, costumer.getMobilePhone());
-            preparedStatement.setString(12, costumer.getLandlinePhone());
-            preparedStatement.setDate(13, new java.sql.Date(costumer.getBirthDate().getTimeInMillis()));
+            preparedStatement.setString(1, customer.getNationalRegistrationNumber());
+            preparedStatement.setString(2, customer.getLastName());
+            preparedStatement.setString(3, customer.getFirstNames()[0]);
+            preparedStatement.setString(4, customer.getFirstNames()[1]);
+            preparedStatement.setString(5, customer.getFirstNames()[2]);
+            preparedStatement.setString(6, customer.getAccountNumber());
+            preparedStatement.setString(7, customer.getStreetName());
+            preparedStatement.setString(8, customer.getHouseNumber());
+            preparedStatement.setInt(9, customer.getCity().getPostCode());
+            preparedStatement.setString(10, customer.getCity().getName());
+            preparedStatement.setString(11, customer.getMobilePhone());
+            preparedStatement.setString(12, customer.getLandlinePhone());
+            preparedStatement.setDate(13, new java.sql.Date(customer.getBirthDate().getTimeInMillis()));
 
             preparedStatement.executeUpdate();
         }
         catch(NamingException | SQLException exception){
-            throw new AddCostumerException(exception);
+            throw new AddCustomerException(exception);
         }
     }
 }
