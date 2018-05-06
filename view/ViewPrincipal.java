@@ -124,7 +124,7 @@ public class ViewPrincipal extends JFrame {
 
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
-
+        listingCustomers.addActionListener(controlerEvent);
 
     }
 
@@ -144,9 +144,9 @@ public class ViewPrincipal extends JFrame {
     }
 
     public void initThread() {
+        frame = new JLabel();
         threadAnimation = new ThreadAnimation(this);
         threadAnimation.start();
-        frame = new JLabel();
     }
 
     public void changeFrameView(ImageIcon imageIcon) {
@@ -168,7 +168,6 @@ public class ViewPrincipal extends JFrame {
             if(event.getSource() == exit) {
                 System.exit(0);
             }
-
             if(event.getSource() == customerEnrolment){
                 new ThreadAnimation(false);
                 container.removeAll();
@@ -179,6 +178,12 @@ public class ViewPrincipal extends JFrame {
                 new ThreadAnimation(false);
                 container.removeAll();
                 container.add(new DeleteCustomer(actionReturnButton));
+                container.revalidate();
+            }
+            if(event.getSource() == listingCustomers) {
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.add(new ListingCustomer(actionReturnButton));
                 container.revalidate();
             }
         }
