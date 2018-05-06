@@ -45,8 +45,7 @@ public class CustomerDataBaseAccess {
             preparedStatement.setString(10, costumer.getCity().getName());
             preparedStatement.setString(11, costumer.getMobilePhone());
             preparedStatement.setString(12, costumer.getLandlinePhone());
-            //TODO problem with compatibility (GregorianCalendar) change in Customer for Date(java.sql) ?
-            //preparedStatement.setDate(13, new java.sql.Date(costumer.getBirthDate()));
+            preparedStatement.setDate(13, new java.sql.Date(costumer.getBirthDate().getTimeInMillis()));
 
             preparedStatement.executeUpdate();
         }
