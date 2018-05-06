@@ -1,9 +1,9 @@
 package exception;
 
-public class GetCostumerException extends Exception {
+public class GetCustomerException extends Exception {
     private Exception exception;
 
-    public GetCostumerException(Exception exception) {
+    public GetCustomerException(Exception exception) {
         this.exception = exception;
     }
 
