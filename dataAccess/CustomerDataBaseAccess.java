@@ -10,15 +10,25 @@ import java.util.ArrayList;
 
 public class CustomerDataBaseAccess {
 
-    public ArrayList<String> getAllCustomers() throws GetCostumerException {
+
+    public ArrayList<Customer> getAllCustomers() throws GetCostumerException {
         try{
-            Connection connection = SingletonConnetion.getInstance();
-            ArrayList<String> customers = new ArrayList<>();
+            //TODO
+            //exception.GetCostumerException: Error during query of customer data
+            // (No suitable driver found for jdbc:mysql://localhost:3306/database_brewery?useSSL=false).
+            Connection connection = SingletonConnection.getInstance();
+
+            ArrayList<Customer> customers = new ArrayList<>();
+            Customer customer;
             String requestSQL = "select * from Costumer";
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
             ResultSet data = preparedStatement.executeQuery();
             while(data.next()){
-                customers.add(data.getString("wording"));
+                //TODO
+                customer = new Customer(data.getInt("Customer Number"),
+                                        data.getString("Last Name"),
+                                        data.getString("First Name"));
+                customers.add(customer);
             }
             return customers;
         }
@@ -29,7 +39,7 @@ public class CustomerDataBaseAccess {
 
     public void addCustomer(Customer costumer) throws AddCostumerException {
         try{
-            Connection connection = SingletonConnetion.getInstance();
+            Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "insert into Costumer () values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
