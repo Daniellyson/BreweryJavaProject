@@ -46,8 +46,7 @@ public class ViewPrincipal extends JFrame {
 
         super("DJ Brewery");
 
-        threadAnimation = new ThreadAnimation(this);
-        threadAnimation.start();
+        initThread();
 
         setUpMainWindow();
         setUpMenu();
@@ -126,7 +125,7 @@ public class ViewPrincipal extends JFrame {
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
 
-        frame = new JLabel();
+
     }
 
     public void setUpMainWindow() {
@@ -142,12 +141,16 @@ public class ViewPrincipal extends JFrame {
         container.setBackground(Color.WHITE);
         container.add(imagesLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
+    }
 
-
-
+    public void initThread() {
+        threadAnimation = new ThreadAnimation(this);
+        threadAnimation.start();
+        frame = new JLabel();
     }
 
     public void changeFrameView(ImageIcon imageIcon) {
+
         frame.setIcon(imageIcon);
         container.remove(frame);
         frame.setHorizontalAlignment(SwingConstants.CENTER);
