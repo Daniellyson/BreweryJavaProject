@@ -2,6 +2,8 @@ package dataAccess;
 
 import exception.AddCustomerException;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
 import model.Customer;
 
 import javax.naming.NamingException;
@@ -12,29 +14,44 @@ public class CustomerDataBaseAccess {
 
 
     public ArrayList<Customer> getAllCustomers() throws GetCustomerException {
-        try{
-            //TODO
-            //exception.GetCustomerException: Error during query of customer data
-            // (No suitable driver found for jdbc:mysql://localhost:3306/database_brewery?useSSL=false).
+        ArrayList<Customer> customers = null;
+        try {
+            //TODO install drivers for JDBC
             Connection connection = SingletonConnection.getInstance();
 
-            ArrayList<Customer> customers = new ArrayList<>();
+            customers = new ArrayList<>();
             Customer customer;
             String requestSQL = "select * from Customer";
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
             ResultSet data = preparedStatement.executeQuery();
-            while(data.next()){
-                //TODO
-                customer = new Customer(data.getInt("Customer Number"),
-                                        data.getString("Last Name"),
-                                        data.getString("First Name"));
+            while (data.next()) {
+                customer = new Customer(data.getInt("CustomerNumber"),
+                        data.getString("NationalResgistrationNumber"),
+                        data.getString("LastName"),
+                        data.getString("FirstName"),
+                        data.getString("FirstName2"),
+                        data.getString("FirstName3"),
+                        data.getString("AccountNumber"),
+                        data.getBoolean("VIP"),
+                        data.getString("Street"),
+                        data.getString("HouseNumber"),
+                        data.getString("MobilePhone"),
+                        data.getString("LandlinePhone"),
+                        data.getDate("DateOfBirth"),
+                        data.getInt("Code"));
                 customers.add(customer);
             }
-            return customers;
-        }
-        catch(NamingException | SQLException exception){
+
+        } catch (SQLException exception) {
             throw new GetCustomerException(exception);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (NullException e) {
+            e.printStackTrace();
+        } catch (NamingException e) {
+            e.printStackTrace();
         }
+        return customers;
     }
 
     public void addCustomer(Customer customer) throws AddCustomerException {
