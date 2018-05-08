@@ -2,8 +2,8 @@ package view;
 
 import model.Customer;
 import javax.swing.table.AbstractTableModel;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class AllCustomersModel extends AbstractTableModel {
 
@@ -20,13 +20,14 @@ public class AllCustomersModel extends AbstractTableModel {
         colummNames.add("VIP");
         colummNames.add("National Resgistration Number");
         colummNames.add("Account Number");
-        colummNames.add("City");
-        colummNames.add("Postcode");
         colummNames.add("Street");
         colummNames.add("House Number");
         colummNames.add("Mobile Phone");
         colummNames.add("Landline Phone");
         colummNames.add("Date of Birth");
+        colummNames.add("City Code");
+        colummNames.add("Postcode");
+        colummNames.add("City");
         setContents(customers);
     }
 
@@ -55,37 +56,41 @@ public class AllCustomersModel extends AbstractTableModel {
             case 1 :
                 return customer.getLastName();
             case 2 :
-                return customer.getFirstNames();
+                return customer.getFirstName();
             case 3 :
-                return customer.getLastName();
+                return customer.getFirstName2();
             case 4 :
+                return customer.getFirstName3();
+            case 5 :
                 if(customer.getVip() != null) {
                     return customer.getVip();
                 } else {
                     return null;
                 }
-            case 5 :
-                return customer.getNationalRegistrationNumber();
             case 6 :
-                return customer.getAccountNumber();
+                return customer.getNationalRegistrationNumber();
             case 7 :
-                return customer.getCity().getName();
+                return customer.getAccountNumber();
             case 8 :
-                return customer.getCity().getPostCode();
-            case 9 :
                 return customer.getStreetName();
-            case 10 :
+            case 9 :
                 return customer.getHouseNumber();
-            case 11 :
+            case 10 :
                 return customer.getMobilePhone();
-            case 12 :
+            case 11 :
                 if(customer.getLandlinePhone() != null) {
                     return customer.getLandlinePhone();
                 } else {
                     return null;
                 }
+            case 12 :
+                return customer.getDateBirth();
             case 13 :
-                return customer.getBirthDate();
+                return customer.getCityCode();
+            case 14 :
+                return customer.getPostCode();
+            case 15 :
+                return customer.getName();
             default :
                 return null;
         }
@@ -94,11 +99,20 @@ public class AllCustomersModel extends AbstractTableModel {
     public Class getColumnClass(int column) {
         Class classCostumer = null;
         switch (column) {
-            case 4 :
+            case 0 :
+                classCostumer = Integer.class;
+                break;
+            case 5 :
                 classCostumer = Boolean.class;
                 break;
+            case 11 :
+                classCostumer = Date.class;
+                break;
+            case 12 :
+                classCostumer = Integer.class;
+                break;
             case 13 :
-                classCostumer = GregorianCalendar.class;
+                classCostumer = Integer.class;
                 break;
             default :
                  classCostumer = String.class;

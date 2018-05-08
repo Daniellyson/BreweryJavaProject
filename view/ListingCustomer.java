@@ -2,77 +2,63 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
-import listener.ActionReturnButton;
+import model.City;
+import model.Customer;
 
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class ListingCustomer extends JPanel {
-    private JPanel buttonPanel;
-    private JPanel listingPanel;
+
+public class ListingCustomer extends JFrame {
     private ApplicationController controller;
 
-    private JButton returnButton;
-    private JButton listButton;
+    private Container container;
 
-    public ListingCustomer(ActionReturnButton actionReturnButton) {
+    private ArrayList<Customer> customerListing;
+    private ArrayList<City> cities;
 
-        controller = new ApplicationController();
+    public ListingCustomer() {
 
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
-        add(buttonPanel, BorderLayout.NORTH);
+        super("DJ Brewery (Customer Listing)");
+        setUpMainWindow();
+        setUpTable();
 
-        ManagerListingCustomer managerListingCustomer = new ManagerListingCustomer();
-
-        returnButton = new JButton("Return");
-        buttonPanel.add(returnButton);
-        returnButton.addActionListener(actionReturnButton);
-
-        listButton = new JButton("List");
-        buttonPanel.add(listButton);
-        listButton.addActionListener(managerListingCustomer);
+        setVisible(true);
     }
 
-    private class ManagerListingCustomer implements ActionListener {
+    public void setUpMainWindow() {
 
-        public void actionPerformed(ActionEvent actionEvent) {
-            try {
-                //TODO
-                //  at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
-                //	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
-                //	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
-                //	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
-                //exception.GetCustomerException: Error during query of customer data
-                // (No suitable driver found for jdbc:mysql://localhost:3306/database_brewery?useSSL=false).
-                AllCustomersModel allCustomersModel = new AllCustomersModel(controller.getAllCustomers());
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        container = this.getContentPane();
+        container.setLayout(new BorderLayout());
 
-                JTable customerTable = new JTable(allCustomersModel);
-                TableColumn column0 = customerTable.getColumnModel().getColumn(0);
-                TableColumn column1 = customerTable.getColumnModel().getColumn(1);
-                TableColumn column2 = customerTable.getColumnModel().getColumn(2);
-                TableColumn column3 = customerTable.getColumnModel().getColumn(3);
-                TableColumn column4 = customerTable.getColumnModel().getColumn(4);
-                TableColumn column5 = customerTable.getColumnModel().getColumn(5);
-                TableColumn column6 = customerTable.getColumnModel().getColumn(6);
-                TableColumn column7 = customerTable.getColumnModel().getColumn(7);
-                TableColumn column8 = customerTable.getColumnModel().getColumn(8);
-                TableColumn column9 = customerTable.getColumnModel().getColumn(9);
-                TableColumn column10 = customerTable.getColumnModel().getColumn(10);
-                TableColumn column11 = customerTable.getColumnModel().getColumn(11);
-                TableColumn column12 = customerTable.getColumnModel().getColumn(12);
-                TableColumn column13 = customerTable.getColumnModel().getColumn(13);
+    }
 
-                listingPanel = new JPanel();
-                JScrollPane customerListing = new JScrollPane(customerTable);
-                listingPanel.add(customerListing, BorderLayout.CENTER);
-                listingPanel.setVisible(true);
+    public void setUpTable() {
+        controller = new ApplicationController();
+        customerListing = new ArrayList<Customer>();
 
-            } catch (GetCustomerException e) {
-                e.printStackTrace();
-            }
+        try {
+            customerListing = controller.getAllCustomers();
+
+        } catch (GetCustomerException e) {
+            e.printStackTrace();
         }
+
+        AllCustomersModel allCustomersModel = new AllCustomersModel(customerListing);
+        JTable customerTable = new JTable(allCustomersModel);
+        int maxColumn = customerTable.getColumnCount();
+
+        for(int i = 0; i < maxColumn; i++) {
+            customerTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+        }
+        customerTable.getColumnModel().getColumn(maxColumn - 1).setPreferredWidth(350);
+
+        customerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        JScrollPane customerScrollPane = new JScrollPane(customerTable);
+        container.add(customerScrollPane, BorderLayout.CENTER);
     }
 }
