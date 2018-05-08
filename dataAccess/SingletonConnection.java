@@ -9,12 +9,13 @@ public class SingletonConnection {
     private static Connection uniqueConnection;
 
     private SingletonConnection() throws SQLException, NamingException {
-
         uniqueConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/database_brewery?useSSL=false",
-                "root", "yourPassword");
+                "root", "Dany.32290");
+
     }
 
     public static Connection getInstance() throws SQLException, NamingException {
+
         if(uniqueConnection == null){
             new SingletonConnection();
         }

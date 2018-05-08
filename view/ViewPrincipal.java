@@ -27,13 +27,11 @@ public class ViewPrincipal extends JFrame {
     private JMenu customerMenu;
     private JMenuItem customerEnrolment;
     private JMenuItem deleteCustomer;
+    private JMenuItem listingCustomers;
 
     private JMenu infosMenu;
     private JMenuItem brewery;
     private JMenuItem help;
-
-    private JMenu listing;
-    private JMenuItem listingCustomers;
 
     private JMenu search;
     private JMenuItem listingArticlesOrdered;
@@ -89,6 +87,9 @@ public class ViewPrincipal extends JFrame {
         deleteCustomer = new JMenuItem("Delete Customer");
         customerMenu.add(deleteCustomer);
 
+        listingCustomers = new JMenuItem("Listing");
+        customerMenu.add(listingCustomers);
+
 
         //INFORMATIONS
         infosMenu = new JMenu("Information");
@@ -100,14 +101,6 @@ public class ViewPrincipal extends JFrame {
 
         help = new JMenuItem("Help");
         infosMenu.add(help);
-
-
-        //LISTING
-        listing = new JMenu("Listing");
-        listing.setMnemonic('l');
-        menuBar.add(listing);
-        listingCustomers = new JMenuItem("Customers");
-        listing.add(listingCustomers);
 
 
         //SEARCH
@@ -181,10 +174,11 @@ public class ViewPrincipal extends JFrame {
                 container.revalidate();
             }
             if(event.getSource() == listingCustomers) {
-                new ThreadAnimation(false);
-                container.removeAll();
-                container.add(new ListingCustomer(actionReturnButton));
-                container.revalidate();
+                //new ThreadAnimation(false);
+                //container.removeAll();
+                //container.add(new ListingCustomer(actionReturnButton));
+                new ListingCustomer();
+                //container.revalidate();
             }
         }
     }

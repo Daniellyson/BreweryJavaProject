@@ -300,7 +300,7 @@ public class EnrolmentForm  extends JPanel {
 
 
         //PHONES
-        mobilePhoneLabel = new JLabel("*Mobile phone:");
+        mobilePhoneLabel = new JLabel("Mobile phone:");
         mobilePhoneLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(mobilePhoneLabel);
         mobilePhone = new JTextField();

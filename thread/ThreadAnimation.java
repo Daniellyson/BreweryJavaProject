@@ -20,7 +20,6 @@ public class ThreadAnimation extends Thread {
     }
 
     public void run() {
-        //TODO doing thread
         Images img = new Images();
         try {
             while (keepGoing) {

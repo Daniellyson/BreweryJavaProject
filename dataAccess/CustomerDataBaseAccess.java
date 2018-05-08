@@ -21,7 +21,9 @@ public class CustomerDataBaseAccess {
 
             customers = new ArrayList<>();
             Customer customer;
-            String requestSQL = "select * from Customer";
+            String requestSQL = "select Customer.*, City.PostCode, City.Name\n" +
+                                "from Customer, City\n" +
+                                "where Customer.Code in (City.Code);";
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
             ResultSet data = preparedStatement.executeQuery();
             while (data.next()) {
@@ -38,7 +40,9 @@ public class CustomerDataBaseAccess {
                         data.getString("MobilePhone"),
                         data.getString("LandlinePhone"),
                         data.getDate("DateOfBirth"),
-                        data.getInt("Code"));
+                        data.getInt("Code"),
+                        data.getInt("PostCode"),
+                        data.getString("Name"));
                 customers.add(customer);
             }
 
