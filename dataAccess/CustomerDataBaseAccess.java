@@ -9,12 +9,20 @@ import model.Customer;
 import javax.naming.NamingException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class CustomerDataBaseAccess {
 
 
     public ArrayList<Customer> getAllCustomers() throws GetCustomerException {
+        GregorianCalendar birthDate = new GregorianCalendar();
+        java.sql.Date sqlDate;
         ArrayList<Customer> customers = null;
+        String firstName2;
+        String firstName3;
+        String mobilePhone;
+        String landlinePhone;
+
         try {
             //TODO install drivers for JDBC
             Connection connection = SingletonConnection.getInstance();
@@ -27,22 +35,36 @@ public class CustomerDataBaseAccess {
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
             ResultSet data = preparedStatement.executeQuery();
             while (data.next()) {
+                sqlDate = data.getDate("DateOfBirth");
+                birthDate.setTime(sqlDate);
                 customer = new Customer(data.getInt("CustomerNumber"),
-                        data.getString("NationalResgistrationNumber"),
+                        data.getString("NationalRegistrationNumber"),
                         data.getString("LastName"),
                         data.getString("FirstName"),
-                        data.getString("FirstName2"),
-                        data.getString("FirstName3"),
                         data.getString("AccountNumber"),
                         data.getBoolean("VIP"),
                         data.getString("Street"),
                         data.getString("HouseNumber"),
-                        data.getString("MobilePhone"),
-                        data.getString("LandlinePhone"),
-                        data.getDate("DateOfBirth"),
+                        birthDate,
                         data.getInt("Code"),
                         data.getInt("PostCode"),
                         data.getString("Name"));
+                firstName2 = data.getString("firstName2");
+                if (!data.wasNull()) {
+                        customer.addFirstName(firstName2);
+                }
+                firstName3 = data.getString("firstName3");
+                if (!data.wasNull()) {
+                    customer.addFirstName(firstName3);
+                }
+                mobilePhone = data.getString("mobilePhone");
+                if (!data.wasNull()) {
+                    customer.setMobilePhone(mobilePhone);
+                }
+                landlinePhone = data.getString("landlinePhone");
+                if (!data.wasNull()) {
+                    customer.setLandlinePhone(landlinePhone);
+                }
                 customers.add(customer);
             }
 
@@ -66,9 +88,9 @@ public class CustomerDataBaseAccess {
 
             preparedStatement.setString(1, customer.getNationalRegistrationNumber());
             preparedStatement.setString(2, customer.getLastName());
-            preparedStatement.setString(3, customer.getFirstNames()[0]);
-            preparedStatement.setString(4, customer.getFirstNames()[1]);
-            preparedStatement.setString(5, customer.getFirstNames()[2]);
+            preparedStatement.setString(3, customer.getFirstName(0));
+            preparedStatement.setString(4, customer.getFirstName(1));
+            preparedStatement.setString(5, customer.getFirstName(2));
             preparedStatement.setString(6, customer.getAccountNumber());
             preparedStatement.setString(7, customer.getStreetName());
             preparedStatement.setString(8, customer.getHouseNumber());

@@ -1,4 +1,5 @@
 package view;
+import controller.ApplicationController;
 import listener.ActionReturnButton;
 import listener.WindowListener;
 import thread.ThreadAnimation;
@@ -40,9 +41,16 @@ public class ViewPrincipal extends JFrame {
 
     private JLabel frame;
 
+    private ApplicationController controller;
+
+
     public ViewPrincipal() {
 
         super("DJ Brewery");
+
+        controller = new ApplicationController();
+
+        container = this.getContentPane();
 
         initThread();
 
@@ -130,7 +138,6 @@ public class ViewPrincipal extends JFrame {
         addWindowListener(new WindowListener());
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        container = this.getContentPane();
         container.setBackground(Color.WHITE);
         container.add(imagesLogo.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
@@ -164,7 +171,7 @@ public class ViewPrincipal extends JFrame {
             if(event.getSource() == customerEnrolment){
                 new ThreadAnimation(false);
                 container.removeAll();
-                container.add(new EnrolmentForm(actionReturnButton));
+                container.add(new EnrolmentForm(actionReturnButton, controller));
                 container.revalidate();
             }
             if(event.getSource() == deleteCustomer) {

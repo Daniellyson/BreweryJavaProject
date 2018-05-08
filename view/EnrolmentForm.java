@@ -1,5 +1,6 @@
 package view;
 
+import controller.ApplicationController;
 import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
@@ -82,7 +83,12 @@ public class EnrolmentForm  extends JPanel {
     private JButton validationButton;
     private JButton resetButton;
 
-    public EnrolmentForm(ActionReturnButton actionReturnButton) {
+    private ApplicationController controller;
+
+
+    public EnrolmentForm(ActionReturnButton actionReturnButton, ApplicationController controller) {
+
+        this.controller = controller;
 
         setLayout(new BorderLayout());
 
@@ -448,9 +454,11 @@ public class EnrolmentForm  extends JPanel {
 
             if (event.getSource() == validationButton) {
                 if (newCustomer.isSelected()) {
+                    String errorMessage = "";
+                    boolean error = false;
                     Customer customer;
-                    int postalCodeNumber;
-                    int birthDateNumber;
+                    Integer postalCodeNumber = null;
+                    Integer birthDateNumber = null;
                     boolean blank = false;
                     String registerNumber = nationalRegistrationNumber.getText();
                     String[] firstNames = new String[3];
@@ -488,24 +496,40 @@ public class EnrolmentForm  extends JPanel {
                     } else {
 
                         if (RegularExpression.test(lastNameCustomer, "\\d?")) {
-                            JOptionPane.showMessageDialog(null, "");
+                            errorMessage += "last name can't contain number\n";
+                            error = true;
                         }
 
                         if (RegularExpression.test(firstNames[0], "\\d?")) {
-                            JOptionPane.showMessageDialog(null, "");
+                            errorMessage += "first first name can't contain number\n";
+                            error = true;
                         }
 
                         for (int i = 1; i < firstNames.length; i++) {
                             if (!firstNames[i].isEmpty()) {
                                 if (RegularExpression.test(firstNames[i], "\\d?"))
-                                    JOptionPane.showMessageDialog(null,"");
+                                    errorMessage += "first name "+i+" can't contain number\n";
+                                error = true;
                             }
-                        } //manque des messages et faut et des else
-                        
+                        }
+
+                        try {
+                            birthDateNumber = Integer.parseInt(dateString);
+                        } catch (NumberFormatException exception) {
+                            errorMessage += "birth date must be a number\n";
+                            error = true;
+                        }
+
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
+                        } catch (NumberFormatException exception) {
+                            errorMessage += "postal code must be a number\n";
+                        }
+
+                        if (error) {
+                            JOptionPane.showMessageDialog(null, errorMessage);
+                        } else {
                             try {
-                                birthDateNumber = Integer.parseInt(dateString);
                                 customer = new Customer(registerNumber,
                                         lastNameCustomer,
                                         firstNames,
@@ -517,18 +541,15 @@ public class EnrolmentForm  extends JPanel {
                                         birthDateNumber % 10000,
                                         (birthDateNumber / 10000) % 100,
                                         birthDateNumber / 1000000,
-                                        new City(cityName,
-                                                postalCodeNumber));
-                                //TODO addCustomer()
+                                        postalCodeNumber,
+                                        cityName);
+                                controller.addCustomer(customer);
                                 resetFields();
-                            } catch (NumberFormatException exception) {
-                                JOptionPane.showMessageDialog(null, "field date of birth must be a number");
+                            } catch (Exception exception) {
+                                JOptionPane.showMessageDialog(null, exception.getMessage());
                             }
-                        } catch (NumberFormatException exception) {
-                            JOptionPane.showMessageDialog(null, "field post code must be a number");
-                        } catch (Exception exception) {
-                            JOptionPane.showMessageDialog(null, exception.getMessage());
                         }
+
                     }
                 }
             }
