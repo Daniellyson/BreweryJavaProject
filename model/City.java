@@ -7,8 +7,15 @@ public class City {
 
     public City(String name, Integer postCode) {
         setName(name);
-        setCodePostal(postCode);
+        setPostCode(postCode);
     }
+
+    public City(Integer code, Integer postCode,  String name) {
+        setCode(code);
+        setName(name);
+        setPostCode(postCode);
+    }
+
 
     public void setCode(Integer code) {
         this.code = code;
@@ -18,7 +25,19 @@ public class City {
         this.name = name;
     }
 
-    public void setCodePostal(Integer postCode) {
+    public void setPostCode(Integer postCode) {
         this.postCode = postCode;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getPostCode() {
+        return postCode;
     }
 }
