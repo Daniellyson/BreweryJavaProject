@@ -56,11 +56,11 @@ public class AllCustomersModel extends AbstractTableModel {
             case 1 :
                 return customer.getLastName();
             case 2 :
-                return customer.getFirstName();
+                return customer.getFirstName(0);
             case 3 :
-                return customer.getFirstName2();
+                return customer.getFirstName(1);
             case 4 :
-                return customer.getFirstName3();
+                return customer.getFirstName(2);
             case 5 :
                 if(customer.getVip() != null) {
                     return customer.getVip();
@@ -84,20 +84,20 @@ public class AllCustomersModel extends AbstractTableModel {
                     return null;
                 }
             case 12 :
-                return customer.getDateBirth();
+                return customer.getBirthDate();
             case 13 :
-                return customer.getCityCode();
+                return customer.getCity().getCode();
             case 14 :
-                return customer.getPostCode();
+                return customer.getCity().getPostCode();
             case 15 :
-                return customer.getName();
+                return customer.getCity().getName();
             default :
                 return null;
         }
     }
 
     public Class getColumnClass(int column) {
-        Class classCostumer = null;
+        Class classCostumer;
         switch (column) {
             case 0 :
                 classCostumer = Integer.class;

@@ -24,130 +24,6 @@ public class Customer {
     private City city;
 
 
-    //TODO testing data base
-    private String firstName;
-    private String firstName2;
-    private String firstName3;
-    private Integer cityCode;
-    private Date dateBirth;
-    private Integer postCode;
-    private String name;
-
-    public Customer(Integer customerNumber,
-                    String nationalRegistrationNumber,
-                    String lastName,
-                    String firstName,
-                    String firstName2,
-                    String firstName3,
-                    String accountNumber,
-                    Boolean vip,
-                    String streetName,
-                    String houseNumber,
-                    String landlinePhone,
-                    String mobilePhone,
-                    Date dateBirth,
-                    Integer cityCode,
-                    Integer postCode,
-                    String name) throws NullException, InvalidFormatException {
-        this.customerNumber = customerNumber;
-        this.nationalRegistrationNumber = nationalRegistrationNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.firstName2 = firstName2;
-        this.firstName3 = firstName3;
-        this.accountNumber = accountNumber;
-        this.vip = vip;
-        this.streetName = streetName;
-        this.houseNumber = houseNumber;
-        this.landlinePhone = landlinePhone;
-        this.mobilePhone = mobilePhone;
-        this.dateBirth = dateBirth;
-        this.cityCode = cityCode;
-        this.postCode = postCode;
-        this.name = name;
-
-        //new City(cityCode, postCode, name);
-        //System.out.println(cityCode + " " + postCode + " " + name);
-        /*this.postCode = getPostCode();
-        this.name = getName();*/
-    }
-    //TODO doing gets to AllCustomersModel
-    public Integer getCustomerNumber() {
-        return customerNumber;
-    }
-
-    public String getNationalRegistrationNumber() {
-        return nationalRegistrationNumber;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Boolean getVip() {
-        return vip;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public Integer getCityCode() {
-        return cityCode;
-    }
-
-    public Integer getPostCode() {
-        return postCode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLandlinePhone() {
-        return landlinePhone;
-    }
-
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getFirstName2() {
-        return firstName2;
-    }
-
-    public String [] getFirstNames() {
-        return firstNames;
-    }
-
-    public String getFirstName3() {
-        return firstName3;
-    }
-
-    public Date getDateBirth() {
-        return dateBirth;
-    }
-
-    public GregorianCalendar getBirthDate () {
-        return birthDate;
-    }
 
     //TODO test unil here for CustomerDataBaseAccess
 
@@ -163,19 +39,125 @@ public class Customer {
                     Integer year,
                     Integer month,
                     Integer day,
-                    City city) throws NullException, InvalidFormatException {
+                    Integer cityCode,
+                    Integer postalCode,
+                    String cityName) throws NullException, InvalidFormatException {
+        this(customerNumber,
+                nationalRegistrationNumber,
+                lastName,
+                firstNames[0],
+                firstNames[1],
+                firstNames[2],
+                accountNumber,
+                false,
+                streetName,
+                houseNumber,
+                landlinePhone,
+                mobilePhone,
+                year,
+                month,
+                day,
+                cityCode,
+                postalCode,
+                cityName);
+    }
+
+    public Customer(Integer customerNumber,
+                    String nationalRegistrationNumber,
+                    String lastName,
+                    String firstName1,
+                    String firstName2,
+                    String firstName3,
+                    String accountNumber,
+                    Boolean vip,
+                    String streetName,
+                    String houseNumber,
+                    String mobilePhone,
+                    String landlinePhone,
+                    Integer year,
+                    Integer month,
+                    Integer day,
+                    Integer cityCode,
+                    Integer postalCode,
+                    String cityName) throws NullException, InvalidFormatException {
         setCustomerNumber(customerNumber);
         setNationalRegistrationNumber(nationalRegistrationNumber);
         setLastName(lastName);
-        setFirstNames(firstNames);
+        setFirstNames(firstName1, firstName2, firstName3);
         setAccountNumber(accountNumber);
         setStreetName(streetName);
         setHouseNumber(houseNumber);
         setLandlinePhone(landlinePhone);
         setMobilePhone(mobilePhone);
-        setCity(city);
-        setVip(false);
+        setCity(cityCode, postalCode, cityName);
+        setVip(vip);
         setBirthDate(year, month, day);
+    }
+
+    public Customer(Integer customerNumber,
+                    String nationalRegistrationNumber,
+                    String lastName,
+                    String firstName,
+                    String accountNumber,
+                    Boolean vip,
+                    String streetName,
+                    String houseNumber,
+                    GregorianCalendar birthDate,
+                    Integer cityCode,
+                    Integer postCode,
+                    String cityName) throws NullException, InvalidFormatException {
+        this(customerNumber,
+                nationalRegistrationNumber,
+                lastName,
+                firstName,
+                null,
+                null,
+                accountNumber,
+                vip,
+                streetName,
+                houseNumber,
+                null,
+                null,
+                birthDate,
+                cityCode,
+                postCode,
+                cityName);
+    }
+
+    public Customer(Integer customerNumber,
+                    String nationalRegistrationNumber,
+                    String lastName,
+                    String firstName1,
+                    String firstName2,
+                    String firstName3,
+                    String accountNumber,
+                    Boolean vip,
+                    String streetName,
+                    String houseNumber,
+                    String mobilePhone,
+                    String landlinePhone,
+                    GregorianCalendar birthDate,
+                    Integer codeVille,
+                    Integer postCode,
+                    String cityName) throws NullException, InvalidFormatException{
+        this(customerNumber,
+                nationalRegistrationNumber,
+                lastName,
+                firstName1,
+                firstName2,
+                firstName3,
+                accountNumber,
+                vip,
+                streetName,
+                houseNumber,
+                mobilePhone,
+                landlinePhone,
+                birthDate.get(GregorianCalendar.YEAR),
+                birthDate.get(GregorianCalendar.MONTH),
+                birthDate.get(GregorianCalendar.DATE),
+                codeVille,
+                postCode,
+                cityName);
     }
 
     public Customer(String nationalRegistrationNumber,
@@ -189,8 +171,23 @@ public class Customer {
                     Integer year,
                     Integer month,
                     Integer day,
-                    City city) throws NullException, InvalidFormatException {
-        this(null, nationalRegistrationNumber, lastName, firstNames, accountNumber, streetName, houseNumber, landlinePhone, mobilePhone, year, month, day, city);
+                    Integer postalCode,
+                    String cityName) throws NullException, InvalidFormatException {
+        this(null,
+                nationalRegistrationNumber,
+                lastName,
+                firstNames,
+                accountNumber,
+                streetName,
+                houseNumber,
+                landlinePhone,
+                mobilePhone,
+                year,
+                month,
+                day,
+                null,
+                postalCode,
+                cityName);
     }
 
      public void setCustomerNumber(Integer customerNumber) {
@@ -225,6 +222,24 @@ public class Customer {
             }
         }
         this.firstNames = firstNames;
+    }
+
+    public void setFirstNames(String firstName1, String firstName2, String firstName3)throws NullException, InvalidFormatException {
+        setFirstNames(new String[]{firstName1, firstName2, firstName3});
+    }
+
+    public void addFirstName(String firstName) throws InvalidFormatException {
+        int i = 1;
+
+        if (RegularExpression.test(firstName, "\\d?")) {
+            throw new InvalidFormatException("first name", firstName);
+        }
+        while (i < firstNames.length && !firstNames[i].isEmpty()) {
+            i++;
+        }
+        if (i < firstNames.length) {
+            firstNames[i] = firstName;
+        }
     }
 
     public void setVip(Boolean vip) {
@@ -273,5 +288,57 @@ public class Customer {
         this.city = city;
     }
 
+    public void setCity(Integer cityCode, Integer postalCode, String cityName) throws NullException {
+        setCity(new City(cityCode, postalCode, cityName));
+    }
+
+    //TODO doing gets to AllCustomersModel
+
+    public Integer getCustomerNumber() {
+        return customerNumber;
+    }
+    public String getNationalRegistrationNumber() {
+        return nationalRegistrationNumber;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Boolean getVip() {
+        return vip;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public String getLandlinePhone() {
+        return landlinePhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getFirstName(int i) {
+        return firstNames[i];
+    }
+
+    public GregorianCalendar getBirthDate () {
+        return birthDate;
+    }
 
 }
