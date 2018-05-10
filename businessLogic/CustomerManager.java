@@ -1,24 +1,32 @@
 package businessLogic;
 
+import dao.DAO;
 import dataAccess.CustomerDataBaseAccess;
 import exception.AddCustomerException;
 import exception.GetCustomerException;
 import model.Customer;
+import model.Product;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 public class CustomerManager {
-    private CustomerDataBaseAccess customerDataBaseAccess;
+    private DAO dao;
 
     public CustomerManager() {
-        customerDataBaseAccess = new CustomerDataBaseAccess();
+        dao = new CustomerDataBaseAccess();
     }
 
     public ArrayList<Customer> getAllCustomers() throws GetCustomerException {
-        return customerDataBaseAccess.getAllCustomers();
+        return dao.getAllCustomers();
     }
 
     public void addCustomer(Customer customer) throws AddCustomerException {
-        customerDataBaseAccess.addCustomer(customer);
+        dao.addCustomer(customer);
+    }
+
+    public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar first, GregorianCalendar last) throws GetCustomerException {
+
+        return dao.getSearchOne(id, first, last);
     }
 }
