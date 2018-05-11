@@ -23,4 +23,20 @@ public class Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public GregorianCalendar getCreationDate() {
+        return creationDate;
+    }
+
+    public GregorianCalendar getTargetDate() {
+        return targetDate;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
 }

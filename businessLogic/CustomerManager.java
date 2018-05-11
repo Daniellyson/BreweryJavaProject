@@ -5,6 +5,7 @@ import dataAccess.CustomerDataBaseAccess;
 import exception.AddCustomerException;
 import exception.GetCustomerException;
 import model.Customer;
+import model.Order;
 import model.Product;
 
 import java.util.ArrayList;
@@ -28,5 +29,13 @@ public class CustomerManager {
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar first, GregorianCalendar last) throws GetCustomerException {
 
         return dao.getSearchOne(id, first, last);
+    }
+
+    public ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException {
+        return dao.getSearchTwo(gregorianCalendar);
+    }
+
+    public boolean deleteCustomer(Integer id) {
+        return dao.deleteCustomer(id);
     }
 }

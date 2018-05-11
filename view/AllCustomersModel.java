@@ -115,7 +115,7 @@ public class AllCustomersModel extends AbstractTableModel {
                 classCostumer = Integer.class;
                 break;
             default :
-                 classCostumer = String.class;
+                classCostumer = String.class;
         }
 
         return classCostumer;

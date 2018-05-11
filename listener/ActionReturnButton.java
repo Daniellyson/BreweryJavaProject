@@ -32,6 +32,7 @@ public class ActionReturnButton implements ActionListener {
         WelcomePanel welcomePanel = new WelcomePanel();
         Images images = new Images();
 
+        container.setBackground(Color.WHITE);
         container.add(images.getImageLogo(), BorderLayout.NORTH);
         container.add(welcomePanel, BorderLayout.CENTER);
 

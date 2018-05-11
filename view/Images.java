@@ -3,10 +3,9 @@ package view;
 import javax.swing.*;
 
 public class Images {
-    //TODO doing thread
     public static final int NUMBER_OF_FRAMES = 30;
     private ImageIcon imageLogo;
-    private ImageIcon imageFrame;
+    private ImageIcon imageFrame = new ImageIcon();
     private int iFrame;
     private ImageIcon [] frames;
 

@@ -7,7 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class SearchOneModel  extends AbstractTableModel {
+public class SearchOneModel extends AbstractTableModel {
     private ArrayList<String> colummNames;
     private ArrayList<Product> contents;
 
@@ -45,7 +45,6 @@ public class SearchOneModel  extends AbstractTableModel {
                 return product.getReductionPercentage();
             case 2 :
                 return product.getPrice();
-
             default :
                 return null;
         }
@@ -55,13 +54,13 @@ public class SearchOneModel  extends AbstractTableModel {
         Class classProduct = null;
         switch (column) {
             case 0 :
-                classProduct = Integer.class;
+                classProduct = String.class;
                 break;
             case 1 :
-                classProduct = Integer.class;
+                classProduct = Double.class;
                 break;
             case 2 :
-                classProduct = String.class;
+                classProduct = Double.class;
                 break;
             default :
                 classProduct = String.class;

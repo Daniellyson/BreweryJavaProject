@@ -1,7 +1,9 @@
 package view;
 import controller.ApplicationController;
+import exception.GetCustomerException;
 import listener.ActionReturnButton;
 import listener.WindowListener;
+import model.Customer;
 import thread.ThreadAnimation;
 
 
@@ -11,6 +13,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ViewPrincipal extends JFrame {
 
@@ -43,14 +48,12 @@ public class ViewPrincipal extends JFrame {
 
     private ApplicationController controller;
 
-
     public ViewPrincipal() {
 
         super("DJ Brewery");
+        container = this.getContentPane();
 
         controller = new ApplicationController();
-
-        container = this.getContentPane();
 
         initThread();
 
@@ -112,7 +115,7 @@ public class ViewPrincipal extends JFrame {
 
 
         //SEARCH
-        search = new JMenu("Search");
+        search = new JMenu("Searches");
         search.setMnemonic('s');
         menuBar.add(search);
         listingArticlesOrdered = new JMenuItem("Listing des articles ordered");
@@ -126,6 +129,8 @@ public class ViewPrincipal extends JFrame {
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
         listingCustomers.addActionListener(controlerEvent);
+        listingArticlesOrdered.addActionListener(controlerEvent);
+        orderDestination.addActionListener(controlerEvent);
 
     }
 
@@ -177,24 +182,45 @@ public class ViewPrincipal extends JFrame {
             if(event.getSource() == deleteCustomer) {
                 new ThreadAnimation(false);
                 container.removeAll();
-                container.add(new DeleteCustomer(actionReturnButton));
+                container.add(new DeleteCustomer(actionReturnButton, controller));
                 container.revalidate();
             }
             if(event.getSource() == listingCustomers) {
-                //new ThreadAnimation(false);
-                //container.removeAll();
-                //container.add(new ListingCustomer(actionReturnButton));
-                new ListingCustomer();
-                //container.revalidate();
+
+                new ListingCustomer(controller);
+            }
+            //SEARCH ONE
+            if(event.getSource() == listingArticlesOrdered) {
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.setBackground(null);
+
+                try {
+                    container.add(new SearchOnePanel(controller, actionReturnButton));
+                } catch (GetCustomerException e) {
+                    e.printStackTrace();
+                }
+                container.revalidate();
+            }
+            //SEARCH TWO
+            if(event.getSource() == orderDestination) {
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.setBackground(null);
+
+                try {
+                    container.add(new SearchTwoPanel(controller, actionReturnButton));
+                } catch (GetCustomerException e) {
+                    e.printStackTrace();
+                }
+
+                container.revalidate();
+            }
+            //SEARCH THREE
+            if(event.getSource() == customersWhoBoughtProduct){
+
             }
         }
-    }
-
-    private void deleteCustomer() {
-
-    }
-
-    private void deleteFromDataBase(String customerKey) {
 
     }
 }

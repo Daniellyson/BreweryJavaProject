@@ -2,11 +2,16 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import listener.WindowListener;
 import model.City;
 import model.Customer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 
@@ -18,13 +23,18 @@ public class ListingCustomer extends JFrame {
     private ArrayList<Customer> customerListing;
     private ArrayList<City> cities;
 
-    public ListingCustomer() {
+    private static boolean gotIn = false;
+
+    public ListingCustomer(ApplicationController controller) {
 
         super("DJ Brewery (Customer Listing)");
-        setUpMainWindow();
-        setUpTable();
 
-        setVisible(true);
+        if(!gotIn) {
+            this.controller = controller;
+            setUpMainWindow();
+            setUpTable();
+            setVisible(true);
+        }
     }
 
     public void setUpMainWindow() {
@@ -36,7 +46,6 @@ public class ListingCustomer extends JFrame {
     }
 
     public void setUpTable() {
-        controller = new ApplicationController();
         customerListing = new ArrayList<Customer>();
 
         try {
@@ -53,6 +62,7 @@ public class ListingCustomer extends JFrame {
         for(int i = 0; i < maxColumn; i++) {
             customerTable.getColumnModel().getColumn(i).setPreferredWidth(100);
         }
+
         customerTable.getColumnModel().getColumn(maxColumn - 1).setPreferredWidth(350);
 
         customerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -60,5 +70,13 @@ public class ListingCustomer extends JFrame {
 
         JScrollPane customerScrollPane = new JScrollPane(customerTable);
         container.add(customerScrollPane, BorderLayout.CENTER);
+
+        gotIn = true;
+
+        this.addWindowListener( new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                gotIn = false;
+            }
+        } );
     }
 }

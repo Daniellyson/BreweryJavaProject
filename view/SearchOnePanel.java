@@ -4,26 +4,32 @@ import controller.ApplicationController;
 import exception.GetCustomerException;
 import listener.ActionReturnButton;
 import model.Customer;
+import model.Product;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
+
+import static javax.swing.JTable.AUTO_RESIZE_OFF;
+
 
 public class SearchOnePanel extends JPanel {
 
     private JPanel searcheOnePanel;
     private JPanel buttonPanel;
+    private JPanel tablePanel;
 
     private JButton returnButton;
     private JButton validationButton;
 
     private JLabel titleComboBox;
-    private JLabel firstDate;
-    private JLabel secondDate;
+    private JLabel firstDateLabel;
+    private JLabel secondDateLabel;
 
     private JComboBox listCustomers;
 
@@ -35,14 +41,23 @@ public class SearchOnePanel extends JPanel {
     private String customerFirstName;
     private Customer customer;
 
-    public SearchOnePanel(ApplicationController controller, ActionReturnButton actionReturnButton) throws GetCustomerException {
+    private ApplicationController controller;
+
+    public SearchOnePanel(ApplicationController controller, ActionReturnButton actionReturnButton)
+    throws GetCustomerException {
 
         setLayout(new BorderLayout());
+
+        this.controller = controller;
+
 
         searcheOnePanel = new JPanel(new GridLayout(3, 2, 10, 25));
         add(searcheOnePanel, BorderLayout.NORTH);
 
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 50));
+        tablePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        add(tablePanel, BorderLayout.CENTER);
+
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 30));
         add(buttonPanel, BorderLayout.SOUTH);
 
         ArrayList<Customer> customers = controller.getAllCustomers();
@@ -57,7 +72,7 @@ public class SearchOnePanel extends JPanel {
 
             customerId = customer.getCustomerNumber().toString();
             customerLastName = customer.getLastName();
-            customerFirstName = customer.getFirstName();
+            customerFirstName = customer.getFirstName(0);
 
             customerComboBox[i] = customerId + " " + customerLastName + " " + customerFirstName;
             i++;
@@ -70,14 +85,14 @@ public class SearchOnePanel extends JPanel {
         listCustomers = new JComboBox(customerComboBox);
         searcheOnePanel.add(listCustomers);
 
-        firstDate = new JLabel("First Date");
-        firstDate.setHorizontalAlignment(JLabel.CENTER);
+        firstDateLabel = new JLabel("First Date");
+        firstDateLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        secondDate = new JLabel("Second Date");
-        secondDate.setHorizontalAlignment(JLabel.CENTER);
+        secondDateLabel = new JLabel("Second Date");
+        secondDateLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        searcheOnePanel.add(firstDate);
-        searcheOnePanel.add(secondDate);
+        searcheOnePanel.add(firstDateLabel);
+        searcheOnePanel.add(secondDateLabel);
 
         firstSpinnerDate = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor dateFirstEdit = new JSpinner.DateEditor(firstSpinnerDate,"dd/MM/yyyy");
@@ -97,7 +112,6 @@ public class SearchOnePanel extends JPanel {
         validationButton = new JButton("Validation");
         buttonPanel.add(validationButton);
 
-        //TODO
         ButtonsActionListener buttonsActionListener = new ButtonsActionListener();
 
         returnButton.addActionListener(actionReturnButton);
@@ -109,15 +123,35 @@ public class SearchOnePanel extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == validationButton) {
+                tablePanel.removeAll();
+
+                GregorianCalendar dateBeginning = new GregorianCalendar();
+                GregorianCalendar dateEnd = new GregorianCalendar();
+
                 String stringComboBox;
-                Date firstDate;
-                Date lastDate;
                 Integer id;
+                ArrayList<Product> productSearchOne = new ArrayList<>();
+
                 stringComboBox = listCustomers.getSelectedItem().toString();
 
                 id = Integer.valueOf(stringComboBox.replaceAll("\\D+", ""));
 
-                System.out.println(id);
+
+                dateBeginning.setTime((Date) firstSpinnerDate.getValue());
+
+                dateEnd.setTime((Date) secondSpinnerDate.getValue());
+
+                try {
+                    productSearchOne = controller.getSearchOne(id, dateBeginning, dateEnd);
+                } catch (GetCustomerException e) {
+                    e.printStackTrace();
+                }
+
+                SearchOneModel searchOneModel = new SearchOneModel(productSearchOne);
+                JTable searchOneTable = new JTable(searchOneModel);
+
+                JScrollPane searchOneScrollPane = new JScrollPane(searchOneTable);
+                tablePanel.add(searchOneScrollPane);
 
             }
         }

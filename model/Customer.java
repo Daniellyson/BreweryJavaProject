@@ -190,7 +190,7 @@ public class Customer {
                 cityName);
     }
 
-     public void setCustomerNumber(Integer customerNumber) {
+    public void setCustomerNumber(Integer customerNumber) {
         this.customerNumber = customerNumber;
     }
 
@@ -203,24 +203,25 @@ public class Customer {
     public void setLastName(String lastName) throws NullException, InvalidFormatException {
         if (lastName.isEmpty())
             throw new NullException("last name");
-        if (RegularExpression.test(lastName, "\\d?"))
+        if (RegularExpression.test(lastName, "\\d+"))
             throw new InvalidFormatException("last name", lastName);
         this.lastName = lastName;
     }
 
     public void setFirstNames(String[] firstNames) throws NullException, InvalidFormatException {
 
-        for (int i = 0; i < firstNames.length; i++) {
+        /*for (int i = 0; i < firstNames.length; i++) {
+
             if (firstNames[i].isEmpty()) {
                 if (i == 0) {
                     throw new NullException("first name");
                 }
             } else {
-                if (RegularExpression.test(firstNames[i],"\\d?")) {
+                if (RegularExpression.test(firstNames[i],"\\d+")) {
                     throw new InvalidFormatException("first name", firstNames[i]);
                 }
             }
-        }
+        }*/
         this.firstNames = firstNames;
     }
 
@@ -231,7 +232,7 @@ public class Customer {
     public void addFirstName(String firstName) throws InvalidFormatException {
         int i = 1;
 
-        if (RegularExpression.test(firstName, "\\d?")) {
+        if (RegularExpression.test(firstName, "\\d+")) {
             throw new InvalidFormatException("first name", firstName);
         }
         while (i < firstNames.length && !firstNames[i].isEmpty()) {
