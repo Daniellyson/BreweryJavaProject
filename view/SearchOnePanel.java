@@ -48,6 +48,7 @@ public class SearchOnePanel extends JPanel {
 
         this.controller = controller;
 
+
         searcheOnePanel = new JPanel(new GridLayout(3, 2, 10, 25));
         add(searcheOnePanel, BorderLayout.NORTH);
 

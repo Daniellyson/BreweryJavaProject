@@ -95,14 +95,13 @@ public class SearchThreePanel extends JPanel {
     private class Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
             if (e.getSource() == resetButton) {
                 listProducts.setSelectedIndex(0);
             }
 
             if (e.getSource() == validationButton) {
                 String stringCombobox = (String) listProducts.getSelectedItem();
-                String idProduct = stringCombobox.substring(0, 6);
+                String idProduct = stringCombobox.replaceAll("\\D+", "");
                 Date valueDate = (Date) firstDate.getValue();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                 String dateString = simpleDateFormat.format(valueDate);
@@ -119,7 +118,7 @@ public class SearchThreePanel extends JPanel {
                     JTable searchThreeTable = new JTable(searchThreeModel);
 
                     JScrollPane searchThreeScrollPane = new JScrollPane(searchThreeTable);
-					tablePanel.removeAll();
+                    tablePanel.removeAll();
                     tablePanel.add(searchThreeScrollPane);
                     tablePanel.revalidate();
                 } catch (Exception exception) {

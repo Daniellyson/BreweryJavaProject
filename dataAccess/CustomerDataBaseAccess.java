@@ -119,7 +119,7 @@ public class CustomerDataBaseAccess implements DAO {
                     "Customer.HouseNumber, City.Name, City.PostCode " +
                     "FROM Customer, City, ProductOrder " +
                     "WHERE Customer.Code = City.Code AND ProductOrder.CustomerNumber = Customer.CustomerNumber AND " +
-                    "ProductOrder.TargetDate <= (?);";
+                    "ProductOrder.TargetDate <= (?); ";
 
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
 
@@ -144,17 +144,19 @@ public class CustomerDataBaseAccess implements DAO {
 
         try {
             Connection connection = SingletonConnection.getInstance();
-            String requestSQL = "select distinct customer.*, city.*"+
+            String requestSQL = "select customer.*, city.*"+
                     "FROM product, customer, city, orderLine, sale " +
                     "WHERE customer.code = city.code " +
                     "AND sale.customerNumber = customer.customerNumber " +
                     "AND orderLine.saleCode = sale.saleCode "+
                     "AND orderLine.productCode = product.productCode "+
-                    "AND product.productCode = (?)" +
-                    "AND sale.targetDate > (?)" +
-                    "AND sale.targetDate < (?)";
+                    "AND product.productCode = ? " +
+                    "AND sale.targetDate >= ?" +
+                    "AND sale.targetDate <= ? ";
 
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
+
+            System.out.println(id);
 
             preparedStatement.setString(1, id);
 
