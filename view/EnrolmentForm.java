@@ -80,6 +80,7 @@ public class EnrolmentForm  extends JPanel {
 
     private Integer comboBoxCitiesSize;
     private String [] citiesComboBox;
+    private Integer [] codeCity;
 
     private JLabel customerLabel;
     private JComboBox listCustomers;
@@ -426,6 +427,7 @@ public class EnrolmentForm  extends JPanel {
 
                 if(correctPostCode) {
                     ArrayList<City> cities = new ArrayList<>();
+
                     try {
                         cities = controller.getAllCities(postalCodeNumber);
                     } catch (GetCustomerException e) {
@@ -436,6 +438,7 @@ public class EnrolmentForm  extends JPanel {
 
                     comboBoxCitiesSize = cities.size();
 
+                    codeCity = new Integer[cities.size()];
                     citiesComboBox = new String[comboBoxCitiesSize];
 
                     listCities.removeAllItems();
@@ -448,6 +451,7 @@ public class EnrolmentForm  extends JPanel {
                         int i = 0;
                         while (listingCities.hasNext()) {
                             city = listingCities.next();
+                            codeCity[i] = city.getCode();
                             citiesComboBox[i] = city.getName();
                             listCities.addItem(citiesComboBox[i]);
                             i++;
@@ -545,6 +549,8 @@ public class EnrolmentForm  extends JPanel {
                     String streetName = street.getText();
                     String houseNumberCustomer = houseNumber.getText();
                     String cityName = null;
+                    Integer codeTown = codeCity[listCities.getSelectedIndex()];
+
                     if(listCities.getSelectedItem() == null) {
                         blank = true;
                     } else {
@@ -618,11 +624,13 @@ public class EnrolmentForm  extends JPanel {
                                         birthDateNumber % 10000,
                                         (birthDateNumber / 10000) % 100,
                                         birthDateNumber / 1000000,
+                                        codeTown,
                                         postalCodeNumber,
                                         cityName);
                                 controller.addCustomer(customer);
                                 resetFields();
                             } catch (Exception exception) {
+
                                 JOptionPane.showMessageDialog(null, exception.getMessage());
                             }
                         }
