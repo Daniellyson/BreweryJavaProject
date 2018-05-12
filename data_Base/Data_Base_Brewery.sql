@@ -1,14 +1,14 @@
+/*CREATE SCHEMA `datebase_brewery` DEFAULT CHARACTER SET utf8;
+use datebase_brewery;*/
 
+/*
 drop table orderline;
 drop table product;
 drop table sale;
 drop table productorder;
 drop table customer;
 drop table city;
-
-
-SET @@GLOBAL.auto_increment_increment = 1;
-SET @@SESSION.auto_increment_increment = 1;
+*/
 
 create table City 
 	 (Code int(7) primary key auto_increment,
@@ -16,7 +16,7 @@ create table City
      Name varchar(70) not null,
      unique(PostCode, Name)) ENGINE=INNODB;
 
-     
+
 create table Customer
 	(CustomerNumber int(7) primary key auto_increment,
      LastName varchar(25) not null,
@@ -71,3 +71,14 @@ create table OrderLine
      foreign key fk_Order (OrderCode) references ProductOrder(OrderCode),
      foreign key fk_Sale (SaleCode) references Sale(SaleCode),
      foreign key fk_Product (ProductCode) references Product(ProductCode)) ENGINE=INNODB;
+
+
+DELIMITER $$
+create trigger customerVIP
+before insert on Customer 
+for each row begin
+	 if month(new.DateOfBirth) = month(now()) and day(new.DateOfBirth) = day(now())  then 
+		 set new.VIP = true;
+	end if;
+end$$
+DELIMITER ;
