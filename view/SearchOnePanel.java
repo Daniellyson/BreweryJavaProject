@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import static javax.swing.JTable.AUTO_RESIZE_OFF;
-
 
 public class SearchOnePanel extends JPanel {
 

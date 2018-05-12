@@ -111,12 +111,12 @@ public class CustomerDataBaseAccess implements DAO {
     public ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) {
         ArrayList<Customer> customers = new ArrayList<>();
         java.sql.Date targetDateSQL = new java.sql.Date(gregorianCalendar.getTimeInMillis());
-
+        ResultSet data;
         try {
             Connection connection = SingletonConnection.getInstance();
 
-            String requestSQL = "SELECT customer.LastName, customer.FirstName, customer.Street, " +
-                    "customer.HouseNumber, city.Name, city.PostCode " +
+            String requestSQL = "SELECT Customer.LastName, Customer.FirstName, Customer.Street, " +
+                    "Customer.HouseNumber, City.Name, City.PostCode " +
                     "FROM Customer, City, ProductOrder " +
                     "WHERE Customer.Code = City.Code AND ProductOrder.CustomerNumber = Customer.CustomerNumber AND " +
                     "ProductOrder.TargetDate <= (?);";
@@ -125,7 +125,7 @@ public class CustomerDataBaseAccess implements DAO {
 
             preparedStatement.setDate(1, targetDateSQL);
 
-            ResultSet data = preparedStatement.executeQuery();
+            data = preparedStatement.executeQuery();
 
             customers = communCustomer(data);
 

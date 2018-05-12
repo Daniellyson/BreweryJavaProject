@@ -88,13 +88,12 @@ public class SearchTwoPanel  extends JPanel {
                     e.printStackTrace();
                 }
 
-
-
                 SearchTwoModel searchTwoModel = new SearchTwoModel(orderSearchTwo);
                 JTable searchOneTable = new JTable(searchTwoModel);
 
                 JScrollPane searchTwoScrollPane = new JScrollPane(searchOneTable);
                 tablePanel.add(searchTwoScrollPane);
+                tablePanel.revalidate();
             }
         }
     }

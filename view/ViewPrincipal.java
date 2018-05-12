@@ -7,6 +7,7 @@ import model.Customer;
 import thread.ThreadAnimation;
 
 
+import javax.naming.NamingException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -43,6 +44,9 @@ public class ViewPrincipal extends JFrame {
     private JMenuItem listingArticlesOrdered;
     private JMenuItem orderDestination;
     private JMenuItem customersWhoBoughtProduct;
+
+    private JMenu jobTask;
+    private JMenuItem productSalePercentage;
 
     private JLabel frame;
 
@@ -126,12 +130,22 @@ public class ViewPrincipal extends JFrame {
         search.add(customersWhoBoughtProduct);
 
 
+        //JOB TASK (TACHE METIER)
+        jobTask = new JMenu("Job Task");
+        jobTask.setMnemonic('j');
+        menuBar.add(jobTask);
+        productSalePercentage = new JMenuItem("Statistic of a Product Sale (Percentage)");
+        jobTask.add(productSalePercentage);
+
+
         customerEnrolment.addActionListener(controlerEvent);
         deleteCustomer.addActionListener(controlerEvent);
         listingCustomers.addActionListener(controlerEvent);
         listingArticlesOrdered.addActionListener(controlerEvent);
         orderDestination.addActionListener(controlerEvent);
         customersWhoBoughtProduct.addActionListener(controlerEvent);
+        productSalePercentage.addActionListener(controlerEvent);
+        help.addActionListener(controlerEvent);
 
     }
 
@@ -225,6 +239,30 @@ public class ViewPrincipal extends JFrame {
 
                 container.add(new SearchThreePanel(actionReturnButton, controller));
 
+                container.revalidate();
+            }
+            //JOB TASK (TACHE METIER)
+            if(event.getSource() == productSalePercentage) {
+                new ThreadAnimation( false);
+                container.removeAll();
+                container.setBackground(null);
+
+                try {
+                    container.add(new JobTask(actionReturnButton, controller));
+                } catch (GetCustomerException e) {
+                    e.printStackTrace();
+                } catch (NamingException e) {
+                    e.printStackTrace();
+                }
+
+                container.revalidate();
+            }
+
+            //INFO
+            if(event.getSource() == help) {
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.add(new Help(actionReturnButton));
                 container.revalidate();
             }
         }

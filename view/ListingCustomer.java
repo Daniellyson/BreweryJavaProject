@@ -7,6 +7,7 @@ import model.City;
 import model.Customer;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,11 +60,17 @@ public class ListingCustomer extends JFrame {
         JTable customerTable = new JTable(allCustomersModel);
         int maxColumn = customerTable.getColumnCount();
 
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
         for(int i = 0; i < maxColumn; i++) {
             customerTable.getColumnModel().getColumn(i).setPreferredWidth(100);
+            customerTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
+        customerTable.getColumnModel().getColumn(12).setPreferredWidth(250);
         customerTable.getColumnModel().getColumn(maxColumn - 1).setPreferredWidth(350);
+
+
 
         customerTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         customerTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -77,6 +84,6 @@ public class ListingCustomer extends JFrame {
             public void windowClosing(WindowEvent event) {
                 gotIn = false;
             }
-        } );
+        });
     }
 }
