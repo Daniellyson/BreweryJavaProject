@@ -29,11 +29,6 @@ public class EnrolmentForm  extends JPanel {
     private JRadioButton editCustomer;
 
     private JLabel requiredField;
-    private JLabel customerNumberLabel;
-    private JTextField customerNumber;
-    //TODO doing JComboBox
-    private JComboBox customersBox;
-
 
     private JLabel nationalRegistrationNumberLabel;
     private JLabel firstNameLabel;
@@ -62,8 +57,6 @@ public class EnrolmentForm  extends JPanel {
     private JTextField accountNumber;
     private JTextField street;
     private JTextField houseNumber;
-    //TODO take off
-    private JTextField city;
 
     private JSpinner spinnerDateOfBirth;
     private Date valueDate;
@@ -90,24 +83,35 @@ public class EnrolmentForm  extends JPanel {
     private Integer comboBoxCitiesSize;
     private String [] citiesComboBox;
 
+    private JLabel customerLabel;
+    private JComboBox listCustomers;
+    private String [] customerComboBox;
+    private boolean listingCustomerIsEnable;
+
+    private JButton buttonGetAllCustomerInfo;
+
+    ArrayList<Customer> customers;
+
+
     public EnrolmentForm(ActionReturnButton actionReturnButton, ApplicationController controller) {
 
         this.controller = controller;
 
         setLayout(new BorderLayout());
 
-        choicePanel = new JPanel(new GridLayout(2, 2, 10, 8));
+        choicePanel = new JPanel(new GridLayout(2, 2, 10, 7));
         add(choicePanel, BorderLayout.NORTH);
 
-        formPanel = new JPanel(new GridLayout(14, 2, 10, 10));
+        formPanel = new JPanel(new GridLayout(15, 2, 10, 8));
         add(formPanel, BorderLayout.CENTER);
 
-        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
-        add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        add(buttonPanel, BorderLayout.PAGE_END);
 
-        //CHOICE PANEL
 
+        ButtonsActionListener buttonsActionListener = new ButtonsActionListener();
         ActionRadioBox actionRadioBox = new ActionRadioBox();
+
 
         newCustomer = new JRadioButton("New customer");
         choicePanel.add(newCustomer);
@@ -122,12 +126,26 @@ public class EnrolmentForm  extends JPanel {
         enrolomentButtonGroup.add(newCustomer);
         enrolomentButtonGroup.add(editCustomer);
 
+        //TODO here EDIT
+
+        customerLabel = new JLabel("*Customer:");
+        customerLabel.setHorizontalAlignment(JLabel.RIGHT);
+        choicePanel.add(customerLabel);
+        labels.add(customerLabel);
+        customerLabel.setEnabled(false);
+
+        listCustomers = new JComboBox();
+        choicePanel.add(listCustomers);
+        listCustomers.setEnabled(false);
+        listingCustomerIsEnable = false;
 
         requiredField = new JLabel("(*) Required Field");
         requiredField.setHorizontalAlignment(JLabel.RIGHT);
-        choicePanel.add(requiredField);
-        choicePanel.add(new JLabel(""));
+        formPanel.add(requiredField);
 
+        buttonGetAllCustomerInfo = new JButton("Get all information");
+        formPanel.add(buttonGetAllCustomerInfo);
+        buttonGetAllCustomerInfo.addActionListener(buttonsActionListener);
 
 
         //FORM PANEL
@@ -197,7 +215,7 @@ public class EnrolmentForm  extends JPanel {
         lastNameLabel.setEnabled(false);
         lastName.setEnabled(false);
 
-        //TODO doing FSpinner
+
         spinnerDateOfBirth = new JSpinner(new SpinnerDateModel());
         JSpinner.DateEditor dateEdit = new JSpinner.DateEditor(spinnerDateOfBirth,"dd/MM/yyyy");
         spinnerDateOfBirth.setEditor(dateEdit);
@@ -278,8 +296,6 @@ public class EnrolmentForm  extends JPanel {
 
         postCode.addActionListener(new ActionPostCode());
 
-
-
         cityLabel = new JLabel("*City:");
         cityLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(cityLabel);
@@ -287,15 +303,10 @@ public class EnrolmentForm  extends JPanel {
         listCities = new JComboBox();
         formPanel.add(listCities);
 
-        /*
+
         labels.add(cityLabel);
-        fields.add(city);
-        fieldsNotNull.add(city);
-
         cityLabel.setEnabled(false);
-        city.setEnabled(false);
-        */
-
+        listCities.setEnabled(false);
 
 
         //PHONES
@@ -324,9 +335,6 @@ public class EnrolmentForm  extends JPanel {
         landlinePhone.setEnabled(false);
 
 
-        //Buttons South
-        ButtonsActionListener buttonsActionListener = new ButtonsActionListener();
-
         returnButton = new JButton("Return");
         buttonPanel.add(returnButton);
         returnButton.addActionListener(actionReturnButton);
@@ -346,15 +354,13 @@ public class EnrolmentForm  extends JPanel {
             field.setText(null);
             field.setBackground(Color.WHITE);
         }
-        //customerNumber.setText(null);
+
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
         firstName_2.setEnabled(false);
         firstName_3.setEnabled(false);
 
-        //TODO doing FSpinner
-        //spinnerDate
     }
 
     public void setFieldsEnable(boolean enabled) {
@@ -367,6 +373,8 @@ public class EnrolmentForm  extends JPanel {
         }
         hasSecondFirstName.setEnabled(enabled);
         spinnerDateOfBirth.setEnabled(enabled);
+        listCities.setEnabled(enabled);
+
     }
 
     private class ActionCheckBox implements ItemListener {
@@ -458,16 +466,51 @@ public class EnrolmentForm  extends JPanel {
         public void itemStateChanged(ItemEvent event) {
             if (event.getSource() == editCustomer) {
                 if (event.getStateChange() == ItemEvent.SELECTED) {
-                    //customerNumberLabel.setEnabled(true);
-                    //customerNumber.setEnabled(true);
+                    listCustomers.setEnabled(true);
+                    customerLabel.setEnabled(true);
+                    listingCustomerIsEnable = true;
+
+                    Customer customer;
+                    String customerId;
+                    String customerLastName;
+                    String customerFirstName;
+
+                    customers = new ArrayList<>();
+                    try {
+                        customers = controller.getAllCustomers();
+                    } catch (GetCustomerException e) {
+                        e.printStackTrace();
+                    }
+
+                    Iterator<Customer> listingCustomers = customers.iterator();
+
+                    customerComboBox = new String[customers.size()];
+
+                    int i = 0;
+                    while(listingCustomers.hasNext()) {
+                        customer = listingCustomers.next();
+
+                        customerId = customer.getCustomerNumber().toString();
+                        customerLastName = customer.getLastName();
+                        customerFirstName = customer.getFirstName(0);
+
+                        customerComboBox[i] = customerId + " " + customerLastName + " " + customerFirstName;
+                        listCustomers.addItem(customerComboBox[i]);
+                        i++;
+                    }
+
                 } else {
-                    //customerNumberLabel.setEnabled(false);
-                    //customerNumber.setEnabled(false);
+                    listCustomers.setEnabled(false);
+                    customerLabel.setEnabled(false);
+                    listingCustomerIsEnable = false;
                 }
             }
             if (event.getSource() == newCustomer) {
                 if (event.getStateChange() == ItemEvent.SELECTED) {
                     setFieldsEnable(true);
+                    listCustomers.setEnabled(false);
+                    customerLabel.setEnabled(false);
+                    listingCustomerIsEnable = false;
                 } else {
                     setFieldsEnable(false);
                 }
@@ -500,7 +543,13 @@ public class EnrolmentForm  extends JPanel {
                     String accountNumberCustomer = accountNumber.getText();
                     String streetName = street.getText();
                     String houseNumberCustomer = houseNumber.getText();
-                    String cityName = city.getText();
+                    String cityName = null;
+                    if(listCities.getSelectedItem() == null) {
+                        blank = true;
+                    } else {
+                        cityName = listCities.getSelectedItem().toString();
+                    }
+
                     String postalCode = postCode.getText();
                     String mobilePhoneCustomer = mobilePhone.getText();
                     String landlinePhoneCustomer = landlinePhone.getText();
@@ -583,6 +632,27 @@ public class EnrolmentForm  extends JPanel {
 
             if (event.getSource() == resetButton) {
                 resetFields();
+            }
+
+            if (event.getSource() == buttonGetAllCustomerInfo) {
+
+                if(listingCustomerIsEnable) {
+                    nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
+                    firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
+                    firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
+                    firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
+                    lastName.setText(customers.get(listCustomers.getSelectedIndex()).getLastName());
+                    //spinnerDateOfBirth.setValue(customers.get(0).getBirthDate().getTimeInMillis());
+                    accountNumber.setText(customers.get(listCustomers.getSelectedIndex()).getAccountNumber());
+                    isVIP.setEnabled(customers.get(listCustomers.getSelectedIndex()).getVip());
+                    street.setText(customers.get(listCustomers.getSelectedIndex()).getStreetName());
+                    houseNumber.setText(customers.get(listCustomers.getSelectedIndex()).getHouseNumber());
+                    postCode.setText(customers.get(listCustomers.getSelectedIndex()).getCity().getPostCode().toString());
+                    mobilePhone.setText(customers.get(listCustomers.getSelectedIndex()).getMobilePhone());
+                    landlinePhone.setText(customers.get(listCustomers.getSelectedIndex()).getLandlinePhone());
+
+                    setFieldsEnable(true);
+                }
             }
         }
     }
