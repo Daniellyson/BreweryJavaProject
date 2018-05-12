@@ -432,14 +432,23 @@ public class EnrolmentForm  extends JPanel {
 
                     citiesComboBox = new String[comboBoxCitiesSize];
 
-                    int i = 0;
-                    while(listingCities.hasNext()) {
-                        city = listingCities.next();
-                        citiesComboBox[i] = city.getName();
-                        listCities.addItem(citiesComboBox[i]);
-                        i++;
+                    listCities.removeAllItems();
+
+                    if(cities.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "POSTCODE must be from Belgium.",
+                                "Information", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else {
+                        int i = 0;
+                        while (listingCities.hasNext()) {
+                            city = listingCities.next();
+                            citiesComboBox[i] = city.getName();
+                            listCities.addItem(citiesComboBox[i]);
+                            i++;
+                        }
                     }
                 }
+
             }
         }
     }
