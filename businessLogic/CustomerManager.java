@@ -8,6 +8,7 @@ import model.Customer;
 import model.Order;
 import model.Product;
 
+import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -33,6 +34,14 @@ public class CustomerManager {
 
     public ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException {
         return dao.getSearchTwo(gregorianCalendar);
+    }
+
+    public ArrayList<Customer> getSearchThree(String idProduct, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException {
+        return dao.getSearchThree(idProduct, firstDate, secondDate);
+    }
+
+    public ArrayList<Product> getAllProducts() throws GetCustomerException, NamingException {
+        return dao.getAllProducts();
     }
 
     public boolean deleteCustomer(Integer id) {

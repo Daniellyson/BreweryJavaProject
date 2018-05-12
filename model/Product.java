@@ -8,9 +8,19 @@ public class Product {
     private Integer amountInventory;
 
     public Product(String name, Double reductionPercentage, Double price) {
+        this(null, name, price, reductionPercentage, null);
+    }
+
+    public Product(String code, String name) {
+        this(code, name, null, null, null);
+    }
+
+    public Product(String code, String name, Double price, Double reductionPercentage, Integer amountInventory) {
+        setCode(code);
         setName(name);
-        setReductionPercentage(reductionPercentage);
         setPrice(price);
+        setReductionPercentage(reductionPercentage);
+        setAmountInventory(amountInventory);
     }
 
     public void setCode(String code) {

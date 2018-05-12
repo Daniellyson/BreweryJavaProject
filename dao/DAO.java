@@ -6,14 +6,17 @@ import model.Customer;
 import model.Order;
 import model.Product;
 
+import javax.naming.NamingException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public interface DAO {
 
-    public ArrayList<Customer> getAllCustomers() throws GetCustomerException;
-    public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar firstDate, GregorianCalendar lastDate) throws GetCustomerException;
-    public void addCustomer(Customer customer) throws AddCustomerException;
-    public  ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException;
-    public boolean deleteCustomer(Integer id);
+    ArrayList<Customer> getAllCustomers() throws GetCustomerException;
+    ArrayList<Product> getSearchOne(Integer id, GregorianCalendar firstDate, GregorianCalendar lastDate) throws GetCustomerException;
+    void addCustomer(Customer customer) throws AddCustomerException;
+    ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException;
+    boolean deleteCustomer(Integer id);
+    ArrayList<Customer> getSearchThree(String idProduct, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException;
+    ArrayList<Product> getAllProducts() throws GetCustomerException, NamingException;
 }

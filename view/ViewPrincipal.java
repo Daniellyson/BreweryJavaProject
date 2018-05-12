@@ -131,6 +131,7 @@ public class ViewPrincipal extends JFrame {
         listingCustomers.addActionListener(controlerEvent);
         listingArticlesOrdered.addActionListener(controlerEvent);
         orderDestination.addActionListener(controlerEvent);
+        customersWhoBoughtProduct.addActionListener(controlerEvent);
 
     }
 
@@ -218,7 +219,13 @@ public class ViewPrincipal extends JFrame {
             }
             //SEARCH THREE
             if(event.getSource() == customersWhoBoughtProduct){
+                new ThreadAnimation( false);
+                container.removeAll();
+                container.setBackground(null);
 
+                container.add(new SearchThreePanel(actionReturnButton, controller));
+
+                container.revalidate();
             }
         }
 

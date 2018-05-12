@@ -6,6 +6,9 @@ import exception.GetCustomerException;
 import model.Customer;
 import model.Order;
 import model.Product;
+
+import javax.naming.NamingException;
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -30,6 +33,14 @@ public class ApplicationController {
 
     public ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException {
         return customerManager.getSearchTwo(gregorianCalendar);
+    }
+
+    public ArrayList<Customer> getSearchThree(String idProduct, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException {
+        return customerManager.getSearchThree(idProduct, firstDate, secondDate);
+    }
+
+    public ArrayList<Product> getAllProducts() throws GetCustomerException, NamingException {
+        return customerManager.getAllProducts();
     }
 
     public boolean deleteCustomer(Integer id) {

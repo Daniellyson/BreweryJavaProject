@@ -152,7 +152,7 @@ public class SearchOnePanel extends JPanel {
 
                 JScrollPane searchOneScrollPane = new JScrollPane(searchOneTable);
                 tablePanel.add(searchOneScrollPane);
-
+                tablePanel.revalidate();
             }
         }
     }

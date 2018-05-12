@@ -138,6 +138,40 @@ public class CustomerDataBaseAccess implements DAO {
         return customers;
     }
 
+    public ArrayList<Customer> getSearchThree(String id, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException {
+        ArrayList<Customer> customers;
+        ResultSet data;
+
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            String requestSQL = "select distinct customer.*, city.*"+
+                    "FROM product, customer, city, orderLine, sale " +
+                    "WHERE customer.code = city.code " +
+                    "AND sale.customerNumber = customer.customerNumber " +
+                    "AND orderLine.saleCode = sale.saleCode "+
+                    "AND orderLine.productCode = product.productCode "+
+                    "AND product.productCode = (?)" +
+                    "AND sale.targetDate > (?)" +
+                    "AND sale.targetDate < (?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
+
+            preparedStatement.setString(1, id);
+
+            preparedStatement.setDate(2, new java.sql.Date(firstDate.getTimeInMillis()));
+
+            preparedStatement.setDate(3, new java.sql.Date(secondDate.getTimeInMillis()));
+
+            data = preparedStatement.executeQuery();
+
+            customers = communCustomer(data);
+
+        } catch(SQLException exception) {
+            throw new GetCustomerException(exception);
+        }
+        return customers;
+    }
+
     public ArrayList<Customer> communCustomer(ResultSet data) throws SQLException {
         GregorianCalendar birthDate = new GregorianCalendar();
         java.sql.Date sqlDate;
@@ -258,5 +292,28 @@ public class CustomerDataBaseAccess implements DAO {
         }
 
         return confirmation;
+    }
+
+    @Override
+    public ArrayList<Product> getAllProducts() throws GetCustomerException, NamingException {
+        ArrayList<Product> products = new ArrayList<>();
+        Product product;
+
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            PreparedStatement preparedStatement;
+            ResultSet data;
+            String requestSQL = "select *"+
+                    "from product;";
+            preparedStatement = connection.prepareStatement(requestSQL);
+            data = preparedStatement.executeQuery();
+            while (data.next()) {
+                product = new Product(data.getString("productCode"), data.getString("Name"));
+                products.add(product);
+            }
+        } catch (SQLException exception) {
+            throw new GetCustomerException(exception);
+        }
+        return products;
     }
 }

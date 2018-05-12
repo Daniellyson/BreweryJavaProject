@@ -84,7 +84,7 @@ public class AllCustomersModel extends AbstractTableModel {
                     return null;
                 }
             case 12 :
-                return customer.getBirthDate();
+                return customer.getBirthDate().getTime();
             case 13 :
                 return customer.getCity().getCode();
             case 14 :
