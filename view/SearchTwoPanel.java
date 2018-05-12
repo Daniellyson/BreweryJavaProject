@@ -74,7 +74,6 @@ public class SearchTwoPanel  extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == validationButton) {
-                tablePanel.removeAll();
 
                 GregorianCalendar targetGregorianCalendar = new GregorianCalendar();
 
@@ -92,6 +91,7 @@ public class SearchTwoPanel  extends JPanel {
                 JTable searchOneTable = new JTable(searchTwoModel);
 
                 JScrollPane searchTwoScrollPane = new JScrollPane(searchOneTable);
+                tablePanel.removeAll();
                 tablePanel.add(searchTwoScrollPane);
                 tablePanel.revalidate();
             }

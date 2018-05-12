@@ -95,6 +95,7 @@ public class SearchThreePanel extends JPanel {
     private class Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            
             if (e.getSource() == resetButton) {
                 listProducts.setSelectedIndex(0);
             }
@@ -118,6 +119,7 @@ public class SearchThreePanel extends JPanel {
                     JTable searchThreeTable = new JTable(searchThreeModel);
 
                     JScrollPane searchThreeScrollPane = new JScrollPane(searchThreeTable);
+					tablePanel.removeAll();
                     tablePanel.add(searchThreeScrollPane);
                     tablePanel.revalidate();
                 } catch (Exception exception) {
