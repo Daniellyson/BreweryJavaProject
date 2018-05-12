@@ -210,9 +210,9 @@ public class Customer {
 
     public void setFirstNames(String[] firstNames) throws NullException, InvalidFormatException {
 
-        /*for (int i = 0; i < firstNames.length; i++) {
+        for (int i = 0; i < firstNames.length; i++) {
 
-            if (firstNames[i].isEmpty()) {
+            if (firstNames[i] == null) {
                 if (i == 0) {
                     throw new NullException("first name");
                 }
@@ -221,7 +221,7 @@ public class Customer {
                     throw new InvalidFormatException("first name", firstNames[i]);
                 }
             }
-        }*/
+        }
         this.firstNames = firstNames;
     }
 
@@ -235,9 +235,11 @@ public class Customer {
         if (RegularExpression.test(firstName, "\\d+")) {
             throw new InvalidFormatException("first name", firstName);
         }
-        while (i < firstNames.length && !firstNames[i].isEmpty()) {
+
+        while (i < firstNames.length && firstNames[i] != null) {
             i++;
         }
+
         if (i < firstNames.length) {
             firstNames[i] = firstName;
         }
@@ -292,8 +294,6 @@ public class Customer {
     public void setCity(Integer cityCode, Integer postalCode, String cityName) throws NullException {
         setCity(new City(cityCode, postalCode, cityName));
     }
-
-    //TODO doing gets to AllCustomersModel
 
     public Integer getCustomerNumber() {
         return customerNumber;

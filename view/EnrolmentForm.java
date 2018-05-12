@@ -511,6 +511,7 @@ public class EnrolmentForm  extends JPanel {
                     listCustomers.setEnabled(false);
                     customerLabel.setEnabled(false);
                     listingCustomerIsEnable = false;
+                    listCustomers.removeAllItems();
                 } else {
                     setFieldsEnable(false);
                 }
@@ -642,9 +643,8 @@ public class EnrolmentForm  extends JPanel {
                     firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
                     firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
                     lastName.setText(customers.get(listCustomers.getSelectedIndex()).getLastName());
-                    //spinnerDateOfBirth.setValue(customers.get(0).getBirthDate().getTimeInMillis());
                     accountNumber.setText(customers.get(listCustomers.getSelectedIndex()).getAccountNumber());
-                    isVIP.setEnabled(customers.get(listCustomers.getSelectedIndex()).getVip());
+                    isVIP.setSelected(customers.get(listCustomers.getSelectedIndex()).getVip());
                     street.setText(customers.get(listCustomers.getSelectedIndex()).getStreetName());
                     houseNumber.setText(customers.get(listCustomers.getSelectedIndex()).getHouseNumber());
                     postCode.setText(customers.get(listCustomers.getSelectedIndex()).getCity().getPostCode().toString());
