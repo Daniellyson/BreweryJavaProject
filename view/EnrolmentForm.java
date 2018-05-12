@@ -1,6 +1,7 @@
 package view;
 
 import controller.ApplicationController;
+import exception.GetCustomerException;
 import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
@@ -16,6 +17,7 @@ import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 public class EnrolmentForm  extends JPanel {
     private JPanel choicePanel;
@@ -60,14 +62,14 @@ public class EnrolmentForm  extends JPanel {
     private JTextField accountNumber;
     private JTextField street;
     private JTextField houseNumber;
+    //TODO take off
+    private JTextField city;
 
-    //TODO doing FSpinner
     private JSpinner spinnerDateOfBirth;
     private Date valueDate;
     private String dateString;
 
-
-    private JTextField city;
+    private JComboBox listCities;
     private JTextField postCode;
 
     private JTextField mobilePhone;
@@ -85,6 +87,8 @@ public class EnrolmentForm  extends JPanel {
 
     private ApplicationController controller;
 
+    private Integer comboBoxCitiesSize;
+    private String [] citiesComboBox;
 
     public EnrolmentForm(ActionReturnButton actionReturnButton, ApplicationController controller) {
 
@@ -119,25 +123,10 @@ public class EnrolmentForm  extends JPanel {
         enrolomentButtonGroup.add(editCustomer);
 
 
-        //ActionCustomerIdNumber actionCustomerIdNumber = new ActionCustomerIdNumber();
-
         requiredField = new JLabel("(*) Required Field");
         requiredField.setHorizontalAlignment(JLabel.RIGHT);
         choicePanel.add(requiredField);
         choicePanel.add(new JLabel(""));
-        /*customerNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-        choicePanel.add(customerNumberLabel);
-
-        //TODO JComboBox  maybe ?
-
-        String [] customers = {"Jordan", "Daniellyson", "Marie"};
-        customersBox = new JComboBox(customers);
-        choicePanel.add(customersBox);
-
-
-        customerNumberLabel.setEnabled(false);
-        /*customerNumber.setEnabled(false);
-        customerNumber.addActionListener(actionCustomerIdNumber);*/
 
 
 
@@ -194,8 +183,6 @@ public class EnrolmentForm  extends JPanel {
         firstName_3.setEnabled(false);
 
         fields.add(firstName_3);
-        //END more than one first name
-
 
         lastNameLabel = new JLabel("*Last name:");
         lastNameLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -209,7 +196,6 @@ public class EnrolmentForm  extends JPanel {
 
         lastNameLabel.setEnabled(false);
         lastName.setEnabled(false);
-
 
         //TODO doing FSpinner
         spinnerDateOfBirth = new JSpinner(new SpinnerDateModel());
@@ -277,21 +263,7 @@ public class EnrolmentForm  extends JPanel {
         houseNumber.setEnabled(false);
 
 
-        cityLabel = new JLabel("*City:");
-        cityLabel.setHorizontalAlignment(JLabel.RIGHT);
-        formPanel.add(cityLabel);
-        city = new JTextField();
-        formPanel.add(city);
-
-        labels.add(cityLabel);
-        fields.add(city);
-        fieldsNotNull.add(city);
-
-        cityLabel.setEnabled(false);
-        city.setEnabled(false);
-
-
-        postCodeLabel = new JLabel("*PostCode:");
+        postCodeLabel = new JLabel("*PostCode (After typing, press ENTER):");
         postCodeLabel.setHorizontalAlignment(JLabel.RIGHT);
         formPanel.add(postCodeLabel);
         postCode = new JTextField();
@@ -303,6 +275,27 @@ public class EnrolmentForm  extends JPanel {
 
         postCodeLabel.setEnabled(false);
         postCode.setEnabled(false);
+
+        postCode.addActionListener(new ActionPostCode());
+
+
+
+        cityLabel = new JLabel("*City:");
+        cityLabel.setHorizontalAlignment(JLabel.RIGHT);
+        formPanel.add(cityLabel);
+
+        listCities = new JComboBox();
+        formPanel.add(listCities);
+
+        /*
+        labels.add(cityLabel);
+        fields.add(city);
+        fieldsNotNull.add(city);
+
+        cityLabel.setEnabled(false);
+        city.setEnabled(false);
+        */
+
 
 
         //PHONES
@@ -373,8 +366,6 @@ public class EnrolmentForm  extends JPanel {
             label.setEnabled(enabled);
         }
         hasSecondFirstName.setEnabled(enabled);
-
-        //TODO doing FSpinner
         spinnerDateOfBirth.setEnabled(enabled);
     }
 
@@ -410,6 +401,51 @@ public class EnrolmentForm  extends JPanel {
         }
     }
 
+    private class ActionPostCode implements ActionListener {
+
+        public void actionPerformed(ActionEvent actionEvent) {
+            if(actionEvent.getSource() == postCode) {
+                City city;
+                boolean correctPostCode = true;
+                Integer postalCodeNumber = null;
+                String postalCode = postCode.getText();
+
+                try {
+                    postalCodeNumber = Integer.parseInt(postalCode);
+                } catch (NumberFormatException exception) {
+                    correctPostCode = false;
+                    JOptionPane.showMessageDialog(null, "POSTCODE must be a number.",
+                            "Information", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                if(correctPostCode) {
+                    ArrayList<City> cities = new ArrayList<>();
+                    try {
+                        cities = controller.getAllCities(postalCodeNumber);
+                    } catch (GetCustomerException e) {
+                        e.printStackTrace();
+                    }
+
+                    Iterator<City> listingCities = cities.iterator();
+
+                    comboBoxCitiesSize = cities.size();
+
+                    citiesComboBox = new String[comboBoxCitiesSize];
+
+                    int i = 0;
+                    while(listingCities.hasNext()) {
+                        city = listingCities.next();
+                        citiesComboBox[i] = city.getName();
+                        i++;
+                    }
+
+                    listCities.setSelectedItem(new JComboBox(citiesComboBox));
+                    listCities.revalidate();
+                }
+            }
+        }
+    }
+
     private class ActionRadioBox implements ItemListener {
 
         public void itemStateChanged(ItemEvent event) {
@@ -433,21 +469,6 @@ public class EnrolmentForm  extends JPanel {
         }
     }
 
-    /*private class ActionCustomerIdNumber implements ActionListener {
-
-        public void actionPerformed(ActionEvent event) {
-
-            if (event.getSource() == customerNumber) {
-                //Test listener ID NUMBER Replace by Data Base Key Customer
-                if (customerNumber.getText().equals("123")) {
-                    setFieldsEnable(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Try again", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }*/
-
     private class ButtonsActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent event) {
@@ -464,7 +485,6 @@ public class EnrolmentForm  extends JPanel {
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
 
-                    //TODO doing FSpinner
                     valueDate = (Date) spinnerDateOfBirth.getValue();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                     dateString = simpleDateFormat.format(valueDate);
@@ -495,19 +515,19 @@ public class EnrolmentForm  extends JPanel {
                         JOptionPane.showMessageDialog(null, "field in red can't be blank");
                     } else {
 
-                        if (RegularExpression.test(lastNameCustomer, "\\d?")) {
+                        if (RegularExpression.test(lastNameCustomer, "\\d+")) {
                             errorMessage += "last name can't contain number\n";
                             error = true;
                         }
 
-                        if (RegularExpression.test(firstNames[0], "\\d?")) {
+                        if (RegularExpression.test(firstNames[0], "\\d+")) {
                             errorMessage += "first first name can't contain number\n";
                             error = true;
                         }
 
                         for (int i = 1; i < firstNames.length; i++) {
                             if (!firstNames[i].isEmpty()) {
-                                if (RegularExpression.test(firstNames[i], "\\d?"))
+                                if (RegularExpression.test(firstNames[i], "\\d+"))
                                     errorMessage += "first name "+i+" can't contain number\n";
                                 error = true;
                             }
