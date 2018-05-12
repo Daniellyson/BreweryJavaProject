@@ -42,7 +42,7 @@ public class SearchOnePanel extends JPanel {
     private ApplicationController controller;
 
     public SearchOnePanel(ApplicationController controller, ActionReturnButton actionReturnButton)
-    throws GetCustomerException {
+            throws GetCustomerException {
 
         setLayout(new BorderLayout());
 

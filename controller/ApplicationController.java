@@ -3,6 +3,7 @@ package controller;
 import businessLogic.CustomerManager;
 import exception.AddCustomerException;
 import exception.GetCustomerException;
+import model.City;
 import model.Customer;
 import model.Order;
 import model.Product;
@@ -45,5 +46,9 @@ public class ApplicationController {
 
     public boolean deleteCustomer(Integer id) {
         return customerManager.deleteCustomer(id);
+    }
+
+    public ArrayList<City> getAllCities(Integer postCode) throws GetCustomerException {
+        return customerManager.getAllCities(postCode);
     }
 }

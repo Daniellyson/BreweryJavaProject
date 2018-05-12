@@ -436,11 +436,9 @@ public class EnrolmentForm  extends JPanel {
                     while(listingCities.hasNext()) {
                         city = listingCities.next();
                         citiesComboBox[i] = city.getName();
+                        listCities.addItem(citiesComboBox[i]);
                         i++;
                     }
-
-                    listCities.setSelectedItem(new JComboBox(citiesComboBox));
-                    listCities.revalidate();
                 }
             }
         }

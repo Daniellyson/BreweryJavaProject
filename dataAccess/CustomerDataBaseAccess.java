@@ -5,6 +5,7 @@ import exception.AddCustomerException;
 import exception.GetCustomerException;
 import exception.InvalidFormatException;
 import exception.NullException;
+import model.City;
 import model.Customer;
 import model.Product;
 
@@ -115,11 +116,10 @@ public class CustomerDataBaseAccess implements DAO {
         try {
             Connection connection = SingletonConnection.getInstance();
 
-            String requestSQL = "SELECT Customer.LastName, Customer.FirstName, Customer.Street, " +
-                    "Customer.HouseNumber, City.Name, City.PostCode " +
+            String requestSQL = "SELECT Customer.*, City.Name, City.PostCode " +
                     "FROM Customer, City, ProductOrder " +
                     "WHERE Customer.Code = City.Code AND ProductOrder.CustomerNumber = Customer.CustomerNumber AND " +
-                    "ProductOrder.TargetDate <= (?); ";
+                    "ProductOrder.TargetDate <= (?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
 
@@ -172,6 +172,7 @@ public class CustomerDataBaseAccess implements DAO {
         return customers;
     }
 
+
     public ArrayList<Customer> communCustomer(ResultSet data) throws SQLException {
         GregorianCalendar birthDate = new GregorianCalendar();
         java.sql.Date sqlDate;
@@ -181,6 +182,7 @@ public class CustomerDataBaseAccess implements DAO {
         String mobilePhone;
         String landlinePhone;
         Customer customer;
+
         try {
             while (data.next()) {
                 sqlDate = data.getDate("DateOfBirth");
@@ -315,5 +317,39 @@ public class CustomerDataBaseAccess implements DAO {
             throw new GetCustomerException(exception);
         }
         return products;
+    }
+
+
+    @Override
+    public ArrayList<City> getAllCities(Integer postCode) throws GetCustomerException {
+        ArrayList<City> cities = new ArrayList<>();
+
+        try {
+            Connection connection = SingletonConnection.getInstance();
+            City city;
+
+            String requestSQL = "SELECT * " +
+                    "FROM City " +
+                    "WHERE City.PostCode = (?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
+
+            preparedStatement.setInt(1, postCode);
+
+            ResultSet data = preparedStatement.executeQuery();
+            while (data.next()) {
+                city = new City(data.getString("Name"),
+                        data.getInt("PostCode"));
+
+                cities.add(city);
+            }
+
+        } catch (SQLException exception) {
+            throw new GetCustomerException(exception);
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+
+        return cities;
     }
 }

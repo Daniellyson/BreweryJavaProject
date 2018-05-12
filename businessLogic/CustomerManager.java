@@ -4,6 +4,7 @@ import dao.DAO;
 import dataAccess.CustomerDataBaseAccess;
 import exception.AddCustomerException;
 import exception.GetCustomerException;
+import model.City;
 import model.Customer;
 import model.Order;
 import model.Product;
@@ -46,5 +47,9 @@ public class CustomerManager {
 
     public boolean deleteCustomer(Integer id) {
         return dao.deleteCustomer(id);
+    }
+
+    public ArrayList<City> getAllCities(Integer postCode) throws GetCustomerException {
+        return dao.getAllCities(postCode);
     }
 }

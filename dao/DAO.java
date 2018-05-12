@@ -2,6 +2,7 @@ package dao;
 
 import exception.AddCustomerException;
 import exception.GetCustomerException;
+import model.City;
 import model.Customer;
 import model.Order;
 import model.Product;
@@ -19,4 +20,5 @@ public interface DAO {
     boolean deleteCustomer(Integer id);
     ArrayList<Customer> getSearchThree(String idProduct, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException;
     ArrayList<Product> getAllProducts() throws GetCustomerException, NamingException;
+    ArrayList<City> getAllCities(Integer postCode) throws GetCustomerException;
 }
