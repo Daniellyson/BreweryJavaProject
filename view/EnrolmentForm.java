@@ -15,9 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 
 public class EnrolmentForm  extends JPanel {
     private JPanel choicePanel;
@@ -512,8 +510,10 @@ public class EnrolmentForm  extends JPanel {
                     customerLabel.setEnabled(false);
                     listingCustomerIsEnable = false;
                     listCustomers.removeAllItems();
+                    isVIP.setSelected(false);
                 } else {
                     setFieldsEnable(false);
+                    listCities.removeAllItems();
                 }
             }
             resetFields();
@@ -640,8 +640,27 @@ public class EnrolmentForm  extends JPanel {
                 if(listingCustomerIsEnable) {
                     nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
                     firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
-                    firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
-                    firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
+
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(1) != null) {
+                        hasSecondFirstName.setEnabled(true);
+                        hasSecondFirstName.setSelected(true);
+                        firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
+                    }
+                    else {
+                        hasSecondFirstName.setEnabled(false);
+                        hasSecondFirstName.setSelected(false);
+                    }
+
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(2) != null) {
+                       hasThirdFirstName.setEnabled(true);
+                       hasThirdFirstName.setSelected(true);
+                        firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
+                    }
+                    else {
+                        hasThirdFirstName.setEnabled(false);
+                        hasThirdFirstName.setSelected(false);
+                    }
+
                     lastName.setText(customers.get(listCustomers.getSelectedIndex()).getLastName());
                     accountNumber.setText(customers.get(listCustomers.getSelectedIndex()).getAccountNumber());
                     isVIP.setSelected(customers.get(listCustomers.getSelectedIndex()).getVip());
@@ -652,6 +671,8 @@ public class EnrolmentForm  extends JPanel {
                     landlinePhone.setText(customers.get(listCustomers.getSelectedIndex()).getLandlinePhone());
 
                     setFieldsEnable(true);
+                    spinnerDateOfBirth.setEnabled(false);
+                    dateOfBirthLabel.setEnabled(false);
                 }
             }
         }

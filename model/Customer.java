@@ -341,5 +341,4 @@ public class Customer {
     public GregorianCalendar getBirthDate () {
         return birthDate;
     }
-
 }
