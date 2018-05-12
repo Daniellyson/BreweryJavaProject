@@ -156,11 +156,9 @@ public class CustomerDataBaseAccess implements DAO {
 
             PreparedStatement preparedStatement = connection.prepareStatement(requestSQL);
 
-            System.out.println(id);
-
             preparedStatement.setString(1, id);
 
-            preparedStatement.setDate(2, new java.sql.Date(firstDate.getTimeInMillis()));
+            preparedStatement.setDate(2,  new java.sql.Date(firstDate.getTimeInMillis()));
 
             preparedStatement.setDate(3, new java.sql.Date(secondDate.getTimeInMillis()));
 

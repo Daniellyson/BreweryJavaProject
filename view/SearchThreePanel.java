@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -102,18 +101,13 @@ public class SearchThreePanel extends JPanel {
             if (e.getSource() == validationButton) {
                 String stringCombobox = (String) listProducts.getSelectedItem();
                 String idProduct = stringCombobox.replaceAll("\\D+", "");
-                Date valueDate = (Date) firstDate.getValue();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
-                String dateString = simpleDateFormat.format(valueDate);
-                Date valueDate2 = (Date) secondDate.getValue();
-                String secondDateString = simpleDateFormat.format(valueDate2);
-                Integer firstDateNumber = Integer.parseInt(dateString);
-                Integer secondDateNumber = Integer.parseInt(secondDateString);
+                GregorianCalendar firstDateCalendar = new GregorianCalendar();
+                GregorianCalendar secondDateCalendar = new GregorianCalendar();
+                firstDateCalendar.setTime((Date) firstDate.getValue());
+                secondDateCalendar.setTime((Date) secondDate.getValue());
 
                 try {
-                    ArrayList<Customer> customers = controller.getSearchThree(idProduct,
-                            new GregorianCalendar( firstDateNumber/1000000, (firstDateNumber%1000000)/10000, firstDateNumber%10000),
-                            new GregorianCalendar(secondDateNumber/1000000, (secondDateNumber%1000000)/10000, secondDateNumber%10000));
+                    ArrayList<Customer> customers = controller.getSearchThree(idProduct, firstDateCalendar, secondDateCalendar);
                     SearchThreeModel searchThreeModel = new SearchThreeModel(customers);
                     JTable searchThreeTable = new JTable(searchThreeModel);
 
