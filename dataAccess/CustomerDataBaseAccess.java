@@ -42,7 +42,7 @@ public class CustomerDataBaseAccess implements DAO {
 
 
     public boolean addCustomer(Customer customer) throws AddCustomerException {
-        boolean updated = true;
+        boolean inserted = true;
         try{
             Connection connection = SingletonConnection.getInstance();
             String sqlInstruction = "insert into Customer () values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -81,11 +81,78 @@ public class CustomerDataBaseAccess implements DAO {
 
         }
         catch(NamingException | SQLException exception){
+            inserted = false;
+            throw new AddCustomerException(exception);
+        }
+        return inserted;
+    }
+
+
+
+    public boolean upDateCustomer(Customer customer) throws AddCustomerException {
+        boolean updated = true;
+
+        try{
+
+            Connection connection = SingletonConnection.getInstance();
+            String sqlInstruction = "UPDATE Customer SET CustomerNumber = ? " +
+                                                        "LastName = ?, " +
+                                                        "FirstName = ?, " +
+                                                        "FirstName2 = ?, " +
+                                                        "FirstName3 = ?, " +
+                                                        "VIP = ?, " +
+                                                        "NationalResgistrationNumber = ?, " +
+                                                        "AccountNumber = ?, " +
+                                                        "Street = ?, " +
+                                                        "HouseNumber = ?, " +
+                                                        "MobilePhone = ?, " +
+                                                        "LandlinePhone = ?, " +
+                                                        "DateOfBirth = ?, " +
+                                                        "Code = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
+
+            preparedStatement.setInt(1, customer.getCustomerNumber());
+
+            preparedStatement.setString(2, customer.getLastName());
+
+            preparedStatement.setString(3, customer.getFirstName(0));
+
+            preparedStatement.setString(4, customer.getFirstName(1));
+
+            preparedStatement.setString(5, customer.getFirstName(2));
+
+            preparedStatement.setBoolean(6, customer.getVip());
+
+            preparedStatement.setString(7, customer.getNationalRegistrationNumber());
+
+            preparedStatement.setString(8, customer.getAccountNumber());
+
+            preparedStatement.setString(9, customer.getStreetName());
+
+            preparedStatement.setString(10, customer.getHouseNumber());
+
+            preparedStatement.setString(11, customer.getMobilePhone());
+
+            preparedStatement.setString(12, customer.getLandlinePhone());
+
+            preparedStatement.setDate(13, new Date(customer.getBirthDate().getTimeInMillis()));
+
+            preparedStatement.setInt(14, customer.getCity().getCode());
+
+            preparedStatement.executeUpdate();
+
+
+        }
+        catch(NamingException | SQLException exception){
             updated = false;
             throw new AddCustomerException(exception);
         }
         return updated;
     }
+
+
+
 
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar firstDate, GregorianCalendar lastDate) throws GetCustomerException {
         ArrayList<Product> products = new ArrayList<>();

@@ -59,6 +59,40 @@ public class Customer {
         setCity(cityCode, postCode, cityName);
 
     }
+    public Customer(Integer idCustomer,
+            String nationalRegistrationNumber,
+            String lastName,
+            String[] firstNames,
+            String accountNumber,
+            Boolean vip,
+            String streetName,
+            String houseNumber,
+            String landlinePhone,
+            String mobilePhone,
+            Integer day,
+            Integer month,
+            Integer year,
+            Integer cityCode,
+            Integer postCode,
+            String cityName) throws NullException, InvalidFormatException {
+
+        setCustomerNumber(idCustomer);
+        setNationalRegistrationNumber(nationalRegistrationNumber);
+        setLastName(lastName);
+        setFirstNames(firstNames);
+        setAccountNumber(accountNumber);
+        setVip(vip);
+        setStreetName(streetName);
+        setHouseNumber(houseNumber);
+        setLandlinePhone(landlinePhone);
+        setMobilePhone(mobilePhone);
+        setBirthDate(year, month, day);
+        setCity(cityCode, postCode, cityName);
+
+    }
+
+
+
     public void setDateOfBirth(GregorianCalendar dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }

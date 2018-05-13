@@ -83,6 +83,7 @@ public class EnrolmentForm  extends JPanel {
     private String [] citiesComboBox;
     private Integer [] codeCity;
 
+    private Integer idCustomerDB;
     private JLabel customerLabel;
     private JComboBox listCustomers;
     private String [] customerComboBox;
@@ -91,7 +92,6 @@ public class EnrolmentForm  extends JPanel {
     private JButton buttonGetAllCustomerInfo;
 
     ArrayList<Customer> customers;
-
 
     public EnrolmentForm(ActionReturnButton actionReturnButton, ApplicationController controller) {
 
@@ -384,6 +384,12 @@ public class EnrolmentForm  extends JPanel {
             label.setEnabled(enabled);
         }
         hasSecondFirstName.setEnabled(enabled);
+
+        if(!hasSecondFirstName.isSelected()) {
+            firstName_2.setEnabled(false);
+            firstName_3.setEnabled(false);
+        }
+
         spinnerDateOfBirth.setEnabled(enabled);
         listCities.setEnabled(enabled);
 
@@ -514,6 +520,7 @@ public class EnrolmentForm  extends JPanel {
                         i++;
                     }
 
+
                 } else {
                     listCustomers.setEnabled(false);
                     customerLabel.setEnabled(false);
@@ -543,7 +550,7 @@ public class EnrolmentForm  extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == validationButton) {
-                if (newCustomer.isSelected()) {
+                if (newCustomer.isSelected() || editCustomer.isSelected()) {
                     String errorMessage = "";
                     boolean error = false;
                     Customer customer;
@@ -559,7 +566,6 @@ public class EnrolmentForm  extends JPanel {
                     valueDate = (java.util.Date) spinnerDateOfBirth.getValue();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                     dateString = simpleDateFormat.format(valueDate);
-
 
 
                     Integer codeTown = null;
@@ -664,8 +670,49 @@ public class EnrolmentForm  extends JPanel {
                                         codeTown,
                                         postalCodeNumber,
                                         cityName);
-                                boolean update =  controller.addCustomer(customer);
-                                if(update) {
+
+                                boolean inserted  = false;
+                                if(newCustomer.isSelected()) {
+                                    customer = new Customer(registerNumber,
+                                            lastNameCustomer,
+                                            firstNames,
+                                            accountNumberCustomer,
+                                            vip,
+                                            streetName,
+                                            houseNumberCustomer,
+                                            landlinePhoneCustomer,
+                                            mobilePhoneCustomer,
+                                            birthDateNumber % 10000,
+                                            (birthDateNumber / 10000) % 100,
+                                            birthDateNumber / 1000000,
+                                            codeTown,
+                                            postalCodeNumber,
+                                            cityName);
+                                    inserted =  controller.addCustomer(customer);
+                                }
+                                else {
+                                    if(editCustomer.isSelected()) {
+                                        customer = new Customer(idCustomerDB, registerNumber,
+                                                lastNameCustomer,
+                                                firstNames,
+                                                accountNumberCustomer,
+                                                vip,
+                                                streetName,
+                                                houseNumberCustomer,
+                                                landlinePhoneCustomer,
+                                                mobilePhoneCustomer,
+                                                birthDateNumber % 10000,
+                                                (birthDateNumber / 10000) % 100,
+                                                birthDateNumber / 1000000,
+                                                codeTown,
+                                                postalCodeNumber,
+                                                cityName);
+                                        inserted =  controller.upDateCustomer(customer);
+
+                                    }
+                                }
+
+                                if(inserted) {
                                     resetFields();
                                     listCities.removeAllItems();
                                     JOptionPane.showMessageDialog(null, "Client : " + firstNames[0] + " " + lastNameCustomer + " " +
@@ -673,7 +720,7 @@ public class EnrolmentForm  extends JPanel {
                                 }
 
                             } catch (Exception exception) {
-                                System.out.println("Catch Enrolment");
+
                                 JOptionPane.showMessageDialog(null, exception.getMessage());
                             }
                         }
@@ -689,28 +736,30 @@ public class EnrolmentForm  extends JPanel {
             if (event.getSource() == buttonGetAllCustomerInfo) {
 
                 if(listingCustomerIsEnable) {
+
+                    String selectItem = listCustomers.getSelectedItem().toString();
+
+                    idCustomerDB = Integer.valueOf(selectItem.replaceAll("\\D+", ""));
+
                     nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
                     firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
 
-                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(1) != null) {
+
+                    if(!customers.get(listCustomers.getSelectedIndex()).getFirstName(1).equals("")) {
+
                         hasSecondFirstName.setEnabled(true);
                         hasSecondFirstName.setSelected(true);
                         firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
-                    }
-                    else {
-                        hasSecondFirstName.setEnabled(false);
-                        hasSecondFirstName.setSelected(false);
+
                     }
 
-                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(2) != null) {
-                       hasThirdFirstName.setEnabled(true);
-                       hasThirdFirstName.setSelected(true);
+                    if(!customers.get(listCustomers.getSelectedIndex()).getFirstName(2).equals("")) {
+                        hasThirdFirstName.setEnabled(true);
+                        hasThirdFirstName.setSelected(true);
                         firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
                     }
-                    else {
-                        hasThirdFirstName.setEnabled(false);
-                        hasThirdFirstName.setSelected(false);
-                    }
+
+
 
                     lastName.setText(customers.get(listCustomers.getSelectedIndex()).getLastName());
                     accountNumber.setText(customers.get(listCustomers.getSelectedIndex()).getAccountNumber());

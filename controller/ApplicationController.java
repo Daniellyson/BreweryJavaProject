@@ -28,6 +28,10 @@ public class ApplicationController {
        return customerManager.addCustomer(customer);
     }
 
+    public boolean upDateCustomer(Customer customer) throws AddCustomerException {
+       return customerManager.upDateCustomer(customer);
+    }
+
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar first, GregorianCalendar last) throws GetCustomerException {
         return customerManager.getSearchOne(id, first, last);
     }
