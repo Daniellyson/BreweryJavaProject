@@ -23,9 +23,39 @@ public class Customer {
     private GregorianCalendar birthDate;
     private City city;
 
+    private java.util.Date dateOfBirth;
+    //TODO dany test
+    public Customer(
+            String nationalRegistrationNumber,
+            String lastName,
+            String[] firstNames,
+            String accountNumber,
+            Boolean vip,
+            String streetName,
+            String houseNumber,
+            String landlinePhone,
+            String mobilePhone,
+            Date dateOfBirth,
+            Integer cityCode,
+            Integer postCode,
+            String cityName) throws NullException, InvalidFormatException {
 
+        setNationalRegistrationNumber(nationalRegistrationNumber);
+        setLastName(lastName);
+        setFirstNames(firstNames);
+                /*firstNames[0],
+                firstNames[1],
+                firstNames[2],*/
+        setAccountNumber(accountNumber);
+        setVip(vip);
+        setStreetName(streetName);
+        setHouseNumber(houseNumber);
+        setLandlinePhone(landlinePhone);
+        setMobilePhone(mobilePhone);
+        setDateOfBirth(dateOfBirth);
+        setCity(cityCode, postCode, cityName);
 
-    //TODO test unil here for CustomerDataBaseAccess
+    }
 
     public Customer(Integer customerNumber,
                     String nationalRegistrationNumber,
@@ -92,6 +122,14 @@ public class Customer {
         setCity(cityCode, postalCode, cityName);
         setVip(vip);
         setBirthDate(year, month, day);
+    }
+
+    public void setDateOfBirth(java.util.Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public java.util.Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public Customer(Integer customerNumber,
@@ -171,6 +209,7 @@ public class Customer {
                     Integer year,
                     Integer month,
                     Integer day,
+                    Integer code,
                     Integer postalCode,
                     String cityName) throws NullException, InvalidFormatException {
         this(null,
@@ -185,7 +224,7 @@ public class Customer {
                 year,
                 month,
                 day,
-                null,
+                code,
                 postalCode,
                 cityName);
     }
@@ -341,4 +380,6 @@ public class Customer {
     public GregorianCalendar getBirthDate () {
         return birthDate;
     }
+
+
 }
