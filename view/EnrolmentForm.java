@@ -515,6 +515,7 @@ public class EnrolmentForm  extends JPanel {
                     listingCustomerIsEnable = false;
                     listCustomers.removeAllItems();
                     isVIP.setSelected(false);
+                    isVIP.setEnabled(false);
                 } else {
                     setFieldsEnable(false);
                     listCities.removeAllItems();
@@ -540,9 +541,13 @@ public class EnrolmentForm  extends JPanel {
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
 
-                    valueDate = (Date) spinnerDateOfBirth.getValue();
+                    boolean vip = isVIP.isSelected();
+
+                    valueDate = (java.util.Date) spinnerDateOfBirth.getValue();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                     dateString = simpleDateFormat.format(valueDate);
+
+
 
 
                     String accountNumberCustomer = accountNumber.getText();
@@ -613,10 +618,13 @@ public class EnrolmentForm  extends JPanel {
                             JOptionPane.showMessageDialog(null, errorMessage);
                         } else {
                             try {
-                                customer = new Customer(registerNumber,
+                                /*customer = new Customer(null, registerNumber,
                                         lastNameCustomer,
-                                        firstNames,
+                                        firstNames[0],
+                                        firstNames[1],
+                                        firstNames[2],
                                         accountNumberCustomer,
+                                        vip,
                                         streetName,
                                         houseNumberCustomer,
                                         landlinePhoneCustomer,
@@ -626,11 +634,24 @@ public class EnrolmentForm  extends JPanel {
                                         birthDateNumber / 1000000,
                                         codeTown,
                                         postalCodeNumber,
+                                        cityName);*/
+                                customer = new Customer(registerNumber,
+                                        lastNameCustomer,
+                                        firstNames,
+                                        accountNumberCustomer,
+                                        vip,
+                                        streetName,
+                                        houseNumberCustomer,
+                                        landlinePhoneCustomer,
+                                        mobilePhoneCustomer,
+                                        valueDate,
+                                        codeTown,
+                                        postalCodeNumber,
                                         cityName);
                                 controller.addCustomer(customer);
                                 resetFields();
                             } catch (Exception exception) {
-
+                                System.out.println("Catch Enrolment");
                                 JOptionPane.showMessageDialog(null, exception.getMessage());
                             }
                         }
@@ -671,7 +692,10 @@ public class EnrolmentForm  extends JPanel {
 
                     lastName.setText(customers.get(listCustomers.getSelectedIndex()).getLastName());
                     accountNumber.setText(customers.get(listCustomers.getSelectedIndex()).getAccountNumber());
+
                     isVIP.setSelected(customers.get(listCustomers.getSelectedIndex()).getVip());
+                    isVIP.setEnabled(true);
+
                     street.setText(customers.get(listCustomers.getSelectedIndex()).getStreetName());
                     houseNumber.setText(customers.get(listCustomers.getSelectedIndex()).getHouseNumber());
                     postCode.setText(customers.get(listCustomers.getSelectedIndex()).getCity().getPostCode().toString());
