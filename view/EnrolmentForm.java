@@ -2,6 +2,8 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
 import listener.ActionReturnButton;
 import model.City;
 import model.Customer;
@@ -16,6 +18,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class EnrolmentForm  extends JPanel {
@@ -367,6 +370,7 @@ public class EnrolmentForm  extends JPanel {
             field.setBackground(Color.WHITE);
         }
         listCities.setBackground(Color.WHITE);
+        spinnerDateOfBirth.setBackground(Color.WHITE);
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
@@ -560,13 +564,36 @@ public class EnrolmentForm  extends JPanel {
                     String registerNumber = nationalRegistrationNumber.getText();
                     String[] firstNames = new String[3];
                     String lastNameCustomer = lastName.getText();
-
+                    Integer customerAge = null;
                     boolean vip = isVIP.isSelected();
 
                     valueDate = (java.util.Date) spinnerDateOfBirth.getValue();
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("ddMMyyyy");
                     dateString = simpleDateFormat.format(valueDate);
 
+                    try {
+                        birthDateNumber = Integer.parseInt(dateString);
+                        customer = new Customer(
+                                birthDateNumber / 1000000,
+                                ((birthDateNumber / 10000) % 100) - 1,
+                                birthDateNumber % 10000
+                        );
+
+                        GregorianCalendar now = new GregorianCalendar();
+
+                        customerAge = now.get(GregorianCalendar.YEAR) - customer.getBirthDate().get(GregorianCalendar.YEAR);
+
+                        if(now.get(GregorianCalendar.MONTH) < customer.getBirthDate().get(GregorianCalendar.MONTH) ||
+                                (now.get(GregorianCalendar.MONTH) == customer.getBirthDate().get(GregorianCalendar.MONTH) &&
+                                        now.get(GregorianCalendar.DAY_OF_MONTH) < customer.getBirthDate().get(GregorianCalendar.DAY_OF_MONTH))) {
+                            customerAge--;
+                        }
+
+                    } catch (NullException e) {
+                        e.printStackTrace();
+                    } catch (InvalidFormatException e) {
+                        e.printStackTrace();
+                    }
 
                     Integer codeTown = null;
                     String accountNumberCustomer = accountNumber.getText();
@@ -583,6 +610,7 @@ public class EnrolmentForm  extends JPanel {
                         cityName = listCities.getSelectedItem().toString();
                         listCities.setBackground(Color.WHITE);
                     }
+
 
                     String postalCode = postCode.getText();
                     String mobilePhoneCustomer = mobilePhone.getText();
@@ -602,8 +630,6 @@ public class EnrolmentForm  extends JPanel {
                         }
                     }
 
-
-
                     if (blank) {
                         JOptionPane.showMessageDialog(null, "field in color can't be left blank");
                     } else {
@@ -618,6 +644,7 @@ public class EnrolmentForm  extends JPanel {
                             error = true;
                         }
 
+
                         for (int i = 1; i < firstNames.length; i++) {
                             if (!firstNames[i].isEmpty()) {
                                 if (RegularExpression.test(firstNames[i], "\\d+")) {
@@ -631,6 +658,11 @@ public class EnrolmentForm  extends JPanel {
                             birthDateNumber = Integer.parseInt(dateString);
                         } catch (NumberFormatException exception) {
                             errorMessage += "birth date must be a number\n";
+                            error = true;
+                        }
+
+                        if(customerAge < 18) {
+                            errorMessage += "customer must be over the age of majority\n";
                             error = true;
                         }
 

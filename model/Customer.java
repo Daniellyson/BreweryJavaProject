@@ -23,7 +23,10 @@ public class Customer {
     private GregorianCalendar birthDate;
     private City city;
 
-
+    //TODO AGE
+    public Customer(Integer day, Integer month, Integer year) throws NullException, InvalidFormatException {
+        setBirthDate(year, month, day);
+    }
     //TODO les 2 constructeur ici marchent pour l'ajour et edit
 
     public Customer(
