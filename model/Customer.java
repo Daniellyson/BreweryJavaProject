@@ -24,8 +24,8 @@ public class Customer {
     private City city;
 
 
-    //TODO dany test
-    private GregorianCalendar dateOfBirth;
+    //TODO les 2 constructeur ici marchent pour l'ajour et edit
+
     public Customer(
             String nationalRegistrationNumber,
             String lastName,
@@ -81,20 +81,7 @@ public class Customer {
         setLandlinePhone(landlinePhone);
         setMobilePhone(mobilePhone);
         setCity(cityCode, postCode, cityName);
-
     }
-
-
-
-    public void setDateOfBirth(GregorianCalendar dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public GregorianCalendar getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-
 
 
     public Customer(Integer customerNumber,
