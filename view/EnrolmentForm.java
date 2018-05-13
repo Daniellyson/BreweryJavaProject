@@ -551,7 +551,7 @@ public class EnrolmentForm  extends JPanel {
 
             if (event.getSource() == validationButton) {
                 if (newCustomer.isSelected() || editCustomer.isSelected()) {
-                    String errorMessage = "";
+                    String errorMessage = "ERROR : ";
                     boolean error = false;
                     Customer customer;
                     Integer postalCodeNumber = null;
@@ -599,7 +599,6 @@ public class EnrolmentForm  extends JPanel {
                             blank = true;
                         } else {
                             field.setBackground(Color.WHITE);
-
                         }
                     }
 
@@ -619,13 +618,15 @@ public class EnrolmentForm  extends JPanel {
                             error = true;
                         }
 
-                        for (int i = 1; i < firstNames.length; i++) {
+                        /*for (int i = 1; i < firstNames.length; i++) {
                             if (!firstNames[i].isEmpty()) {
                                 if (RegularExpression.test(firstNames[i], "\\d+"))
                                     errorMessage += "first name "+i+" can't contain number\n";
                                 error = true;
+
+                                System.out.println("TEST FIRST_NAMES");
                             }
-                        }
+                        }*/
 
                         try {
                             birthDateNumber = Integer.parseInt(dateString);
@@ -713,15 +714,20 @@ public class EnrolmentForm  extends JPanel {
                     nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
                     firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
 
-                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(1) != null) {
+
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(1) != null &&
+                            !customers.get(listCustomers.getSelectedIndex()).getFirstName(1).equals("")) {
 
                         hasSecondFirstName.setEnabled(true);
                         hasSecondFirstName.setSelected(true);
                         firstName_2.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(1));
-
                     }
 
-                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(2) != null) {
+
+
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(2) != null &&
+                            !customers.get(listCustomers.getSelectedIndex()).getFirstName(2).equals("")) {
+
                         hasThirdFirstName.setEnabled(true);
                         hasThirdFirstName.setSelected(true);
                         firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));

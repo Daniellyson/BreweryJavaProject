@@ -296,7 +296,7 @@ public class Customer {
             throw new InvalidFormatException("first name", firstName);
         }
 
-        while (i < firstNames.length && firstNames[i] != null) {
+        while (i < firstNames.length && firstNames[i] != null && !firstNames[i].equals("")) {
             i++;
         }
 
