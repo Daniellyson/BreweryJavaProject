@@ -155,6 +155,8 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(nationalRegistrationNumberLabel);
         nationalRegistrationNumber = new JTextField();
         formPanel.add(nationalRegistrationNumber);
+        nationalRegistrationNumber.setDocument(new JTextFieldCharLimit(15));
+
 
         labels.add(nationalRegistrationNumberLabel);
         fields.add(nationalRegistrationNumber);
@@ -169,6 +171,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(firstNameLabel);
         firstName = new JTextField();
         formPanel.add(firstName);
+        firstName.setDocument(new JTextFieldCharLimit(15));
 
         labels.add(firstNameLabel);
         fields.add(firstName);
@@ -187,6 +190,7 @@ public class EnrolmentForm  extends JPanel {
         hasSecondFirstName.addItemListener(actionCheckBox);
         firstName_2 = new JTextField();
         formPanel.add(firstName_2);
+        firstName_2.setDocument(new JTextFieldCharLimit(15));
         firstName_2.setEnabled(false);
 
         fields.add(firstName_2);
@@ -198,6 +202,7 @@ public class EnrolmentForm  extends JPanel {
         hasThirdFirstName.addItemListener(actionCheckBox);
         firstName_3 = new JTextField();
         formPanel.add(firstName_3);
+        firstName_3.setDocument(new JTextFieldCharLimit(15));
         firstName_3.setEnabled(false);
 
         fields.add(firstName_3);
@@ -207,6 +212,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(lastNameLabel);
         lastName = new JTextField();
         formPanel.add(lastName);
+        lastName.setDocument(new JTextFieldCharLimit(25));
 
         labels.add(lastNameLabel);
         fields.add(lastName);
@@ -236,6 +242,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(accountNumberLabel);
         accountNumber = new JTextField();
         formPanel.add(accountNumber);
+        accountNumber.setDocument(new JTextFieldCharLimit(30));
 
         labels.add(accountNumberLabel);
         fields.add(accountNumber);
@@ -258,6 +265,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(streetLabel);
         street = new JTextField();
         formPanel.add(street);
+        street.setDocument(new JTextFieldCharLimit(30));
 
         labels.add(streetLabel);
         fields.add(street);
@@ -272,6 +280,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(houseNumberLabel);
         houseNumber = new JTextField();
         formPanel.add(houseNumber);
+        houseNumber.setDocument(new JTextFieldCharLimit(5));
 
         labels.add(houseNumberLabel);
         fields.add(houseNumber);
@@ -286,6 +295,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(postCodeLabel);
         postCode = new JTextField();
         formPanel.add(postCode);
+        postCode.setDocument(new JTextFieldCharLimit(5));
 
         labels.add(postCodeLabel);
         fields.add(postCode);
@@ -315,6 +325,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(mobilePhoneLabel);
         mobilePhone = new JTextField();
         formPanel.add(mobilePhone);
+        mobilePhone.setDocument(new JTextFieldCharLimit(13));
 
         labels.add(mobilePhoneLabel);
         fields.add(mobilePhone);
@@ -327,6 +338,7 @@ public class EnrolmentForm  extends JPanel {
         formPanel.add(landlinePhoneLabel);
         landlinePhone = new JTextField();
         formPanel.add(landlinePhone);
+        landlinePhone.setDocument(new JTextFieldCharLimit(12));
 
         labels.add(landlinePhoneLabel);
         fields.add(landlinePhone);
@@ -550,16 +562,17 @@ public class EnrolmentForm  extends JPanel {
 
 
 
-
+                    Integer codeTown = null;
                     String accountNumberCustomer = accountNumber.getText();
                     String streetName = street.getText();
                     String houseNumberCustomer = houseNumber.getText();
                     String cityName = null;
-                    Integer codeTown = codeCity[listCities.getSelectedIndex()];
+
 
                     if(listCities.getSelectedItem() == null) {
                         blank = true;
                     } else {
+                        codeTown = codeCity[listCities.getSelectedIndex()];
                         cityName = listCities.getSelectedItem().toString();
                     }
 
