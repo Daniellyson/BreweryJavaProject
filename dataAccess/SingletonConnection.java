@@ -10,7 +10,7 @@ public class SingletonConnection {
 
     private SingletonConnection() throws SQLException, NamingException {
         uniqueConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/database_brewery?useSSL=false",
-                "root", "yourPassword");
+                "root", "YourPassword");
 
     }
 
