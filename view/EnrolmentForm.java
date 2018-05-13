@@ -618,15 +618,14 @@ public class EnrolmentForm  extends JPanel {
                             error = true;
                         }
 
-                        /*for (int i = 1; i < firstNames.length; i++) {
+                        for (int i = 1; i < firstNames.length; i++) {
                             if (!firstNames[i].isEmpty()) {
-                                if (RegularExpression.test(firstNames[i], "\\d+"))
+                                if (RegularExpression.test(firstNames[i], "\\d+")) {
                                     errorMessage += "first name "+i+" can't contain number\n";
-                                error = true;
-
-                                System.out.println("TEST FIRST_NAMES");
+                                    error = true;
+                                }
                             }
-                        }*/
+                        }
 
                         try {
                             birthDateNumber = Integer.parseInt(dateString);
