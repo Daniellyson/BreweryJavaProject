@@ -46,9 +46,6 @@ public class Customer {
         setNationalRegistrationNumber(nationalRegistrationNumber);
         setLastName(lastName);
         setFirstNames(firstNames);
-                /*firstNames[0],
-                firstNames[1],
-                firstNames[2],*/
         setAccountNumber(accountNumber);
         setVip(vip);
         setStreetName(streetName);
@@ -69,9 +66,6 @@ public class Customer {
             String houseNumber,
             String landlinePhone,
             String mobilePhone,
-            Integer day,
-            Integer month,
-            Integer year,
             Integer cityCode,
             Integer postCode,
             String cityName) throws NullException, InvalidFormatException {
@@ -86,7 +80,6 @@ public class Customer {
         setHouseNumber(houseNumber);
         setLandlinePhone(landlinePhone);
         setMobilePhone(mobilePhone);
-        setBirthDate(year, month, day);
         setCity(cityCode, postCode, cityName);
 
     }

@@ -366,7 +366,7 @@ public class EnrolmentForm  extends JPanel {
             field.setText(null);
             field.setBackground(Color.WHITE);
         }
-
+        listCities.setBackground(Color.WHITE);
         hasSecondFirstName.setSelected(false);
         hasThirdFirstName.setSelected(false);
         hasThirdFirstName.setEnabled(false);
@@ -593,14 +593,16 @@ public class EnrolmentForm  extends JPanel {
 
                     for (JTextField field : fieldsNotNull) {
                         if (field.getText().isEmpty()) {
-                            field.setBackground(Color.RED);
+                            field.setBackground(Color.lightGray);
+                            listCities.setBackground(Color.lightGray);
                             blank = true;
                         } else {
                             field.setBackground(Color.WHITE);
+                            listCities.setBackground(Color.WHITE);
                         }
                     }
                     if (blank) {
-                        JOptionPane.showMessageDialog(null, "field in red can't be blank");
+                        JOptionPane.showMessageDialog(null, "field in color can't be left blank");
                     } else {
 
                         if (RegularExpression.test(lastNameCustomer, "\\d+")) {
@@ -638,39 +640,6 @@ public class EnrolmentForm  extends JPanel {
                             JOptionPane.showMessageDialog(null, errorMessage);
                         } else {
                             try {
-                                /*customer = new Customer(null, registerNumber,
-                                        lastNameCustomer,
-                                        firstNames[0],
-                                        firstNames[1],
-                                        firstNames[2],
-                                        accountNumberCustomer,
-                                        vip,
-                                        streetName,
-                                        houseNumberCustomer,
-                                        landlinePhoneCustomer,
-                                        mobilePhoneCustomer,
-                                        birthDateNumber % 10000,
-                                        (birthDateNumber / 10000) % 100,
-                                        birthDateNumber / 1000000,
-                                        codeTown,
-                                        postalCodeNumber,
-                                        cityName);*/
-                                customer = new Customer(registerNumber,
-                                        lastNameCustomer,
-                                        firstNames,
-                                        accountNumberCustomer,
-                                        vip,
-                                        streetName,
-                                        houseNumberCustomer,
-                                        landlinePhoneCustomer,
-                                        mobilePhoneCustomer,
-                                        birthDateNumber % 10000,
-                                        (birthDateNumber / 10000) % 100,
-                                        birthDateNumber / 1000000,
-                                        codeTown,
-                                        postalCodeNumber,
-                                        cityName);
-
                                 boolean inserted  = false;
                                 if(newCustomer.isSelected()) {
                                     customer = new Customer(registerNumber,
@@ -682,9 +651,9 @@ public class EnrolmentForm  extends JPanel {
                                             houseNumberCustomer,
                                             landlinePhoneCustomer,
                                             mobilePhoneCustomer,
-                                            birthDateNumber % 10000,
-                                            (birthDateNumber / 10000) % 100,
                                             birthDateNumber / 1000000,
+                                            (birthDateNumber / 10000) % 100,
+                                            birthDateNumber % 10000,
                                             codeTown,
                                             postalCodeNumber,
                                             cityName);
@@ -701,9 +670,6 @@ public class EnrolmentForm  extends JPanel {
                                                 houseNumberCustomer,
                                                 landlinePhoneCustomer,
                                                 mobilePhoneCustomer,
-                                                birthDateNumber % 10000,
-                                                (birthDateNumber / 10000) % 100,
-                                                birthDateNumber / 1000000,
                                                 codeTown,
                                                 postalCodeNumber,
                                                 cityName);
@@ -711,7 +677,6 @@ public class EnrolmentForm  extends JPanel {
 
                                     }
                                 }
-
                                 if(inserted) {
                                     resetFields();
                                     listCities.removeAllItems();
@@ -770,6 +735,7 @@ public class EnrolmentForm  extends JPanel {
                     street.setText(customers.get(listCustomers.getSelectedIndex()).getStreetName());
                     houseNumber.setText(customers.get(listCustomers.getSelectedIndex()).getHouseNumber());
                     postCode.setText(customers.get(listCustomers.getSelectedIndex()).getCity().getPostCode().toString());
+
                     mobilePhone.setText(customers.get(listCustomers.getSelectedIndex()).getMobilePhone());
                     landlinePhone.setText(customers.get(listCustomers.getSelectedIndex()).getLandlinePhone());
 

@@ -93,9 +93,8 @@ public class CustomerDataBaseAccess implements DAO {
         boolean updated = true;
 
         try{
-
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "UPDATE Customer SET CustomerNumber = ? " +
+            String sqlInstruction = "UPDATE Customer SET " +
                                                         "LastName = ?, " +
                                                         "FirstName = ?, " +
                                                         "FirstName2 = ?, " +
@@ -107,38 +106,36 @@ public class CustomerDataBaseAccess implements DAO {
                                                         "HouseNumber = ?, " +
                                                         "MobilePhone = ?, " +
                                                         "LandlinePhone = ?, " +
-                                                        "DateOfBirth = ?, " +
-                                                        "Code = ?";
+                                                        "Code = ? " +
+                                    "WHERE CustomerNumber = ?";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-            preparedStatement.setInt(1, customer.getCustomerNumber());
+            preparedStatement.setString(1, customer.getLastName());
 
-            preparedStatement.setString(2, customer.getLastName());
+            preparedStatement.setString(2, customer.getFirstName(0));
 
-            preparedStatement.setString(3, customer.getFirstName(0));
+            preparedStatement.setString(3, customer.getFirstName(1));
 
-            preparedStatement.setString(4, customer.getFirstName(1));
+            preparedStatement.setString(4, customer.getFirstName(2));
 
-            preparedStatement.setString(5, customer.getFirstName(2));
+            preparedStatement.setBoolean(5, customer.getVip());
 
-            preparedStatement.setBoolean(6, customer.getVip());
+            preparedStatement.setString(6, customer.getNationalRegistrationNumber());
 
-            preparedStatement.setString(7, customer.getNationalRegistrationNumber());
+            preparedStatement.setString(7, customer.getAccountNumber());
 
-            preparedStatement.setString(8, customer.getAccountNumber());
+            preparedStatement.setString(8, customer.getStreetName());
 
-            preparedStatement.setString(9, customer.getStreetName());
+            preparedStatement.setString(9, customer.getHouseNumber());
 
-            preparedStatement.setString(10, customer.getHouseNumber());
+            preparedStatement.setString(10, customer.getMobilePhone());
 
-            preparedStatement.setString(11, customer.getMobilePhone());
+            preparedStatement.setString(11, customer.getLandlinePhone());
 
-            preparedStatement.setString(12, customer.getLandlinePhone());
+            preparedStatement.setInt(12, customer.getCity().getCode());
 
-            preparedStatement.setDate(13, new Date(customer.getBirthDate().getTimeInMillis()));
-
-            preparedStatement.setInt(14, customer.getCity().getCode());
+            preparedStatement.setInt(13, customer.getCustomerNumber());
 
             preparedStatement.executeUpdate();
 
