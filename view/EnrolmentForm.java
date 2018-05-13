@@ -577,9 +577,11 @@ public class EnrolmentForm  extends JPanel {
 
                     if(listCities.getSelectedItem() == null) {
                         blank = true;
+                        listCities.setBackground(Color.lightGray);
                     } else {
                         codeTown = codeCity[listCities.getSelectedIndex()];
                         cityName = listCities.getSelectedItem().toString();
+                        listCities.setBackground(Color.WHITE);
                     }
 
                     String postalCode = postCode.getText();
@@ -594,13 +596,15 @@ public class EnrolmentForm  extends JPanel {
                     for (JTextField field : fieldsNotNull) {
                         if (field.getText().isEmpty()) {
                             field.setBackground(Color.lightGray);
-                            listCities.setBackground(Color.lightGray);
                             blank = true;
                         } else {
                             field.setBackground(Color.WHITE);
-                            listCities.setBackground(Color.WHITE);
+
                         }
                     }
+
+
+
                     if (blank) {
                         JOptionPane.showMessageDialog(null, "field in color can't be left blank");
                     } else {
@@ -652,7 +656,7 @@ public class EnrolmentForm  extends JPanel {
                                             landlinePhoneCustomer,
                                             mobilePhoneCustomer,
                                             birthDateNumber / 1000000,
-                                            (birthDateNumber / 10000) % 100,
+                                            ((birthDateNumber / 10000) % 100) - 1,
                                             birthDateNumber % 10000,
                                             codeTown,
                                             postalCodeNumber,
@@ -709,8 +713,7 @@ public class EnrolmentForm  extends JPanel {
                     nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
                     firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
 
-
-                    if(!customers.get(listCustomers.getSelectedIndex()).getFirstName(1).equals("")) {
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(1) != null) {
 
                         hasSecondFirstName.setEnabled(true);
                         hasSecondFirstName.setSelected(true);
@@ -718,7 +721,7 @@ public class EnrolmentForm  extends JPanel {
 
                     }
 
-                    if(!customers.get(listCustomers.getSelectedIndex()).getFirstName(2).equals("")) {
+                    if(customers.get(listCustomers.getSelectedIndex()).getFirstName(2) != null) {
                         hasThirdFirstName.setEnabled(true);
                         hasThirdFirstName.setSelected(true);
                         firstName_3.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(2));
