@@ -41,31 +41,50 @@ public class CustomerDataBaseAccess implements DAO {
     }
 
 
-    public void addCustomer(Customer customer) throws AddCustomerException {
+    public boolean addCustomer(Customer customer) throws AddCustomerException {
+        boolean updated = true;
         try{
             Connection connection = SingletonConnection.getInstance();
-            String sqlInstruction = "insert into Customer () values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlInstruction = "insert into Customer () values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlInstruction);
 
-            preparedStatement.setString(1, customer.getNationalRegistrationNumber());
+            preparedStatement.setNull(1, Types.INTEGER);
+
             preparedStatement.setString(2, customer.getLastName());
+
             preparedStatement.setString(3, customer.getFirstName(0));
+
             preparedStatement.setString(4, customer.getFirstName(1));
+
             preparedStatement.setString(5, customer.getFirstName(2));
-            preparedStatement.setString(6, customer.getAccountNumber());
-            preparedStatement.setString(7, customer.getStreetName());
-            preparedStatement.setString(8, customer.getHouseNumber());
-            preparedStatement.setInt(9, customer.getCity().getPostCode());
-            preparedStatement.setString(10, customer.getCity().getName());
+
+            preparedStatement.setBoolean(6, customer.getVip());
+
+            preparedStatement.setString(7, customer.getNationalRegistrationNumber());
+
+            preparedStatement.setString(8, customer.getAccountNumber());
+
+            preparedStatement.setString(9, customer.getStreetName());
+
+            preparedStatement.setString(10, customer.getHouseNumber());
+
             preparedStatement.setString(11, customer.getMobilePhone());
+
             preparedStatement.setString(12, customer.getLandlinePhone());
+
             preparedStatement.setDate(13, new java.sql.Date(customer.getBirthDate().getTimeInMillis()));
 
+            preparedStatement.setInt(14, customer.getCity().getCode());
+
             preparedStatement.executeUpdate();
+
+
         }
         catch(NamingException | SQLException exception){
+            updated = false;
             throw new AddCustomerException(exception);
         }
+        return updated;
     }
 
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar firstDate, GregorianCalendar lastDate) throws GetCustomerException {
@@ -338,8 +357,9 @@ public class CustomerDataBaseAccess implements DAO {
 
             ResultSet data = preparedStatement.executeQuery();
             while (data.next()) {
-                city = new City(data.getString("Name"),
-                        data.getInt("PostCode"));
+                city = new City(data.getInt("Code"),
+                        data.getInt("PostCode"),
+                        data.getString("Name"));
 
                 cities.add(city);
             }

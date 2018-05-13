@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -57,7 +58,7 @@ public class EnrolmentForm  extends JPanel {
     private JTextField houseNumber;
 
     private JSpinner spinnerDateOfBirth;
-    private Date valueDate;
+    private java.util.Date valueDate;
     private String dateString;
 
     private JComboBox listCities;
@@ -644,12 +645,20 @@ public class EnrolmentForm  extends JPanel {
                                         houseNumberCustomer,
                                         landlinePhoneCustomer,
                                         mobilePhoneCustomer,
-                                        valueDate,
+                                        birthDateNumber % 10000,
+                                        (birthDateNumber / 10000) % 100,
+                                        birthDateNumber / 1000000,
                                         codeTown,
                                         postalCodeNumber,
                                         cityName);
-                                controller.addCustomer(customer);
-                                resetFields();
+                                boolean update =  controller.addCustomer(customer);
+                                if(update) {
+                                    resetFields();
+                                    listCities.removeAllItems();
+                                    JOptionPane.showMessageDialog(null, "Client : " + firstNames[0] + " " + lastNameCustomer + " " +
+                                    "inserted in the Data Base");
+                                }
+
                             } catch (Exception exception) {
                                 System.out.println("Catch Enrolment");
                                 JOptionPane.showMessageDialog(null, exception.getMessage());

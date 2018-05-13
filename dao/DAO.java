@@ -15,7 +15,7 @@ public interface DAO {
 
     ArrayList<Customer> getAllCustomers() throws GetCustomerException;
     ArrayList<Product> getSearchOne(Integer id, GregorianCalendar firstDate, GregorianCalendar lastDate) throws GetCustomerException;
-    void addCustomer(Customer customer) throws AddCustomerException;
+    boolean addCustomer(Customer customer) throws AddCustomerException;
     ArrayList<Customer> getSearchTwo(GregorianCalendar gregorianCalendar) throws GetCustomerException;
     boolean deleteCustomer(Integer id);
     ArrayList<Customer> getSearchThree(String idProduct, GregorianCalendar firstDate, GregorianCalendar secondDate) throws GetCustomerException, NamingException;

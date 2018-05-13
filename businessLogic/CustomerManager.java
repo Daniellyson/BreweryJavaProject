@@ -24,8 +24,8 @@ public class CustomerManager {
         return dao.getAllCustomers();
     }
 
-    public void addCustomer(Customer customer) throws AddCustomerException {
-        dao.addCustomer(customer);
+    public boolean addCustomer(Customer customer) throws AddCustomerException {
+        return dao.addCustomer(customer);
     }
 
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar first, GregorianCalendar last) throws GetCustomerException {

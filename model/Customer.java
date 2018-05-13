@@ -23,8 +23,9 @@ public class Customer {
     private GregorianCalendar birthDate;
     private City city;
 
-    private java.util.Date dateOfBirth;
+
     //TODO dany test
+    private GregorianCalendar dateOfBirth;
     public Customer(
             String nationalRegistrationNumber,
             String lastName,
@@ -35,7 +36,9 @@ public class Customer {
             String houseNumber,
             String landlinePhone,
             String mobilePhone,
-            Date dateOfBirth,
+            Integer day,
+            Integer month,
+            Integer year,
             Integer cityCode,
             Integer postCode,
             String cityName) throws NullException, InvalidFormatException {
@@ -52,10 +55,20 @@ public class Customer {
         setHouseNumber(houseNumber);
         setLandlinePhone(landlinePhone);
         setMobilePhone(mobilePhone);
-        setDateOfBirth(dateOfBirth);
+        setBirthDate(year, month, day);
         setCity(cityCode, postCode, cityName);
 
     }
+    public void setDateOfBirth(GregorianCalendar dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public GregorianCalendar getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+
+
 
     public Customer(Integer customerNumber,
                     String nationalRegistrationNumber,
@@ -124,13 +137,7 @@ public class Customer {
         setBirthDate(year, month, day);
     }
 
-    public void setDateOfBirth(java.util.Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
-    public java.util.Date getDateOfBirth() {
-        return dateOfBirth;
-    }
 
     public Customer(Integer customerNumber,
                     String nationalRegistrationNumber,

@@ -24,8 +24,8 @@ public class ApplicationController {
         return customerManager.getAllCustomers();
     }
 
-    public void addCustomer(Customer customer) throws AddCustomerException {
-        customerManager.addCustomer(customer);
+    public boolean addCustomer(Customer customer) throws AddCustomerException {
+       return customerManager.addCustomer(customer);
     }
 
     public ArrayList<Product> getSearchOne(Integer id, GregorianCalendar first, GregorianCalendar last) throws GetCustomerException {
