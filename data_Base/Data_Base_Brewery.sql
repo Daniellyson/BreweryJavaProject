@@ -1,20 +1,21 @@
 /*CREATE SCHEMA `datebase_brewery` DEFAULT CHARACTER SET utf8;
 use datebase_brewery;*/
 
-/*
+
 drop table orderline;
 drop table product;
 drop table sale;
 drop table productorder;
 drop table customer;
 drop table city;
-*/
+
 
 create table City 
 	 (Code int(7) primary key auto_increment,
      PostCode int(5) not null,
      Name varchar(70) not null,
      unique(PostCode, Name)) ENGINE=INNODB;
+
 
 
 create table Customer
@@ -25,7 +26,7 @@ create table Customer
      FirstName3 varchar(15),
      VIP boolean,
      NationalResgistrationNumber varchar(15) not null,
-     AccountNumber varchar(7) not null,
+     AccountNumber varchar(30) not null,
      Street varchar(30) not null,
      HouseNumber varchar(5) not null,
      MobilePhone varchar(13),
@@ -44,7 +45,7 @@ create table ProductOrder
 
 
 create table Sale
-	(SaleCode varchar(7) primary key,
+	(SaleCode int(7) primary key auto_increment,
      CreationDate date not null,
      TargetDate date not null,
      CustomerNumber int(7) not null,
@@ -52,7 +53,7 @@ create table Sale
 
      
 create table Product
-	(ProductCode varchar(7) primary key,
+	(ProductCode int(7) primary key auto_increment,
      Name varchar(30) not null,
      Price decimal(6,2) not null,
      ReductionPercentage decimal(5,2) not null,
@@ -60,14 +61,14 @@ create table Product
 
      
 create table OrderLine
-	(LineCode varchar(7) primary key,
+	(LineCode int(7) primary key auto_increment,
      LineNumber int(2) not null,
      Price decimal(6,2) not null,
      ReductionPercentage decimal(5,2) not null,
      Amount int(3) not null,
-     OrderCode int(7) not null,
-     SaleCode varchar(7) not null,
-     ProductCode varchar(7) not null,
+     OrderCode int(7),
+     SaleCode int(7),
+     ProductCode int(7) not null,
      foreign key fk_Order (OrderCode) references ProductOrder(OrderCode),
      foreign key fk_Sale (SaleCode) references Sale(SaleCode),
      foreign key fk_Product (ProductCode) references Product(ProductCode)) ENGINE=INNODB;
