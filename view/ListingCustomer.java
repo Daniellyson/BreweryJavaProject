@@ -2,6 +2,8 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
 import listener.WindowListener;
 import model.City;
 import model.Customer;
@@ -53,6 +55,10 @@ public class ListingCustomer extends JFrame {
             customerListing = controller.getAllCustomers();
 
         } catch (GetCustomerException e) {
+            e.printStackTrace();
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (NullException e) {
             e.printStackTrace();
         }
 

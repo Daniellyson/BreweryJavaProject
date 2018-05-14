@@ -2,6 +2,8 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
 import listener.ActionReturnButton;
 import model.Customer;
 import model.Product;
@@ -50,6 +52,10 @@ public class DeleteCustomer extends JPanel {
         try {
             customers = controller.getAllCustomers();
         } catch (GetCustomerException e) {
+            e.printStackTrace();
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (NullException e) {
             e.printStackTrace();
         }
 

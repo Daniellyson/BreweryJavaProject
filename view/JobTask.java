@@ -2,6 +2,9 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
+import exception.NumberException;
 import listener.ActionReturnButton;
 import model.Product;
 
@@ -33,7 +36,7 @@ public class JobTask extends JPanel {
     private JSpinner secondSpinnerDate;
 
     public JobTask(ActionReturnButton actionReturnButton, ApplicationController controller)
-            throws GetCustomerException, NamingException {
+            throws GetCustomerException, NamingException, InvalidFormatException, NumberException, NullException {
         this.controller = controller;
         setLayout(new BorderLayout());
 

@@ -318,10 +318,10 @@ public class Customer {
         this.accountNumber = accountNumber;
     }
 
-    public void setStreetName(String streetNumber) throws NullException, InvalidFormatException {
-        if (streetNumber.isEmpty())
+    public void setStreetName(String streetName) throws NullException, InvalidFormatException {
+        if (streetName.isEmpty())
             throw new NullException("street name");
-        this.streetName = streetNumber;
+        this.streetName = streetName;
     }
 
     public void setHouseNumber(String houseNumber) throws NullException {

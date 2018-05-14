@@ -2,6 +2,9 @@ package view;
 
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
+import exception.NumberException;
 import listener.ActionReturnButton;
 import model.Customer;
 import model.Product;
@@ -42,7 +45,7 @@ public class SearchOnePanel extends JPanel {
     private ApplicationController controller;
 
     public SearchOnePanel(ApplicationController controller, ActionReturnButton actionReturnButton)
-            throws GetCustomerException {
+            throws GetCustomerException, NullException, InvalidFormatException {
 
         setLayout(new BorderLayout());
 
@@ -141,6 +144,12 @@ public class SearchOnePanel extends JPanel {
                 try {
                     productSearchOne = controller.getSearchOne(id, dateBeginning, dateEnd);
                 } catch (GetCustomerException e) {
+                    e.printStackTrace();
+                } catch (NumberException e) {
+                    e.printStackTrace();
+                } catch (InvalidFormatException e) {
+                    e.printStackTrace();
+                } catch (NullException e) {
                     e.printStackTrace();
                 }
 

@@ -455,6 +455,10 @@ public class EnrolmentForm  extends JPanel {
                         cities = controller.getAllCities(postalCodeNumber);
                     } catch (GetCustomerException e) {
                         e.printStackTrace();
+                    } catch (InvalidFormatException e) {
+                        e.printStackTrace();
+                    } catch (NullException e) {
+                        e.printStackTrace();
                     }
 
                     Iterator<City> listingCities = cities.iterator();
@@ -504,6 +508,10 @@ public class EnrolmentForm  extends JPanel {
                     try {
                         customers = controller.getAllCustomers();
                     } catch (GetCustomerException e) {
+                        e.printStackTrace();
+                    } catch (InvalidFormatException e) {
+                        e.printStackTrace();
+                    } catch (NullException e) {
                         e.printStackTrace();
                     }
 
@@ -661,11 +669,12 @@ public class EnrolmentForm  extends JPanel {
                             error = true;
                         }
 
-                        if(customerAge < 18) {
-                            errorMessage += "customer must be over the age of majority\n";
-                            error = true;
+                        if(spinnerDateOfBirth.isEnabled()) {
+                            if (customerAge < 18) {
+                                errorMessage += "customer must be over the age of majority\n";
+                                error = true;
+                            }
                         }
-
                         try {
                             postalCodeNumber = Integer.parseInt(postalCode);
                         } catch (NumberFormatException exception) {

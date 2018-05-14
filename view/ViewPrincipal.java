@@ -1,6 +1,9 @@
 package view;
 import controller.ApplicationController;
 import exception.GetCustomerException;
+import exception.InvalidFormatException;
+import exception.NullException;
+import exception.NumberException;
 import listener.ActionReturnButton;
 import listener.WindowListener;
 import model.Customer;
@@ -214,6 +217,10 @@ public class ViewPrincipal extends JFrame {
                     container.add(new SearchOnePanel(controller, actionReturnButton));
                 } catch (GetCustomerException e) {
                     e.printStackTrace();
+                } catch (InvalidFormatException e) {
+                    e.printStackTrace();
+                } catch (NullException e) {
+                    e.printStackTrace();
                 }
                 container.revalidate();
             }
@@ -252,6 +259,12 @@ public class ViewPrincipal extends JFrame {
                 } catch (GetCustomerException e) {
                     e.printStackTrace();
                 } catch (NamingException e) {
+                    e.printStackTrace();
+                } catch (NumberException e) {
+                    e.printStackTrace();
+                } catch (InvalidFormatException e) {
+                    e.printStackTrace();
+                } catch (NullException e) {
                     e.printStackTrace();
                 }
 

@@ -18,6 +18,6 @@ public class InvalidFormatException extends Exception {
 
     @Override
     public String getMessage() {
-        return variable+" can not contains numbers ("+error+")";
+        return variable + " can not contains numbers (" + error + ")";
     }
 }
