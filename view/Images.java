@@ -1,11 +1,13 @@
 package view;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Images {
     public static final int NUMBER_OF_FRAMES = 30;
     private ImageIcon imageLogo;
     private ImageIcon imageHelp;
+    private ImageIcon imageMenu;
     private ImageIcon imageFrame = new ImageIcon();
     private int iFrame;
     private ImageIcon [] frames;
@@ -21,6 +23,8 @@ public class Images {
         imageLogo = new ImageIcon("src/image/logo.png");
 
         imageHelp = new ImageIcon("src/image/help.png");
+
+        imageMenu = new ImageIcon("src/image/menu.png");
     }
 
     public JLabel getImageLogo() {
@@ -37,6 +41,14 @@ public class Images {
         labelHelp.setIcon(imageHelp);
         labelHelp.setHorizontalAlignment(SwingConstants.CENTER);
         return labelHelp;
+    }
+
+    public JLabel getImageMenu() {
+
+        JLabel labelMenu = new JLabel();
+        labelMenu.setIcon(imageMenu);
+        labelMenu.setHorizontalAlignment(SwingConstants.CENTER);
+        return labelMenu;
     }
 
     public ImageIcon getFrame() {

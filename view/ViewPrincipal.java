@@ -40,7 +40,7 @@ public class ViewPrincipal extends JFrame {
     private JMenuItem listingCustomers;
 
     private JMenu infosMenu;
-    private JMenuItem brewery;
+    private JMenuItem beerList;
     private JMenuItem help;
 
     private JMenu search;
@@ -88,12 +88,6 @@ public class ViewPrincipal extends JFrame {
         exit.addActionListener(controlerEvent);
         applicationMenu.add(exit);
 
-
-        //TODO doing thread - problem button Return(back)
-        /*back = new JMenuItem("Return");
-        back.addActionListener(actionReturnButton);
-        applicationMenu.add(back);*/
-
         //CLIENT
         customerMenu = new JMenu("Customer");
         customerMenu.setMnemonic('c');
@@ -114,8 +108,8 @@ public class ViewPrincipal extends JFrame {
         infosMenu.setMnemonic('i');
         menuBar.add(infosMenu);
 
-        brewery = new JMenuItem("Brewery");
-        infosMenu.add(brewery);
+        beerList = new JMenuItem("Beer List");
+        infosMenu.add(beerList);
 
         help = new JMenuItem("Help");
         infosMenu.add(help);
@@ -149,6 +143,7 @@ public class ViewPrincipal extends JFrame {
         customersWhoBoughtProduct.addActionListener(controlerEvent);
         productSalePercentage.addActionListener(controlerEvent);
         help.addActionListener(controlerEvent);
+        beerList.addActionListener(controlerEvent);
 
     }
 
@@ -249,33 +244,25 @@ public class ViewPrincipal extends JFrame {
                 container.revalidate();
             }
             //JOB TASK (TACHE METIER)
-            if(event.getSource() == productSalePercentage) {
+            /*if(event.getSource() == productSalePercentage) {
                 new ThreadAnimation( false);
                 container.removeAll();
                 container.setBackground(null);
-
-                try {
-                    container.add(new JobTask(actionReturnButton, controller));
-                } catch (GetCustomerException e) {
-                    e.printStackTrace();
-                } catch (NamingException e) {
-                    e.printStackTrace();
-                } catch (NumberException e) {
-                    e.printStackTrace();
-                } catch (InvalidFormatException e) {
-                    e.printStackTrace();
-                } catch (NullException e) {
-                    e.printStackTrace();
-                }
-
+                container.add(new JobTask(actionReturnButton, controller));
                 container.revalidate();
-            }
+            }*/
 
             //INFO
             if(event.getSource() == help) {
                 new ThreadAnimation(false);
                 container.removeAll();
                 container.add(new Help(actionReturnButton));
+                container.revalidate();
+            }
+            if(event.getSource() == beerList) {
+                new ThreadAnimation(false);
+                container.removeAll();
+                container.add(new BeerList(actionReturnButton));
                 container.revalidate();
             }
         }
