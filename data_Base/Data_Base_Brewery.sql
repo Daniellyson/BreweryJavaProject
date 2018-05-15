@@ -7,14 +7,14 @@ drop table product;
 drop table sale;
 drop table productorder;
 drop table customer;
-drop table city;
+/*drop table city;*/
 
-
+/*
 create table City 
 	 (Code int(7) primary key auto_increment,
      PostCode int(5) not null,
      Name varchar(70) not null,
-     unique(PostCode, Name)) ENGINE=INNODB;
+     unique(PostCode, Name)) ENGINE=INNODB;*/
 
 
 
@@ -65,7 +65,7 @@ create table OrderLine
      LineNumber int(2) not null,
      Price decimal(6,2) not null,
      ReductionPercentage decimal(5,2) not null,
-     Amount int(3) not null,
+     Amount int(7) not null,
      OrderCode int(7),
      SaleCode int(7),
      ProductCode int(7) not null,
