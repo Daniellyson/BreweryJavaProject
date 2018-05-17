@@ -81,6 +81,8 @@ public class EnrolmentForm  extends JPanel {
     private Integer comboBoxCitiesSize;
     private String [] citiesComboBox;
     private Integer [] codeCity;
+    String cityName = null;
+    private Integer codeTown = null;
 
     private Integer idCustomerDB;
     private JLabel customerLabel;
@@ -89,6 +91,7 @@ public class EnrolmentForm  extends JPanel {
     private boolean listingCustomerIsEnable;
 
     private JButton buttonGetAllCustomerInfo;
+    private boolean isButtonGetAllCustomerInfo = false;
 
     ArrayList<Customer> customers;
 
@@ -526,6 +529,8 @@ public class EnrolmentForm  extends JPanel {
                 }
             }
             if (event.getSource() == newCustomer) {
+                listCities.removeAllItems();
+
                 if (event.getStateChange() == ItemEvent.SELECTED) {
                     buttonGetAllCustomerInfo.setEnabled(false);
                     setFieldsEnable(true);
@@ -549,7 +554,10 @@ public class EnrolmentForm  extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == validationButton) {
-                if (newCustomer.isSelected() || editCustomer.isSelected()) {
+                System.out.println(editCustomer.isSelected() + " " + isButtonGetAllCustomerInfo);
+                if ((newCustomer.isSelected() && !isButtonGetAllCustomerInfo) ||
+                        (editCustomer.isSelected() && isButtonGetAllCustomerInfo)) {
+
                     String errorMessage = "ERROR : ";
                     boolean error = false;
                     Customer customer;
@@ -588,22 +596,30 @@ public class EnrolmentForm  extends JPanel {
                         e.printStackTrace();
                     }
 
-                    Integer codeTown = null;
+
                     String accountNumberCustomer = accountNumber.getText();
                     String streetName = street.getText();
                     String houseNumberCustomer = houseNumber.getText();
-                    String cityName = null;
 
 
-                    if(listCities.getSelectedItem() == null) {
-                        blank = true;
-                        listCities.setBackground(Color.lightGray);
-                    } else {
+
+                    //TODO problem city solved in JComboBox
+                    if(listCities.getSelectedItem() != null) {
                         codeTown = codeCity[listCities.getSelectedIndex()];
                         cityName = listCities.getSelectedItem().toString();
-                        listCities.setBackground(Color.WHITE);
+                    } else {
+                        if(postCode.getText() == null) {
+                            blank = true;
+                        }
+                        else {
+                            if(listCities.getSelectedItem() == null && cityName == null) {
+                                blank = true;
+                                listCities.setBackground(Color.lightGray);
+                            }
+                        }
                     }
-
+                    System.out.println(cityName);
+                    //TODO problem city solved in JComboBox until here
 
                     String postalCode = postCode.getText();
                     String mobilePhoneCustomer = mobilePhone.getText();
@@ -622,6 +638,27 @@ public class EnrolmentForm  extends JPanel {
                             field.setBackground(Color.WHITE);
                         }
                     }
+
+
+                    //TODO problem second and third name solved
+                    if(hasSecondFirstName.isSelected() && firstName_2.getText().isEmpty()) {
+                        firstName_2.setBackground(Color.lightGray);
+                        firstName_3.setEnabled(false);
+                        firstName_3.setText(null);
+                        hasThirdFirstName.setSelected(false);
+                        blank = true;
+                    } else {
+                        firstName_2.setBackground(Color.WHITE);
+                    }
+                    if(hasThirdFirstName.isSelected() && firstName_3.getText().isEmpty()) {
+                        firstName_3.setBackground(Color.lightGray);
+                        blank = true;
+                    } else {
+                        firstName_3.setBackground(Color.WHITE);
+                    }
+                    //TODO until second and third name
+
+
 
                     if (blank) {
                         JOptionPane.showMessageDialog(null, "field in color can't be left blank");
@@ -692,6 +729,8 @@ public class EnrolmentForm  extends JPanel {
                                     if(editCustomer.isSelected()) {
                                         customer.setCustomerNumber(idCustomerDB);
                                         controller.upDateCustomer(customer);
+
+                                        isButtonGetAllCustomerInfo = false;
                                     }
                                 }
                                     resetFields();
@@ -712,12 +751,13 @@ public class EnrolmentForm  extends JPanel {
             }
 
             if (event.getSource() == buttonGetAllCustomerInfo) {
-
+               isButtonGetAllCustomerInfo = true;
                 if(listingCustomerIsEnable) {
 
                     String selectItem = listCustomers.getSelectedItem().toString();
 
                     idCustomerDB = Integer.valueOf(selectItem.replaceAll("\\D+", ""));
+
 
                     nationalRegistrationNumber.setText(customers.get(listCustomers.getSelectedIndex()).getNationalRegistrationNumber());
                     firstName.setText(customers.get(listCustomers.getSelectedIndex()).getFirstName(0));
@@ -752,6 +792,13 @@ public class EnrolmentForm  extends JPanel {
                     street.setText(customers.get(listCustomers.getSelectedIndex()).getStreetName());
                     houseNumber.setText(customers.get(listCustomers.getSelectedIndex()).getHouseNumber());
                     postCode.setText(customers.get(listCustomers.getSelectedIndex()).getCity().getPostCode().toString());
+
+
+                    //TODO listCities take back the city
+                    codeTown = customers.get(listCustomers.getSelectedIndex()).getCity().getCode();
+                    cityName =  customers.get(listCustomers.getSelectedIndex()).getCity().getName();
+                    listCities.addItem(cityName);
+
 
                     mobilePhone.setText(customers.get(listCustomers.getSelectedIndex()).getMobilePhone());
                     landlinePhone.setText(customers.get(listCustomers.getSelectedIndex()).getLandlinePhone());
