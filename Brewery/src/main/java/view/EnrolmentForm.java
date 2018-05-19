@@ -554,7 +554,7 @@ public class EnrolmentForm  extends JPanel {
         public void actionPerformed(ActionEvent event) {
 
             if (event.getSource() == validationButton) {
-                System.out.println(editCustomer.isSelected() + " " + isButtonGetAllCustomerInfo);
+
                 if ((newCustomer.isSelected() && !isButtonGetAllCustomerInfo) ||
                         (editCustomer.isSelected() && isButtonGetAllCustomerInfo)) {
 
@@ -618,7 +618,7 @@ public class EnrolmentForm  extends JPanel {
                             }
                         }
                     }
-                    System.out.println(cityName);
+
                     //TODO problem city solved in JComboBox until here
 
                     String postalCode = postCode.getText();
